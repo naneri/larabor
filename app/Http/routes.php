@@ -10,10 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Zabor\Mysql\Item;
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', 'MainController@index');
 
 Route::get('/login', function(){
 	return view('auth.login');
@@ -25,4 +24,8 @@ Route::get('/register', function(){
 
 Route::get('/item/add', function(){
 	return view('item.add');
+});
+
+Route::get('contacts', function(){
+	return view('custom.contacts');
 });
