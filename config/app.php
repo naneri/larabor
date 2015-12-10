@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Almaty',
 
     /*
     |--------------------------------------------------------------------------
@@ -145,7 +145,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
-
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
     ],
 
     /*

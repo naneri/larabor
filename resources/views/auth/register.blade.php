@@ -9,85 +9,73 @@
             <h2 class="title-2"> <i class="icon-user-add"></i> Create your account, Its free </h2>
             <div class="row">
               <div class="col-sm-12">
-                <form class="form-horizontal">
+                <form method="POST" action="{{url('register')}}" class="form-horizontal">
                   <fieldset>
-                    
+                    {{ csrf_field() }}
                     <!-- Text input-->
-                    <div class="form-group required">
-                      <label class="col-md-4 control-label" >First Name <sup>*</sup></label>
+                    <div class="form-group required
+                       @if($errors->first('username'))
+                        has-error
+                      @endif
+                    ">
+                      <label class="col-md-4 control-label" >Логин <sup>*</sup></label>
                       <div class="col-md-6">
-                        <input  name="" placeholder="First Name" class="form-control input-md" required="" type="text">
+                        <input  
+                        name="username" 
+                        placeholder="First Name" 
+                        class="form-control input-md" 
+                        required="" 
+                        type="text" 
+                        value="{{old('username')}}">
+                        @foreach ($errors->get('username') as $error)
+                          <p class="checkbox help-block">
+                            {{$error}}
+                          </p>
+                        @endforeach
                       </div>
                     </div>
                     
-                    <!-- Text input-->
-                    <div class="form-group required">
-                      <label class="col-md-4 control-label" >Last Name <sup>*</sup></label>
+   
+
+                    <div class="form-group required
+                      @if($errors->first('email'))
+                        has-error
+                      @endif
+                    ">
+                      <label for="inputEmail3" class="col-md-4 control-label">Почта <sup>*</sup></label>
                       <div class="col-md-6">
-                        <input  name="textinput" placeholder="Last Name" class="form-control input-md" type="text">
+                        <input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email" value="{{old('email')}}">
+                        @foreach ($errors->get('email') as $error)
+                          <p class="checkbox help-block">
+                            {{$error}}
+                          </p>
+                        @endforeach
                       </div>
                     </div>
-                    
-                    <!-- Text input-->
-                    <div class="form-group required">
-                      <label class="col-md-4 control-label" >Phone Number <sup>*</sup></label>
+                    <div class="form-group required
+                      @if($errors->first('password'))
+                        has-error
+                      @endif
+                    ">
+                      <label for="inputPassword3" class="col-md-4 control-label">Пароль </label>
                       <div class="col-md-6">
-                        <input  name="textinput" placeholder="Phone Number" class="form-control input-md" type="text">
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" value="">
-                            <small> Hide the phone number on the published ads.</small> </label>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <!-- Multiple Radios -->
-                    <div class="form-group">
-                      <label class="col-md-4 control-label" >Gender</label>
-                      <div class="col-md-6">
-                        <div class="radio">
-                          <label for="Gender-0">
-                            <input name="Gender" id="Gender-0" value="1" checked="checked" type="radio">
-                            Male </label>
-                        </div>
-                        <div class="radio">
-                          <label for="Gender-1">
-                            <input name="Gender" id="Gender-1" value="2" type="radio">
-                            Female </label>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <!-- Textarea -->
-                    <div class="form-group">
-                      <label class="col-md-4 control-label" for="textarea">About Yourself</label>
-                      <div class="col-md-6">
-                        <textarea class="form-control" id="textarea" name="textarea">About Yourself</textarea>
+                        <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                        <p class="help-block">At least 6 characters</p>
                       </div>
                     </div>
                     <div class="form-group required">
-                      <label for="inputEmail3" class="col-md-4 control-label">Email <sup>*</sup></label>
+                      <label for="inputPassword3" class="col-md-4 control-label">Подтвердите пароль </label>
                       <div class="col-md-6">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                      </div>
-                    </div>
-                    <div class="form-group required">
-                      <label for="inputPassword3" class="col-md-4 control-label">Password </label>
-                      <div class="col-md-6">
-                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                        <p class="help-block">At least 5 characters <!--Example block-level help text here.--></p>
+                        <input name="pass2" type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                      
                       </div>
                     </div>
                     <div class="form-group">
                       <label  class="col-md-4 control-label"></label>
                       <div class="col-md-8">
-                        <div class="termbox mb10">
-                          <label class="checkbox-inline" for="checkboxes-1">
-                            <input name="checkboxes" id="checkboxes-1" value="1" type="checkbox">
-                            I have read and agree to the <a href="terms-conditions.html">Terms & Conditions</a> </label>
-                        </div>
+                       
                         <div style="clear:both"></div>
-                        <a class="btn btn-primary" href="account-home.html">Register</a> </div>
+                        <button class="btn btn-primary" type="submit">Register</button> </div>
                     </div>
                   </fieldset>
                 </form>

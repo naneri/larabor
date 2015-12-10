@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Providers;
+<?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,8 +12,18 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(
-            'App\Zabor\Contracts\ItemInterface',
-            'App\Zabor\Item\ItemEloquentRepository'
+            'App\Zabor\Repositories\Contracts\ItemInterface',
+            'App\Zabor\Repositories\ItemEloquentRepository'
+        );
+
+        $this->app->bind(
+            'App\Zabor\Repositories\Contracts\CategoryInterface',
+            'App\Zabor\Repositories\CategoryEloquentRepository'
+        );
+
+        $this->app->bind(
+            'App\Zabor\Repositories\Contracts\MetaInterface',
+            'App\Zabor\Repositories\MetaEloquentRepository'
         );
     }
 

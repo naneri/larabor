@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Zabor\Contracts\ItemInterface;
+use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Repositories\Contracts\CategoryInterface;
 use App\Zabor\Mysql\Item;
 
 class MainController extends Controller
 {
 
-    public function __construct(ItemInterface $item)
+    public function __construct(ItemInterface $item, CategoryInterface $category)
     {
-        $this->item = $item;
+        $this->item         = $item;
+        $this->category    = $category;
     }
     /**
      * Display a listing of the resource.
@@ -24,10 +27,10 @@ class MainController extends Controller
     public function index()
     {
         $items = $this->item->getLast();
-       /* echo "<pre>"; print_r($items); echo "</pre>";
-        exit;*/
 
-        return view('main', compact('items'));
+        $categories = $this->category->getRootCategories();
+
+        return view('main', compact('items', 'categories'));
     }
 
     /**

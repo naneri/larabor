@@ -1,31 +1,53 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-use App\Zabor\Mysql\Item;
+use App\Zabor\Repositories\MetaEloquentRepository;
+use Carbon\Carbon;
 
 Route::get('/', 'MainController@index');
 
-Route::get('/login', function(){
-	return view('auth.login');
+Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
+
+	Route::get('login', function(){
+		return view('auth.login');
+	});
+
+	Route::post('auth/login', 'AuthController@postLogin');
+	Route::get('register', function(){
+		return view('auth.register');
+	});
+
+	Route::post('register', 'AuthController@postRegister');
+	Route::get('account/activate/{user_id}/{token}', 'AuthController@ActivateAccount');
 });
 
-Route::get('/register', function(){
-	return view('auth.register');
+Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
+	
+	Route::get('logout', 'AuthController@getLogout');
 });
 
-Route::get('/item/add', function(){
-	return view('item.add');
+Route::group(['prefix' => 'item'], function(){
+
+	Route::get('add', 'ItemController@getAdd');
+	Route::post('add', 'ItemController@create');
+
+	Route::get('{id}', 'ItemController@show');
 });
 
-Route::get('contacts', function(){
-	return view('custom.contacts');
+Route::get('contacts', 'CustomController@contacts');
+Route::post('contacts', 'CustomController@postMessage');
+
+
+
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
+
+	Route::get('category_meta/{category_id}', 'ApiCategoryController@getCategoryMeta');
+});
+
+Route::get('carbon', function(){
+	echo "<pre>"; print_r(Carbon::now()->addDays(30)->toDateTimeString()); echo "</pre>";
+	exit;
+});
+Route::get('check', function(){
+	$user = \App\Zabor\Mysql\User::first();
+	return view('email/activate-account',['user' => $user]);
 });

@@ -4,53 +4,36 @@
 	<div class="main-container">
     <div class="container">
       <div class="row clearfix">
-          
+          @include('_partials._errors')
           <div class="col-md-offset-2 col-md-8">
                 <div class="contact-form">
                     <h5 class="list-title gray">
                     	<strong>Contact us</strong>
                     </h5>
-                    <form class="form-horizontal" method="post">
+                    <form action="" class="form-horizontal" method="post">
 	                    <fieldset>
 							<div class="row">
 	                            <div class="col-sm-6">
-	                            <div class="form-group">
-	                                <div class="col-md-12">
-	                                    <input id="firstname" name="name" type="text" placeholder="First Name" class="form-control">
-	                                </div>
-	                            </div>
-	                            </div>
-	                            
-	                             <div class="col-sm-6">
-	                            <div class="form-group">
-	                                <div class="col-md-12">
-	                                    <input id="lastname" name="name" type="text" placeholder="Last  Name" class="form-control">
-	                                </div>
-	                            </div>
-	                            </div>
-	                            
-	                             <div class="col-sm-6">
-	                            <div class="form-group">
-	                                <div class="col-md-12">
-	                                    <input id="companyname" name="name" type="text" placeholder="Company Name" class="form-control">
-	                                </div>
-	                            </div>
-	                            </div>
-	                            
-	                             <div class="col-sm-6">
 		                            <div class="form-group">
-			                            <div class="col-md-12">
-			                                <input id="email" name="email" type="text" placeholder="Email Address" class="form-control">
-			                            </div>
-			                        </div>
-	                            </div>
-	                        </div>    
-                            
+		                                <div class="col-md-12">
+		                                    <input id="name" name="name" type="text" placeholder="Ваше имя" class="form-control" value="{{@Auth::user()->s_name ?: ''}}">
+		                                </div>
+		                            </div>
+		                            </div>
+		                            
+		                             <div class="col-sm-6">
+			                            <div class="form-group">
+				                            <div class="col-md-12">
+				                                <input id="email" name="email" type="text" placeholder="Электронная почта" class="form-control" value="{{@Auth::user()->s_email ?: ''}}">
+				                            </div>
+				                        </div>
+		                            </div>
+	                        	</div>    
 	                         <div class="row">
 	                            <div class="col-lg-12">
 		                            <div class="form-group">
 			                            <div class="col-md-12">
-			                                <textarea class="form-control" id="message" name="message" placeholder="Enter your massage for us here. We will get back to you within 2 business days." rows="7"></textarea>
+			                                <textarea class="form-control" id="message" name="message" placeholder="Введите ваше сообщение, мы постараемся ответить в течении двух дней" rows="7"></textarea>
 			                            </div>
 			                        </div>
 		                            
@@ -68,4 +51,5 @@
       </div>
     </div>
   </div>
+  <div style="height:100px"></div>
 @stop
