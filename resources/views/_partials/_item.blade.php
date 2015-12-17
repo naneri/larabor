@@ -24,7 +24,12 @@
       </div>
       <!--/.add-desc-box-->
       <div class="col-sm-3 text-right  price-box">
-        <h2 class="item-price">{{$item->i_price or ''}} {{$item->currency->s_description or 'не указана'}}
+        <h2 class="item-price">
+          @if(!is_null($item->i_price))
+            {{$item->i_price}} {{$item->currency->s_description}}
+          @else
+            не указана
+          @endif
         </h2>
        
         </div>

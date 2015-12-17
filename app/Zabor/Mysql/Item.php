@@ -55,7 +55,7 @@ class Item extends ZaborModel
 
 	public function getIPriceAttribute($value)
 	{
-		if($value != 0){
+		if(!empty($value)){
 			return number_format($value/1000000, 0, ',', ' ');
 		}
 		

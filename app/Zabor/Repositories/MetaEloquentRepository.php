@@ -11,4 +11,9 @@ class MetaEloquentRepository implements MetaInterface
 	{
 		return Category::find($category_id)->metas()->get();
 	}
+
+	public static function getCategorySearchMeta($category_id)
+	{
+		return Category::find($category_id)->metas()->where('b_searchable', 1)->get();
+	}
 }

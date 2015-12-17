@@ -47,7 +47,7 @@
               <div class="inner-box-content">
                 <ul class="cat-list arrow">
                   @foreach($categories as $category)
-                    <li> <a href="sub-category-sub-location.html"> {{$category->description->s_name}} ({{$category->stats->i_num_items}}) </a></li>
+                    <li> <a href="{{url('search?category=' . $category->pk_i_id)}}"> {{$category->description->s_name}} ({{$category->stats->i_num_items}}) </a></li>
                   @endforeach
                 </ul>
               </div>

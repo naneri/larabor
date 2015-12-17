@@ -35,7 +35,7 @@ Route::group(['prefix' => 'item'], function(){
 
 Route::get('contacts', 'CustomController@contacts');
 Route::post('contacts', 'CustomController@postMessage');
-
+Route::get('search', 'SearchController@index')->name('search');
 
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
@@ -43,6 +43,18 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 	Route::get('category_meta/{category_id}', 'ApiCategoryController@getCategoryMeta');
 });
 
+
+
+
+
+
+
+
+
+
+
+/* 	Misc routes for testing;
+*/
 Route::get('carbon', function(){
 	echo "<pre>"; print_r(Carbon::now()->addDays(30)->toDateTimeString()); echo "</pre>";
 	exit;

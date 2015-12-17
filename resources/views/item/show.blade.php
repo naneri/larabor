@@ -4,9 +4,14 @@
 <div class="main-container">
     <div class="container">
       <ol class="breadcrumb pull-left">
-        <li><a href="{{url('/')}}"><i class="icon-home fa"></i></a></li>
-        <li><a href="sub-category-sub-location.html">{{$item->category->description->s_name}}</a></li>
-        <li class="active">{{$item->description->s_title}}</li>
+        <li>
+          <a href="{{url('/')}}"><i class="icon-home fa"></i></a>
+        </li>
+        <li>
+          <a href="{{url('search?category=' . $item->category->pk_i_id)}}">{{$item->category->description->s_name}}</a></li>
+        <li class="active">
+          {{$item->description->s_title}}
+        </li>
       </ol>
     </div>
     <div class="container">

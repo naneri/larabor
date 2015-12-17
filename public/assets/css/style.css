@@ -3878,3 +3878,11 @@ nav.slider-nav a.next {
   }
 
 }
+
+.bold{
+  font-weight: bold;
+}
+
+.price-form{
+  line-height: 35px;
+}

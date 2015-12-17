@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 
 use App\Zabor\Mysql\Item;
+use App\Zabor\Mysql\Category;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Mysql\Item_meta as Meta;
 
@@ -59,5 +60,56 @@ class ItemEloquentRepository implements ItemInterface
 echo "<pre>"; print_r($item); echo "</pre>";
 exit;
 		$item->save();
+	}
+
+	/**
+	 * [searchItems description]
+	 * @param  [type] $data [description]
+	 * @return [type]       [description]
+	 */
+	public function searchItems($data, $category_id_list)
+	{
+		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_pub_date';
+
+		$order_type = isset($data['orderType']) ? $data['orderType'] : 'ASC';
+
+		$query = Item::where('dt_expiration', '>', Carbon::now())
+			->with([
+	            'category.description', 
+	            'description', 
+	            'currency', 
+	            'lastImage',
+	            'stats',
+	            'metas'
+            ])
+			->where('b_active', 1)
+			->where('b_enabled', 1)
+			->orderBy($orderBy, $order_type);
+		
+		if(!empty($category_id_list)){
+			$query->whereIn('fk_i_category_id', $category_id_list);
+		}
+
+		if(!empty($data['currency'])){
+			$query->where('fk_c_currency_code', $data['currency']);
+		}	
+
+		if(!empty($data['minPrice'])){
+			$query->where('i_price', '>=', $data['minPrice']*1000000);
+		}
+
+		if(!empty($data['maxPrice'])){
+			$query->where('i_price', '<=', $data['maxPrice']*1000000);
+		}
+		
+		if(isset($data['meta'])){
+			foreach($data['meta'] as $key => $value){
+				$query = $query->whereHas('metas', function($inner_query) use($key, $value){
+					$inner_query->where('fk_i_field_id', $key)->where('s_value', $value);
+				});
+			}
+		}
+
+		return $query->paginate(10);
 	}
 }
