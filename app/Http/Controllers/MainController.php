@@ -28,9 +28,15 @@ class MainController extends Controller
     {
         $items = $this->item->getLast();
 
+        $item_count = $this->item->countActive();
+
         $categories = $this->category->getRootCategories();
 
-        return view('main', compact('items', 'categories'));
+        return view('main', compact(
+            'items', 
+            'categories',
+            'item_count'
+            ));
     }
 
     /**

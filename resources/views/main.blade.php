@@ -11,14 +11,15 @@
           <p class="sub animateme fittext3 animated fadeIn"> Find local classified ads on bootclassified in  Minutes </p>
           
           <div class="row search-row animated fadeInUp">
+            <form action="{{url('search')}}" method="GET">
               <div class="col-lg-6 col-sm-6 search-col relative locationicon">
-               
-                <input type="text" name="country" id="autocomplete-ajax"  class="form-control locinput input-rel searchtag-input" placeholder="City/Zipcode..." value="">
+             
+                <input type="text" name="text" name="country" id="autocomplete-ajax"  class="form-control locinput input-rel searchtag-input" placeholder="Искать среди {{$item_count}} объявлений" value="">
 
               </div>
               <div class="col-lg-4 col-sm-4 search-col relative"> 
-                <select name="" id="" class="form-control">
-                  <option value="0">Выбрать категорию...</option>
+                <select name="category" id="" class="form-control">
+                  <option value="">Выбрать категорию...</option>
                   @foreach($categories as $category)
                   <option value="{{$category->pk_i_id}}">
                     {{$category->description->s_name}}
@@ -27,9 +28,10 @@
                 </select>
               </div>
               <div class="col-lg-2 col-sm-2 search-col">
-                <button class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Find</strong></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Find</strong></button>
               </div>
-            </div>
+            </form>
+          </div>
           
         </div>
       </div>

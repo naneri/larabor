@@ -45,6 +45,15 @@ class ItemEloquentRepository implements ItemInterface
 			])->find($id);
 	}
 
+	public function countActive()
+	{
+		return Item::where('b_enabled', 1)
+					->where('b_active', 1)
+					->where('dt_expiration', '>', Carbon::now())
+					->count();
+	}
+
+
 	public function store($item_data, $user, $days)
 	{
 		$item = new Item;
@@ -73,43 +82,62 @@ exit;
 
 		$order_type = isset($data['orderType']) ? $data['orderType'] : 'ASC';
 
+		// expiration date should be more than now
 		$query = Item::where('dt_expiration', '>', Carbon::now())
-			->with([
+			->where('b_active', 1)
+			->where('b_enabled', 1)
+			->orderBy($orderBy, $order_type);
+		
+		// list of categories to search in
+		if(!empty($category_id_list)){
+			$query->whereIn('fk_i_category_id', $category_id_list);
+		}
+
+		// currency
+		if(!empty($data['currency'])){
+			$query->where('fk_c_currency_code', $data['currency']);
+		}	
+
+		// min price
+		if(!empty($data['minPrice'])){
+			$query->where('i_price', '>=', $data['minPrice']*1000000);
+		}
+
+		// max price
+		if(!empty($data['maxPrice'])){
+			$query->where('i_price', '<=', $data['maxPrice']*1000000);
+		}
+		
+		// search text
+		if(!empty($data['text'])){
+			$text = $data['text'];
+			$query = $query->whereHas('description', function($query) use ($text){
+				$query->where(function($query) use ($text){
+					$query->where('s_title', 'LIKE', '%'.$text.'%')
+						->orWhere('s_description', 'LIKE', '%'.$text.'%');
+				});
+			});
+		}
+
+		if(isset($data['meta'])){
+			foreach($data['meta'] as $key => $value){
+				$query = $query->whereHas('metas', function($inner_query) use ($key, $value){
+					$inner_query->where('fk_i_field_id', $key)->where('s_value', $value);
+				});
+			}
+		}
+
+		$query->with([
 	            'category.description', 
 	            'description', 
 	            'currency', 
 	            'lastImage',
 	            'stats',
 	            'metas'
-            ])
-			->where('b_active', 1)
-			->where('b_enabled', 1)
-			->orderBy($orderBy, $order_type);
-		
-		if(!empty($category_id_list)){
-			$query->whereIn('fk_i_category_id', $category_id_list);
-		}
-
-		if(!empty($data['currency'])){
-			$query->where('fk_c_currency_code', $data['currency']);
-		}	
-
-		if(!empty($data['minPrice'])){
-			$query->where('i_price', '>=', $data['minPrice']*1000000);
-		}
-
-		if(!empty($data['maxPrice'])){
-			$query->where('i_price', '<=', $data['maxPrice']*1000000);
-		}
-		
-		if(isset($data['meta'])){
-			foreach($data['meta'] as $key => $value){
-				$query = $query->whereHas('metas', function($inner_query) use($key, $value){
-					$inner_query->where('fk_i_field_id', $key)->where('s_value', $value);
-				});
-			}
-		}
+            ]);
 
 		return $query->paginate(10);
 	}
+
+
 }
