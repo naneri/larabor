@@ -40,17 +40,8 @@ Route::get('search', 'SearchController@index')->name('search');
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
-	Route::get('category_meta/{category_id}', 'ApiCategoryController@getCategoryMeta');
+	Route::get('category-meta/{category_id}', 'ApiCategoryController@getCategoryMetaHtml');
 });
-
-
-
-
-
-
-
-
-
 
 
 /* 	Misc routes for testing;

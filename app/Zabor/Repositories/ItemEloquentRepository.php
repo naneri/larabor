@@ -10,12 +10,6 @@ use App\Zabor\Mysql\Item_meta as Meta;
 class ItemEloquentRepository implements ItemInterface
 {
 
-	public static function check()
-	{
-		echo "<pre>"; print_r(23); echo "</pre>";
-		exit;
-	}
-
 	/**
 	 * Gets Last Items
 	 * 
@@ -29,10 +23,21 @@ class ItemEloquentRepository implements ItemInterface
 	            'currency', 
 	            'lastImage',
 	            'stats'
-            ])->orderBy('pk_i_id', 'DESC')
-			  ->get();
+            ])
+				->where('b_enabled', 1)
+				->where('b_active', 1)
+				->where('dt_expiration', '>', Carbon::now())
+				->orderBy('pk_i_id', 'DESC')
+			  	->get();
 	}
 
+	/**
+	 * Gives full item info with Metas on given ID
+	 * 
+	 * @param  [int] $id 
+	 * 
+	 * @return [Item]     
+	 */
 	public function getById($id)
 	{
 		return Item::with([
@@ -45,6 +50,11 @@ class ItemEloquentRepository implements ItemInterface
 			])->find($id);
 	}
 
+	/**
+	 * Gives number of currently active items
+	 *  
+	 * @return [int] number of Active items
+	 */
 	public function countActive()
 	{
 		return Item::where('b_enabled', 1)
@@ -76,7 +86,7 @@ exit;
 	 * @param  [type] $data [description]
 	 * @return [type]       [description]
 	 */
-	public function searchItems($data, $category_id_list)
+	public function searchItems($data, $category_id_list = null)
 	{
 		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_pub_date';
 

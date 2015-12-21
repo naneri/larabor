@@ -28,11 +28,12 @@
               <ul class="nav nav-tabs add-tabs" role="tablist">
                 <li class="active"><a href="#allAds" role="tab" data-toggle="tab">All Ads <span class="badge">{{$items->total()}}</span></a></li>
                 <li class="dropdown pull-right">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Сортировать по: <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Сортировка: {{searchOrderName($searchParams)}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{{priceOrderAsc($searchParams)}}">Price: Low to High</a></li>
+                    <li><a href="{{publishedAsc($searchParams)}}">Новые</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="{{priceOrderDesc($searchParams)}}">Price: High to Low</a></li>
+                    <li><a href="{{priceOrderAsc($searchParams)}}">Подешевле</a></li>
+                    <li><a href="{{priceOrderDesc($searchParams)}}">Подороже</a></li>
                   </ul>
                 </li>
               </ul>

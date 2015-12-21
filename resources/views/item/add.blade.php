@@ -2,8 +2,8 @@
 
 
 @section('content')
-<div class="main-container" ng-app="itemApp">
-    <div class="container" ng-controller="ItemAddController as item">
+<div class="main-container">
+    <div class="container">
       <div class="row">
         <div class="col-md-9 page-content">
           <div class="inner-box category-content">
@@ -17,61 +17,34 @@
 
 
                     <!-- Select Basic -->
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" >Категория</label>
-                      <div class="col-md-8">
-                        <select name="category[]" id="category-group category-select" class="form-control category-select" ng-model="mainCategory" ng-change="categoryChange(mainCategory)">
-                          <option ng-repeat="category in mainCategories" value="@{{category.pk_i_id}}">@{{category.description.s_name}}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group" ng-show="subCategories.length">
-                      <label class="col-md-3 control-label"></label>
-                      <div class="col-md-8">
-                        <select 
-                          name="category[]" 
-                          id="category-group category-select" 
-                          class="form-control category-select" 
-                          ng-model="subCategory" 
-                          ng-change="subCategoryChange(subCategory)"
-                        >
-                          <option 
-                            ng-repeat="category in subCategories" 
-                            value="@{{category.pk_i_id}}">
-                            @{{category.description.s_name}}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group" ng-show="subSubCategories.length">
-                      <label class="col-md-3 control-label" ></label>
-                      <div class="col-md-8">
-                        <select 
-                          name="category[]" 
-                          id="category-group category-select" 
-                          class="form-control category-select" 
-                          ng-model="subSubCategory"
-                          ng-change=""
-                        >
-                          <option 
-                            ng-repeat="category in subSubCategories" value="@{{category.pk_i_id}}">
-                              @{{category.description.s_name}}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+            <div class="row form-group">
+            	<label class="col-md-3 control-label" >Категория <span class="required">*</span></label>
+            	<div class="col-md-8 category_list"></div>
+            </div>
+            <script id="entry-template" type="text/x-handlebars-template">
+	            <div class="outer-div" rank='@{{rank}}'>
+	                <select name="category[]" id="category-group category-select" rank='@{{rank}}' class="form-control category-select">
+	                	<option>Выберите категорию...</option>
+	                	@{{#each categories}} 
+						<option value="@{{this.pk_i_id}}">
+							@{{this.description.s_name}}
+	                    </option>
+	                	@{{/each}}
+	                </select>
+	            </div>
+            </script>
+
                     
                     <!-- Text input-->
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="title">Название</label>
+                      <label class="col-md-3 control-label" for="title">Название <span class="required">*</span></label>
                       <div class="col-md-8">
                         <input id="Adtitle" name="title" placeholder="Ad title" class="form-control input-md" required="" type="text"> </div>
                     </div>
                     
                     <!-- Textarea -->
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="textarea">Описание</label>
+                      <label class="col-md-3 control-label" for="textarea">Описание <span class="required">*</span></label>
                       <div class="col-md-8">
                         <textarea class="form-control" id="textarea" name="description" placeholder="Describe what makes your ad unique"></textarea>
                       </div>
@@ -79,7 +52,7 @@
                     
                     <!-- Prepended text-->
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="price">Price</label>
+                      <label class="col-md-3 control-label" for="price">Price <span class="required">*</span></label>
                       <div class="col-md-4">
                           <input id="Price" name="price" class="form-control" placeholder="placeholder" type="text">
                       </div>
@@ -109,42 +82,19 @@
                         <p class="help-block">Add up to 5 photos. Use a real image of your product, not catalogs.</p>
                       </div>
                     </div>
-                    <div class="content-subheading"> <i class="icon-user fa"></i> <strong>Seller information</strong> </div>
+                    <div class="content-subheading"> <i class="fa fa-info-circle"></i> <strong>Дополнительная информация</strong> </div>
 
                     <!-- Appended checkbox -->
                     @if(!Auth::check())
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="seller-email"> Seller Email</label>
+                      <label class="col-md-3 control-label" for="seller-email"> Seller Email <span class="required">*</span></label>
                       <div class="col-md-8">
                         <input id="seller-email" name="seller-email" class="form-control" placeholder="Email" required="" type="text">
                       </div>
                     </div>
                     @endif
 
-                    <div ng-show="drawMeta" ng-repeat="meta in drawMeta">
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="seller-email">@{{meta.s_name}}</label>
-                        <div class="col-md-8" ng-switch="meta.e_type">
-                          <input ng-switch-when="TEXT" name="meta[@{{meta.pk_i_id}}]" class="form-control" type="text">
-                          <input ng-switch-when="URL" name="meta[@{{meta.pk_i_id}}]" class="form-control" type="text">
-                          <div ng-switch-when="CHECKBOX" class="checkbox">
-                            <label>
-                              <input name="meta[@{{meta.pk_i_id}}]" type="checkbox" value="1">
-                            </label>
-                          </div>
-                          <select ng-switch-when="DROPDOWN" name="meta[@{{meta.pk_i_id}}]" class="form-control">
-                            <option ng-repeat="option in meta.options_list "value="@{{option}}">@{{option}}</option>
-                          </select>
-                          <div ng-switch-when="RADIO">
-                            <label ng-repeat="option in meta.options_list" class="radio-inline">
-                              <input class="radio-inline" name="meta[@{{meta.pk_i_id}}]" id="radios-1" value="@{{option}}" type="radio"> @{{option}}
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    
+                    <div class="draw-meta"></div>
                     
                     <!-- Button  -->
                     <div class="form-group">
@@ -197,63 +147,70 @@
 @stop
 
 @section('scripts')
-<script type="text/javascript" src="{{asset('assets/js/angular.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/handlebars.js')}}"></script>
+
 <script>
-  var itemApp = angular.module('itemApp', []);
+	var current_category = null;
 
-  itemApp.controller('ItemAddController', ['$window','$scope', '$http',function($window, $scope, $http){
+	$(document).ready(function(){
+		var top_cats = _.where(window.categories, {'fk_i_parent_id' : null});
+		var rank = 0;
+		
+		var source   	= $("#entry-template").html();
+		var template 	= Handlebars.compile(source);
+		var html 		= template({
+			categories : top_cats,
+			rank 	   : rank
+		});
 
-      $scope.meta = null;
-      $scope.drawMeta = null;
-      $scope.categoryList = $window.categories;
+		$('.category_list').append(html);
 
-      $scope.mainCategories =  _.where($scope.categoryList, {'fk_i_parent_id' : null});
+		var select_category = function(select_rank, category_id){
 
-      $scope.categoryChange = function(mainCategory){
-        $scope.meta = null;
-        $scope.drawMeta = null;
+			$('.draw-meta').empty();
 
-        $scope.subCategories = _.where($scope.categoryList, {'fk_i_parent_id' : mainCategory})
+			current_category = category_id;
 
-        $scope.subSubCategories = null;
-      }
+			$('.outer-div').each(function(){
+				if(parseInt($(this).attr('rank')) > select_rank){
+					$(this.remove());
+				}
+			});
+			
+			var cats = _.where(window.categories, {'fk_i_parent_id' : category_id});
 
-      /**
-       * [subCategoryChange description]
-       * @param  {[type]} subCategory_id [description]
-       * @return {[type]}                [description]
-       */
-      $scope.subCategoryChange = function(subCategory_id){
-        $scope.meta = subCategory_id;
-        $scope.drawMeta = null;
-        $http.get('http://larabor.local/api/category_meta/' + subCategory_id).success(function(data){
-          
-          if($scope.meta == subCategory_id){
+			if(cats.length != 0){
+				var rank = select_rank + 1;
 
-            $scope.drawMeta = data;
-          }
-        });
-        $scope.subSubCategories = _.where($scope.categoryList, {'fk_i_parent_id' : subCategory_id})
-      }
+				var html = template({
+					categories : cats,
+					rank 	   : rank
+				});
 
-      /**
-       * [sub_subCategoryChange description]
-       * @param  {[type]} sub_subCategory_id [description]
-       * @return {[type]}                    [description]
-       */
-      $scope.sub_subCategoryChange = function(sub_subCategory_id){
-        $scope.meta = sub_subCategory_id;
-        $scope.drawMeta = null;
+				$('.category_list').append(html);
 
-        $http.get('http://larabor.local/api/category_meta/' + sub_subCategory_id).success(function(data){
-          
-          if($scope.meta == sub_subCategory_id){
-            $scope.drawMeta = data;
-          }
-        });
-      }
+			}
 
-  }]);
+			if(select_rank > 0){
+				$.get("{{url('api/category-meta')}}/" + category_id)
+					.done(function(data){
+						if(current_category == category_id){
+							$('.draw-meta').append(data);
+						}
+					});	
+			}
 
+		}
+
+		$(document.body).on('change', '.category-select' ,function(event){
+
+			var select_rank = parseInt($(event.target).attr('rank'));
+
+			var current_category = event.target.value;
+
+			select_category(select_rank, current_category)
+		})
+	});
 </script>
+
 @stop

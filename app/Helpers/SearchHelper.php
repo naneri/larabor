@@ -2,6 +2,13 @@
 
 use Request;
 
+function publishedAsc($params){
+	$params['orderBy']  	= 'dt_pub_date';
+	$params['orderType']	= 'DESC';
+
+	return route('search', $params);
+}
+
 function priceOrderAsc($params){
 	$params['orderBy']  	= 'i_price';
 	$params['orderType']	= 'ASC';
@@ -14,6 +21,27 @@ function priceOrderDesc($params){
 	$params['orderType']	= 'DESC';
 
 	return route('search', $params);
+}
+
+function searchOrderName($params){
+	if(!isset($params['orderBy']) && !isset($params['orderType'])){
+		$params['orderBy']  	= 'dt_pub_date';
+		$params['orderType']	= 'DESC';
+	}
+
+	if($params['orderBy'] == 'dt_pub_date' && $params['orderType']	== 'DESC'){
+		return 'Новые';
+	}
+
+	if($params['orderBy'] == 'i_price' && $params['orderType']	== 'ASC'){
+		return 'Подешевле';
+	}
+	
+	if($params['orderBy'] == 'i_price' && $params['orderType']	== 'DESC'){
+		return 'Подороже';
+	}
+
+
 }
 
 function searchSelectedCurrency($currency, $params){

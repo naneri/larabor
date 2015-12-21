@@ -14,13 +14,15 @@ class ApiCategoryController extends Controller{
 	}
 
 	/**
-	 * [getCategoryMeta description]
+	 * [getCategoryMetaHtml description]
+	 * 
 	 * @param  [type] $category_id [description]
 	 * @return [type]              [description]
 	 */
-	public function getCategoryMeta($category_id){
+	public function getCategoryMetaHtml($category_id){
 
-		return $this->meta->getCategoryMeta($category_id);
+		$metas = $this->meta->getCategoryMeta($category_id);
 
+		return view('item._meta', compact('metas'));
 	}
 }

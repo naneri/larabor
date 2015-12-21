@@ -56,8 +56,8 @@
               <li><a href="{{url('login')}}">Войти <i class="fa fa-key"></i></a></li>
               <li><a href="{{url('register')}}">Регистрация <i class="fa fa-user-plus"></i></a></li>
             @else
-              <li><a href="{{url('login')}}"><b>Профиль</b></a></li>
-              <li><a href="{{url('logout')}}">Выход <i class="fa fa-sign-out"></i></a></li>
+              <li><a href="{{url('login')}}">Профиль <i class="icon-user fa"></i></a></li>
+              <li><a href="{{url('logout')}}">Выход <i class="glyphicon glyphicon-off"></i></a></li>
             @endif
             <li class="postadd"><a class="btn btn-block   btn-border btn-post btn-danger" href="{{url('item/add')}}">Подать объявление</a></li>
           </ul>
@@ -123,7 +123,6 @@
 <script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.autocomplete.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/plugins/autocomplete/usastates.js')}}"></script>
 
-<script type="text/javascript" src="{{asset('assets/plugins/autocomplete/autocomplete-demo.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 
 @yield('scripts')

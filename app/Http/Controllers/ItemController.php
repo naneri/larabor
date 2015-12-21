@@ -27,6 +27,11 @@ class ItemController extends Controller
         $this->validator = $validator;
     }
 
+    /**
+     * [getAdd description]
+     * 
+     * @return [type] [description]
+     */
     public function getAdd()
     {
         $currencies = $this->currency->all();
@@ -37,6 +42,7 @@ class ItemController extends Controller
 
         return view('item.add', compact('currencies', 'categories'));
     }
+
     /**
      * Display a listing of the resource.
      *

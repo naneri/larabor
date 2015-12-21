@@ -3886,3 +3886,16 @@ nav.slider-nav a.next {
 .price-form{
   line-height: 35px;
 }
+
+.outer-div{
+  margin-bottom: 15px;
+}
+
+
+.outer-div:last-of-type{
+  margin-bottom: 0px;
+}
+
+.required{
+  color:red;
+}
