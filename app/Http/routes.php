@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 Route::group(['prefix' => 'item'], function(){
 
 	Route::get('add', 'ItemController@getAdd');
-	Route::post('add', 'ItemController@create');
+	Route::post('add', 'ItemController@store');
 
 	Route::get('{id}', 'ItemController@show');
 });

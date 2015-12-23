@@ -1,7 +1,5 @@
 <?php
 
-use Request;
-
 function publishedAsc($params){
 	$params['orderBy']  	= 'dt_pub_date';
 	$params['orderType']	= 'DESC';

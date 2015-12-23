@@ -11,50 +11,66 @@
             @include('_partials._alerts')
             <div class="row">
               <div class="col-sm-12">
-                <form enctype="multipart/form-data" action="{{url('item/add')}}" method="POST" class="form-horizontal">
+                <form enctype="multipart/form-data" action="{{url('item/add')}}" method="POST" class="form-horizontal add-item-form">
                 {{ csrf_field() }}
                   <fieldset>
 
 
                     <!-- Select Basic -->
             <div class="row form-group">
-            	<label class="col-md-3 control-label" >Категория <span class="required">*</span></label>
-            	<div class="col-md-8 category_list"></div>
+              <label class="col-md-3 control-label" >Категория <span class="required">*</span></label>
+              <div class="col-md-8 category_list"></div>
             </div>
             <script id="entry-template" type="text/x-handlebars-template">
-	            <div class="outer-div" rank='@{{rank}}'>
-	                <select name="category[]" id="category-group category-select" rank='@{{rank}}' class="form-control category-select">
-	                	<option>Выберите категорию...</option>
-	                	@{{#each categories}} 
-						<option value="@{{this.pk_i_id}}">
-							@{{this.description.s_name}}
-	                    </option>
-	                	@{{/each}}
-	                </select>
-	            </div>
+              <div class="outer-div" rank='@{{rank}}'>
+                  <select name="category[]" id="category-group category-select" rank='@{{rank}}' class="form-control category-select">
+                    <option>Выберите категорию...</option>
+                    @{{#each categories}} 
+            <option value="@{{this.pk_i_id}}">
+              @{{this.description.s_name}}
+                      </option>
+                    @{{/each}}
+                  </select>
+              </div>
             </script>
 
                     
                     <!-- Text input-->
-                    <div class="form-group">
+                    <div class="form-group {{zbCheckError($errors->first('title'))}}">
                       <label class="col-md-3 control-label" for="title">Название <span class="required">*</span></label>
                       <div class="col-md-8">
-                        <input id="Adtitle" name="title" placeholder="Ad title" class="form-control input-md" required="" type="text"> </div>
+                        <input id="Adtitle" name="title" placeholder="Ad title" class="form-control input-md" required="" type="text" value="{{old('title')}}"> 
+                        @foreach ($errors->get('title') as $error)
+                          <p class="checkbox help-block">
+                            <small>{{$error}}</small>
+                          </p>
+                        @endforeach
+                      </div>
                     </div>
                     
                     <!-- Textarea -->
-                    <div class="form-group">
+                    <div class="form-group {{zbCheckError($errors->first('description'))}}">
                       <label class="col-md-3 control-label" for="textarea">Описание <span class="required">*</span></label>
                       <div class="col-md-8">
-                        <textarea class="form-control" id="textarea" name="description" placeholder="Describe what makes your ad unique"></textarea>
+                        <textarea class="form-control" id="textarea" name="description" rows="7" placeholder="Describe what makes your ad unique">{{old('description')}}</textarea>
+                        @foreach ($errors->get('description') as $error)
+                          <p class="checkbox help-block">
+                            <small>{{$error}}</small>
+                          </p>
+                        @endforeach
                       </div>
                     </div>
                     
                     <!-- Prepended text-->
-                    <div class="form-group">
+                    <div class="form-group {{zbCheckError($errors->first('price'))}}">
                       <label class="col-md-3 control-label" for="price">Price <span class="required">*</span></label>
                       <div class="col-md-4">
-                          <input id="Price" name="price" class="form-control" placeholder="placeholder" type="text">
+                          <input id="Price" name="price" class="form-control" placeholder="placeholder" type="text" value="{{old('price')}}">
+                          @foreach ($errors->get('price') as $error)
+                            <p class="checkbox help-block">
+                              <small>{{$error}}</small>
+                            </p>
+                          @endforeach
                       </div>
                       <div class="col-md-4">
                         <div data-toggle="buttons">
@@ -86,15 +102,24 @@
 
                     <!-- Appended checkbox -->
                     @if(!Auth::check())
-                    <div class="form-group">
+                    <div class="form-group {{zbCheckError($errors->first('seller-email'))}}">
                       <label class="col-md-3 control-label" for="seller-email"> Seller Email <span class="required">*</span></label>
                       <div class="col-md-8">
-                        <input id="seller-email" name="seller-email" class="form-control" placeholder="Email" required="" type="text">
+                        <input id="seller-email" name="seller-email" class="form-control" placeholder="Email" required="" type="text" value="{{old('seller-email')}}">
+                        @foreach ($errors->get('seller-email') as $error)
+                          <p class="checkbox help-block">
+                            <small>{{$error}}</small>
+                          </p>
+                        @endforeach
                       </div>
                     </div>
                     @endif
 
-                    <div class="draw-meta"></div>
+                    <div class="draw-meta">
+                      @if(!empty($metas))
+                        @include('item._meta', compact('metas'))
+                      @endif
+                    </div>
                     
                     <!-- Button  -->
                     <div class="form-group">
@@ -150,67 +175,70 @@
 <script type="text/javascript" src="{{asset('assets/js/handlebars.js')}}"></script>
 
 <script>
-	var current_category = null;
+  var current_category = null;
 
-	$(document).ready(function(){
-		var top_cats = _.where(window.categories, {'fk_i_parent_id' : null});
-		var rank = 0;
-		
-		var source   	= $("#entry-template").html();
-		var template 	= Handlebars.compile(source);
-		var html 		= template({
-			categories : top_cats,
-			rank 	   : rank
-		});
+  $(document).ready(function(){
+    var top_cats = _.where(window.categories, {'fk_i_parent_id' : null});
+    var rank = 0;
+    
+    var source    = $("#entry-template").html();
+    var template  = Handlebars.compile(source);
+    var html    = template({
+      categories : top_cats,
+      rank     : rank
+    });
 
-		$('.category_list').append(html);
+    $('.category_list').append(html);
 
-		var select_category = function(select_rank, category_id){
+    var select_category = function(select_rank, category_id){
 
-			$('.draw-meta').empty();
+      // ToDo - add filling of meta on category change
+      $('.draw-meta').empty();
 
-			current_category = category_id;
+      current_category = category_id;
+      
+      $('.outer-div').each(function(){
+        if(parseInt($(this).attr('rank')) > select_rank){
+          $(this.remove());
+        }
+      });
+      
+      var cats = _.where(window.categories, {'fk_i_parent_id' : category_id});
 
-			$('.outer-div').each(function(){
-				if(parseInt($(this).attr('rank')) > select_rank){
-					$(this.remove());
-				}
-			});
-			
-			var cats = _.where(window.categories, {'fk_i_parent_id' : category_id});
+      if(cats.length != 0){
+        var rank = select_rank + 1;
 
-			if(cats.length != 0){
-				var rank = select_rank + 1;
+        var html = template({
+          categories : cats,
+          rank     : rank
+        });
 
-				var html = template({
-					categories : cats,
-					rank 	   : rank
-				});
+        $('.category_list').append(html);
 
-				$('.category_list').append(html);
+      }
 
-			}
+      if(select_rank > 0){
+        $.get(
+          "{{url('api/category-meta')}}/" + category_id 
+        )
+          .done(function(data){
+            if(current_category == category_id){
+              $('.draw-meta').append(data);
+            }
+          }); 
+      }
 
-			if(select_rank > 0){
-				$.get("{{url('api/category-meta')}}/" + category_id)
-					.done(function(data){
-						if(current_category == category_id){
-							$('.draw-meta').append(data);
-						}
-					});	
-			}
+    }
 
-		}
+    $(document.body).on('change', '.category-select' ,function(event){
 
-		$(document.body).on('change', '.category-select' ,function(event){
+      var select_rank = parseInt($(event.target).attr('rank'));
 
-			var select_rank = parseInt($(event.target).attr('rank'));
+      var current_category = event.target.value;
 
-			var current_category = event.target.value;
-
-			select_category(select_rank, current_category)
-		})
-	});
+      select_category(select_rank, current_category)
+    })
+  });
 </script>
 
 @stop

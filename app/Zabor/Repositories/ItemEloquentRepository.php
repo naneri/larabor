@@ -63,7 +63,14 @@ class ItemEloquentRepository implements ItemInterface
 					->count();
 	}
 
-
+	/**
+	 * Item store logic
+	 * 
+	 * @param  [type] $item_data [description]
+	 * @param  [type] $user      [description]
+	 * @param  [type] $days      [description]
+	 * @return [type]            [description]
+	 */
 	public function store($item_data, $user, $days)
 	{
 		$item = new Item;
@@ -76,8 +83,7 @@ class ItemEloquentRepository implements ItemInterface
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 			= str_random(8);
 		$item->dt_expiration		= Carbon::now()->addDays($days)->toDateTimeString();
-echo "<pre>"; print_r($item); echo "</pre>";
-exit;
+
 		$item->save();
 	}
 

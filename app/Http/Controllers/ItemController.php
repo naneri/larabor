@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use JavaScript;
 use Auth;
+use Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Repositories\Contracts\MetaInterface;
 use App\Zabor\Validators\ItemValidator;
 
 class ItemController extends Controller
@@ -19,12 +21,14 @@ class ItemController extends Controller
         ItemInterface $item, 
         CategoryInterface $category,
         Currency $currency,
+        MetaInterface $meta,
         ItemValidator $validator)
     {
         $this->item      = $item;
         $this->category  = $category;
         $this->currency  = $currency;
         $this->validator = $validator;
+        $this->meta      = $meta;
     }
 
     /**
@@ -32,15 +36,32 @@ class ItemController extends Controller
      * 
      * @return [type] [description]
      */
-    public function getAdd()
+    public function getAdd(Request $request)
     {
         $currencies = $this->currency->all();
 
         $categories = $this->category->allWithDescription();
 
-        JavaScript::put('categories', $categories);
 
-        return view('item.add', compact('currencies', 'categories'));
+        if(!empty($request->old('meta'))){
+
+            $cat_list = $request->old('category');
+
+            $cat_id = end($cat_list);
+
+            $metas = $this->meta->getCategoryMeta($cat_id);
+
+            $meta_data = $request->old('meta');
+  
+            view()->share(compact('metas', 'meta_data'));
+        }
+
+        JavaScript::put('categories', $categories);
+        
+        return view('item.add', compact(
+            'currencies', 
+            'categories'
+        ));
     }
 
     /**
@@ -58,7 +79,7 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $user = null;
 
