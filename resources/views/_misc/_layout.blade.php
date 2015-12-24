@@ -119,9 +119,8 @@
 
 <!-- include jquery autocomplete plugin  -->
 
-<script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.mockjax.js')}}"></script>
+
 <script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.autocomplete.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/plugins/autocomplete/usastates.js')}}"></script>
 
 <script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 

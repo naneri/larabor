@@ -23,7 +23,7 @@
             </div>
             <script id="entry-template" type="text/x-handlebars-template">
               <div class="outer-div" rank='@{{rank}}'>
-                  <select name="category[]" id="category-group category-select" rank='@{{rank}}' class="form-control category-select">
+                  <select name="category[]" rank='@{{rank}}' class="form-control category-select">
                     <option>Выберите категорию...</option>
                     @{{#each categories}} 
             <option value="@{{this.pk_i_id}}">
@@ -77,7 +77,7 @@
                           @foreach($currencies as $currency)
                             <label class="btn btn-info
                               {{$currency->pk_c_code == 'KGS' ? 'active' : ''}}">
-                              <input type="radio" name="currency" id="option2" value='{{$currency->pk_c_code}}' autocomplete="off"
+                              <input type="radio" name="currency" id="option2" value='{{$currency->pk_c_code}}'
                               {{$currency->pk_c_code == 'KGS' ? 'checked' : ''}}>
                               {{$currency->s_description}}
                             </label>
@@ -178,32 +178,19 @@
   var current_category = null;
 
   $(document).ready(function(){
-    var top_cats = _.where(window.categories, {'fk_i_parent_id' : null});
-    var rank = 0;
     
     var source    = $("#entry-template").html();
     var template  = Handlebars.compile(source);
-    var html    = template({
-      categories : top_cats,
-      rank     : rank
-    });
 
-    $('.category_list').append(html);
-
-    var select_category = function(select_rank, category_id){
-
-      // ToDo - add filling of meta on category change
-      $('.draw-meta').empty();
-
-      current_category = category_id;
-      
-      $('.outer-div').each(function(){
-        if(parseInt($(this).attr('rank')) > select_rank){
-          $(this.remove());
-        }
-      });
-      
-      var cats = _.where(window.categories, {'fk_i_parent_id' : category_id});
+    /**
+     * creates an html template and appends it
+     * 
+     * @param  {[array]} all_cats    [description]
+     * @param  {[int]} cat_id      [description]
+     * @param  {[int]} select_rank [description]
+     */
+		var draw_select = function(all_cats, cat_id, select_rank){
+  		var cats = _.where(all_cats, {'fk_i_parent_id' : cat_id});
 
       if(cats.length != 0){
         var rank = select_rank + 1;
@@ -216,28 +203,75 @@
         $('.category_list').append(html);
 
       }
+  	}
 
-      if(select_rank > 0){
-        $.get(
-          "{{url('api/category-meta')}}/" + category_id 
-        )
-          .done(function(data){
-            if(current_category == category_id){
-              $('.draw-meta').append(data);
-            }
-          }); 
+  	/**
+  	 * Some logic triggered by category select
+  	 * 
+  	 * @param  {int} select_rank [description]
+  	 * @param  {int} category_id [description]
+  	 * @param  {boolean} ajax        [description]
+  	 */
+    var select_category = function(select_rank, category_id, ajax){
+
+      // ToDo - add filling of meta on category change
+      if(ajax){
+      	$('.draw-meta').empty();
       }
 
+      current_category = category_id;
+      
+      $('.outer-div').each(function(){
+        if(parseInt($(this).attr('rank')) > select_rank){
+          $(this.remove());
+        }
+      });
+      
+      draw_select(window.categories, category_id, select_rank)
+
+			if(ajax){
+				if(select_rank > 0){
+					$.get(
+					  "{{url('api/category-meta')}}/" + category_id 
+					)
+				  .done(function(data){
+				    if(current_category == category_id){
+				      $('.draw-meta').append(data);
+				    }
+					}); 
+				}
+			}
     }
 
+    //if we have array with chosen categories - we render them in the template
+    if(window.cat_list != null){
+    	rank 				= 0;
+    	parent_cat 	= null;
+    	$.each(window.cat_list, function(key, cat_id){
+    		draw_select(window.categories, parent_cat, rank);
+    		$('.category-select').last().val(cat_id);
+    		rank = rank + 1;
+    		parent_cat = cat_id;
+    	});
+    //  else render the first select
+    }else{
+    	draw_select(window.categories, null, 0);
+    }
+    
+    /**
+     * event handler for category-select change
+     */
     $(document.body).on('change', '.category-select' ,function(event){
 
       var select_rank = parseInt($(event.target).attr('rank'));
 
       var current_category = event.target.value;
 
-      select_category(select_rank, current_category)
-    })
+      select_category(select_rank, current_category, true)
+    });
+
+    
+    
   });
 </script>
 

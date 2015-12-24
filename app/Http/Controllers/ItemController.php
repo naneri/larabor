@@ -52,7 +52,9 @@ class ItemController extends Controller
             $metas = $this->meta->getCategoryMeta($cat_id);
 
             $meta_data = $request->old('meta');
-  
+            
+            JavaScript::put('cat_list', $cat_list);
+
             view()->share(compact('metas', 'meta_data'));
         }
 
