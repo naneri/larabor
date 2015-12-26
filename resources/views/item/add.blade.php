@@ -179,6 +179,7 @@
 
   $(document).ready(function(){
     
+    // creating a template for selects
     var source    = $("#entry-template").html();
     var template  = Handlebars.compile(source);
 
@@ -208,14 +209,14 @@
   	/**
   	 * Some logic triggered by category select
   	 * 
-  	 * @param  {int} select_rank [description]
-  	 * @param  {int} category_id [description]
-  	 * @param  {boolean} ajax        [description]
+  	 * @param  {int} 			select_rank [description]
+  	 * @param  {int} 			category_id [description]
+  	 * @param  {boolean} 	ajax    		[description]
   	 */
     var select_category = function(select_rank, category_id, ajax){
 
       // ToDo - add filling of meta on category change
-      if(ajax){
+      if(ajax === true){
       	$('.draw-meta').empty();
       }
 
@@ -229,7 +230,7 @@
       
       draw_select(window.categories, category_id, select_rank)
 
-			if(ajax){
+			if(ajax === true){
 				if(select_rank > 0){
 					$.get(
 					  "{{url('api/category-meta')}}/" + category_id 

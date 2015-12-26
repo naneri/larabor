@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use JavaScript;
 use Auth;
 use Log;
+use Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -38,10 +39,12 @@ class ItemController extends Controller
      */
     public function getAdd(Request $request)
     {
+
+        Session::forget('item_images');
+
         $currencies = $this->currency->all();
 
         $categories = $this->category->allWithDescription();
-
 
         if(!empty($request->old('meta'))){
 
