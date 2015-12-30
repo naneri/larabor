@@ -4,7 +4,7 @@
         <div class="add-image">  
           <a href='{{url("item/{$item->pk_i_id}")}}'>
             @if(isset($item->lastImage))
-            <img class="thumbnail no-margin" src="http://zabor.kg/{{$item->lastImage->imageThumbUrl()}}" alt="img">
+            <img class="thumbnail no-margin" src="http://larabor.local/{{$item->lastImage->thumbnailUrl()}}" alt="img">
             @else
             <img class="thumbnail no-margin" src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img">
             @endif

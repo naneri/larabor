@@ -11,11 +11,15 @@
             @include('_partials._alerts')
             <div class="row">
               <div class="col-sm-12">
-                <form enctype="multipart/form-data" action="{{url('item/add')}}" method="POST" class="form-horizontal add-item-form">
+                <form 
+	                enctype="multipart/form-data"
+									action="{{url('item/add')}}" 
+									method="POST" 
+									class="form-horizontal add-item-form">
                 {{ csrf_field() }}
                   <fieldset>
 
-
+						<input type="hidden" name="image_key" value="{{$image_key}}">
                     <!-- Select Basic -->
             <div class="row form-group">
               <label class="col-md-3 control-label" >Категория <span class="required">*</span></label>
@@ -90,11 +94,7 @@
                     <div class="form-group">
                       <label class="col-md-3 control-label" for="textarea"> Picture </label>
                       <div class="col-md-8">
-                        @for($i=0; $i<5; $i++)
-                          <div class="mb10">
-                            <input id="input-upload-img1" type="file" class="file" name="pictures[]" data-preview-file-type="text">
-                          </div>
-                        @endfor
+                      	<div id="item_images" class="dropzone"></div>
                         <p class="help-block">Add up to 5 photos. Use a real image of your product, not catalogs.</p>
                       </div>
                     </div>
@@ -175,6 +175,112 @@
 <script type="text/javascript" src="{{asset('assets/js/handlebars.js')}}"></script>
 
 <script>
+$.ajaxSetup({
+	headers: { 
+		'X-CSRF-TOKEN': "{{ csrf_token() }}",
+		'imageKey'		: "{{ $image_key }}"	
+	}
+});
+$(document).ready(function(){
+
+	Dropzone.autoDiscover = false;
+
+	var dropzone = new Dropzone("div#item_images", { 
+		url 						: "{{url('item/add-image')}}" ,
+		addRemoveLinks 	: true ,
+		headers					: {
+				'X-CSRF-TOKEN' : "{{ csrf_token() }}",
+				'imageKey'		 : "{{ $image_key }}"
+		},
+		acceptedFiles		: 'image/jpeg,jpg,png',
+		parallelUploads : 1,
+		maxFiles				: 7,
+    init            : function() {
+      if(window.dz_images != null){
+        dz = this;
+        $.each(window.dz_images, function(key, value){
+          var dz_file = {
+            name : value,
+            size : 12345,
+            server_name : value
+          }
+          console.log(dz_file);
+          dz.emit("addedfile", dz_file);
+          dz.createThumbnailFromUrl(dz_file, "{{url('uploads/temp')}}" + '/' + value);
+          dz.emit("complete", dz_file);
+          dz.files.push(dz_file);   
+        });
+
+        console.log(this.files);
+      }
+    }
+	});
+
+	dropzone.removeFile =function(file) {
+
+		var dz = this;
+
+    if (file.status === Dropzone.UPLOADING) {
+      this.cancelUpload(file);
+    }
+
+    $.post("{{url('item/remove-image')}}", {
+    	 name : file.server_name
+    }).fail(function(){
+
+    	$.notify('Проблемы при удалении изображения', 'error');
+
+    }).done(function(){
+
+    	dz.files = _.without(dz.files, file);
+
+	    dz.emit("removedfile", file);
+
+	    if (dz.files.length === 0) {
+	      return dz.emit("reset");
+	    }
+
+    });
+
+  }  
+
+	dropzone.on('error', function(file, error, xhr){
+
+		if( xhr != null){
+
+			$.notify('Проблемы при загрузке', 'error');
+
+		}else{
+
+			$.notify('Файлы не верного формата', 'error');
+
+		}
+
+		this.files = _.without(this.files, file);
+
+		this.emit("removedfile", file);
+
+	}).on('maxfilesexceeded', function(file){
+
+		$.notify('Максимум 7 фотографий', 'error');
+
+	}).on('success', function(file, response){
+
+		// adding the server_name to the file
+		var id = _.findIndex(this.files, file);
+
+		this.files[id].server_name = response.name;
+
+		console.log(this.files);
+	})
+
+  
+
+})	
+		
+</script>
+
+<script>
   var current_category = null;
 
   $(document).ready(function(){
@@ -246,7 +352,7 @@
 
     //if we have array with chosen categories - we render them in the template
     if(window.cat_list != null){
-    	rank 				= 0;
+    	rank 				= -1;
     	parent_cat 	= null;
     	$.each(window.cat_list, function(key, cat_id){
     		draw_select(window.categories, parent_cat, rank);
@@ -256,13 +362,13 @@
     	});
     //  else render the first select
     }else{
-    	draw_select(window.categories, null, 0);
+    	draw_select(window.categories, null, -1);
     }
     
     /**
      * event handler for category-select change
      */
-    $(document.body).on('change', '.category-select' ,function(event){
+    $(document.body).on('change', '.category-select',function(event){
 
       var select_rank = parseInt($(event.target).attr('rank'));
 

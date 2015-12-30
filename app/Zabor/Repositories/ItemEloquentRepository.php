@@ -63,29 +63,7 @@ class ItemEloquentRepository implements ItemInterface
 					->count();
 	}
 
-	/**
-	 * Item store logic
-	 * 
-	 * @param  [type] $item_data [description]
-	 * @param  [type] $user      [description]
-	 * @param  [type] $days      [description]
-	 * @return [type]            [description]
-	 */
-	public function store($item_data, $user, $days)
-	{
-		$item = new Item;
-		$item->fk_i_user_id		 	= isset($item_data['user_id']) ? intval($item['user_id']) : null;
-		$item->fk_i_category_id		= $item_data['category_id'];
-		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
-		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
-		$item->fk_c_currency_code 	= $item_data['currency'];
-		$item->s_contact_name		= isset($user->s_name) ? $user->s_name : null;
-		$item->s_contact_email		= $item_data['seller-email'];
-		$item->s_secret 			= str_random(8);
-		$item->dt_expiration		= Carbon::now()->addDays($days)->toDateTimeString();
-
-		$item->save();
-	}
+	
 
 	/**
 	 * [searchItems description]

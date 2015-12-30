@@ -6,6 +6,11 @@ use JavaScript;
 use Auth;
 use Log;
 use Session;
+use File;
+use App;
+use Response;
+use Validator;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,6 +19,8 @@ use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
 use App\Zabor\Repositories\Contracts\MetaInterface;
 use App\Zabor\Validators\ItemValidator;
+use App\Zabor\Images\ImageCreator;
+use App\Zabor\Items\ItemCreator;
 
 class ItemController extends Controller
 {
@@ -23,13 +30,17 @@ class ItemController extends Controller
         CategoryInterface $category,
         Currency $currency,
         MetaInterface $meta,
-        ItemValidator $validator)
+        ItemValidator $validator,
+        ImageCreator $image,
+        ItemCreator $item_creator)
     {
         $this->item      = $item;
         $this->category  = $category;
         $this->currency  = $currency;
         $this->validator = $validator;
         $this->meta      = $meta;
+        $this->image     = $image;
+        $this->item_creator = $item_creator;
     }
 
     /**
@@ -40,15 +51,15 @@ class ItemController extends Controller
     public function getAdd(Request $request)
     {
 
-        Session::forget('item_images');
-
         $currencies = $this->currency->all();
 
         $categories = $this->category->allWithDescription();
 
-        if(!empty($request->old('meta'))){
+        if(!empty($request->old('description'))){
 
             $cat_list = $request->old('category');
+
+            $image_key = $request->old('image_key');
 
             $cat_id = end($cat_list);
 
@@ -58,25 +69,101 @@ class ItemController extends Controller
             
             JavaScript::put('cat_list', $cat_list);
 
-            view()->share(compact('metas', 'meta_data'));
+            $images = Session::get('item_images.' . $image_key);
+
+            JavaScript::put('dz_images', $images);    
+
+            Log::info( print_r($images,true));
+
+            view()->share(compact('metas', 'meta_data', 'images'));
+
+        }else{
+
+            $image_key = str_random(10);
+
+            Session::put('item_images.' . $image_key, []);
         }
 
         JavaScript::put('categories', $categories);
         
         return view('item.add', compact(
             'currencies', 
-            'categories'
+            'categories',
+            'image_key'
         ));
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * [storeImage description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
      */
-    public function index()
+    public function storeImage(Request $request)
     {
-        //
+        $key = $request->header('imageKey');
+
+        $rules = [
+            'file'  => 'required|image|max:2048|mimes:jpeg,png'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()){
+            return Response::json([                
+                  'error' => true,                
+                  'message' => 'Some problems while saving',
+                  'code' => 400            
+                    ], 400);        
+        }
+
+        $file = $request->file('file');
+
+        $ext = $file->getClientOriginalExtension();
+
+        $name = str_random(10) . '.'. $ext;
+
+        $file->move('uploads/temp', $name);
+
+        Session::push('item_images.'. $key, $name);
+
+        return Response::json([
+            'name'      => $name,
+            'message'   => 'uploaded',
+            'code'      => 200
+            ], 200);
+
+    }
+
+    /**
+     * [removeImage description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function removeImage(Request $request)
+    {
+
+        $name = $request->input('name');
+
+        $key = $request->header('imageKey');
+
+        try{
+            $id = array_search($name, Session::get('item_images.'. $key));
+
+            $array = array_except(Session::get('item_images.'. $key), [$id]);
+
+            Session::put('item_images.'. $key, $array);
+        }catch(Exception $e){
+
+            return Response::json([
+            'message'   => 'troubles',
+            'code'      => 400
+            ], 400);
+        }
+
+        return Response::json([
+            'message'   => 'deleted succesfully',
+            'code'      => 200
+            ], 200);
     }
 
     /**
@@ -87,6 +174,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $user = null;
+
 
         $category_id = $this->getCategory($request->input('category'));
 
@@ -109,7 +197,16 @@ class ItemController extends Controller
 
         $days = $this->category->getById($item_data['category_id'])->i_expiration_days;
 
-        $item = $this->item->store($item_data, $user, $days);
+        if($item = $this->item_creator->store($item_data, $user, $days))
+        {
+
+            $key = $request->input('image_key');
+
+            $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item);
+
+        }
+
+        return redirect('/');
     }
 
 
@@ -160,6 +257,11 @@ class ItemController extends Controller
         //
     }
 
+    /**
+     * [getCategory description]
+     * @param  [type] $category_list [description]
+     * @return [type]                [description]
+     */
     protected function getCategory($category_list)
     {
         $output = '';

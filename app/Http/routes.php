@@ -2,6 +2,7 @@
 
 use App\Zabor\Repositories\MetaEloquentRepository;
 use Carbon\Carbon;
+use App\Zabor\Mysql\Item;
 
 Route::get('/', 'MainController@index');
 
@@ -29,8 +30,9 @@ Route::group(['prefix' => 'item'], function(){
 
 	Route::get('add', 'ItemController@getAdd');
 	Route::post('add', 'ItemController@store');
-
+	Route::post('add-image', 'ItemController@storeImage');
 	Route::get('{id}', 'ItemController@show');
+	Route::post('remove-image', 'ItemController@removeImage');
 });
 
 Route::get('contacts', 'CustomController@contacts');

@@ -1,6 +1,4 @@
-<?php 
-
-namespace = "App\Zabor\Manipulators";
+<?php namespace App\Zabor\Manipulators;
 
 class ItemManupulator
 {
