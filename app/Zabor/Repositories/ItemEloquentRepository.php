@@ -66,9 +66,10 @@ class ItemEloquentRepository implements ItemInterface
 	
 
 	/**
-	 * [searchItems description]
-	 * @param  [type] $data [description]
-	 * @return [type]       [description]
+	 * searches items by given constraints
+	 * 
+	 * @param  [array] $data 
+	 * @return [type]       
 	 */
 	public function searchItems($data, $category_id_list = null)
 	{

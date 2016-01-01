@@ -22,7 +22,7 @@ class ItemCreator
 	 * @param  [type] $days      [description]
 	 * @return [type]            [description]
 	 */
-	public function store($item_data, $user, $days)
+	public function store($item_data, $user, $days, $authorized = false)
 	{
 		$item = new Item;
 		$item->fk_i_user_id		 	= isset($item_data['user_id']) ? intval($item['user_id']) : null;
@@ -34,6 +34,8 @@ class ItemCreator
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 			= str_random(8);
 		$item->dt_expiration		= Carbon::now()->addDays($days)->toDateTimeString();
+		$item->b_active 			= $authorized ? 1 : 0 ;
+		
 
 		$item->save();
 
@@ -51,10 +53,16 @@ class ItemCreator
 		$description->s_description	= $item_data['description'];
 
 		$description->save();
-
+		
 		return $item->pk_i_id;
 	}
 
+	/**
+	 * [storeMetas description]
+	 * @param  [type] $item_id     [description]
+	 * @param  [type] $meta_values [description]
+	 * @return [type]              [description]
+	 */
 	public function storeMetas($item_id, $meta_values)
 	{
 		$metas = Meta::where('fk_i_item_id', $item_id)->get()->toArray();

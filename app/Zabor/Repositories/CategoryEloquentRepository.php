@@ -83,13 +83,18 @@ class CategoryEloquentRepository implements CategoryInterface
 		return $cat_ids;
 	}
 
-
+	/**
+	 * gets array of ancestors of given Category
+	 * 
+	 * @param  [int] $category_id 
+	 * @return [type]              
+	 */
 	public function getAncestors($category_id)
 	{
 
 		$categories = $this->allWithDescription();
 
-		$array[] = $categories->where('pk_i_id', $category_id)
+		$array[] = $categories->where('pk_i_id', (int)$category_id)
 						->first();
 
 		while($array[0]->fk_i_parent_id != null){
@@ -99,6 +104,12 @@ class CategoryEloquentRepository implements CategoryInterface
 		return $array;
 	}
 
+	/**
+	 * gets a first generation children array
+	 * 
+	 * @param  [int] $category_id 
+	 * @return [type]              
+	 */
 	public function getDirectChildrenWithDescription($category_id)
 	{
 		return Category::where('fk_i_parent_id', $category_id)

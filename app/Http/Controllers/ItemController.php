@@ -71,9 +71,7 @@ class ItemController extends Controller
 
             $images = Session::get('item_images.' . $image_key);
 
-            JavaScript::put('dz_images', $images);    
-
-            Log::info( print_r($images,true));
+            JavaScript::put('dz_images', $images);
 
             view()->share(compact('metas', 'meta_data', 'images'));
 
@@ -197,12 +195,12 @@ class ItemController extends Controller
 
         $days = $this->category->getById($item_data['category_id'])->i_expiration_days;
 
-        if($item = $this->item_creator->store($item_data, $user, $days))
+        if($item_id = $this->item_creator->store($item_data, $user, $days, Auth::check()))
         {
 
             $key = $request->input('image_key');
 
-            $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item);
+            $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item_id);
 
         }
 

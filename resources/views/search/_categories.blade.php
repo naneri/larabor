@@ -1,9 +1,9 @@
 <div class="categories-list  list-filter">
     <ul class="list-unstyled">
-      @if($cat_ancestors == null)	
-		@foreach($cat_children as $category)
-		<li><a href="{{url('search?category='.$category->pk_i_id)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
-		@endforeach
+      @if(empty($cat_ancestors[0]))	
+    		@foreach($cat_children as $category)
+    		<li><a href="{{url('search?category='.$category->pk_i_id)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
+    		@endforeach
       @else
       <li>
       	<a href="{{url('search')}}">
