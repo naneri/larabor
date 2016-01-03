@@ -21,6 +21,9 @@ use App\Zabor\Repositories\Contracts\MetaInterface;
 use App\Zabor\Validators\ItemValidator;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Items\ItemCreator;
+use App\Zabor\Items\ItemOwnerIdentifier;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ItemController extends Controller
 {
@@ -32,7 +35,8 @@ class ItemController extends Controller
         MetaInterface $meta,
         ItemValidator $validator,
         ImageCreator $image,
-        ItemCreator $item_creator)
+        ItemCreator $item_creator,
+        ItemOwnerIdentifier $ownerIdentifier)
     {
         $this->item      = $item;
         $this->category  = $category;
@@ -41,6 +45,7 @@ class ItemController extends Controller
         $this->meta      = $meta;
         $this->image     = $image;
         $this->item_creator = $item_creator;
+        $this->ownerIdentifier = $ownerIdentifier;
     }
 
     /**
@@ -55,7 +60,7 @@ class ItemController extends Controller
 
         $categories = $this->category->allWithDescription();
 
-        if(!empty($request->old('description'))){
+        if(!empty($request->old())){
 
             $cat_list = $request->old('category');
 
@@ -93,6 +98,7 @@ class ItemController extends Controller
 
     /**
      * [storeImage description]
+     * 
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -120,9 +126,14 @@ class ItemController extends Controller
 
         $name = str_random(10) . '.'. $ext;
 
+        $image = [
+            'name' => $name,
+            'path' => url("uploads/temp/{$name}")
+        ];
+
         $file->move('uploads/temp', $name);
 
-        Session::push('item_images.'. $key, $name);
+        Session::push('item_images.'. $key, $image);
 
         return Response::json([
             'name'      => $name,
@@ -134,6 +145,7 @@ class ItemController extends Controller
 
     /**
      * [removeImage description]
+     * 
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -145,7 +157,7 @@ class ItemController extends Controller
         $key = $request->header('imageKey');
 
         try{
-            $id = array_search($name, Session::get('item_images.'. $key));
+            $id = array_search(['name' => $name], Session::get('item_images.'. $key));
 
             $array = array_except(Session::get('item_images.'. $key), [$id]);
 
@@ -173,7 +185,6 @@ class ItemController extends Controller
     {
         $user = null;
 
-
         $category_id = $this->getCategory($request->input('category'));
 
         $item_data = $request->except('_token', 'category');
@@ -195,7 +206,7 @@ class ItemController extends Controller
 
         $days = $this->category->getById($item_data['category_id'])->i_expiration_days;
 
-        if($item_id = $this->item_creator->store($item_data, $user, $days, Auth::check()))
+        if($item_id = $this->item_creator->store($item_data, $user, $days, Auth::user()))
         {
 
             $key = $request->input('image_key');
@@ -214,11 +225,19 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $code = null)
     {
+
         $item = $this->item->getById($id);
-       
-        return view('item.show', compact('item'));
+
+        $is_owner = $this->ownerIdentifier->checkOwnership(
+                $item->fk_i_user_id, 
+                $item->s_secret, 
+                Auth::user(), 
+                $code
+            );
+
+        return view('item.show', compact('item', 'is_owner', 'code'));
     }
 
     /**
@@ -227,9 +246,47 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request, $code = null)
     {
-        //
+        $item = $this->item->getById($id, $code = null);
+
+        $cat_list = $this->category->getWithAncestorsArray($item->fk_i_category_id);
+
+        JavaScript::put('cat_list', $cat_list);
+
+        $is_owner = $this->ownerIdentifier->checkOwnership(
+                $item->fk_i_user_id, 
+                $item->s_secret, 
+                Auth::user(), 
+                $code
+            );
+
+        if(!$is_owner){
+            throw new NotFoundHttpException('wrong page');
+        }
+
+        $currencies = $this->currency->all();
+
+        $categories = $this->category->allWithDescription();
+
+        if(!empty($request->old())){
+
+            $image_key = $request->old('image_key');
+
+        }else{
+
+            $image_key = str_random(10);
+
+            Session::put('item_images.' . $image_key, []);
+        }
+
+        JavaScript::put('categories', $categories);
+        
+        return view('item.add', compact(
+            'currencies', 
+            'categories',
+            'image_key'
+        ));
     }
 
     /**

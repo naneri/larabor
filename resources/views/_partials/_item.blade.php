@@ -14,7 +14,7 @@
       <!--/.photobox-->
       <div class="col-sm-7 add-desc-box">
         <div class="add-details">
-          <h5 class="add-title"> <a href='{{url("item/{$item->pk_i_id}")}}'> {{$item->description->s_title or ''}}  </a> </h5>
+          <h5 class="add-title"> <a href='{{url("item/show/{$item->pk_i_id}")}}'> {{$item->description->s_title or ''}}  </a> </h5>
           <span class="info-row"> 
             <span class="date"><i class="icon-clock"> </i> {{$item->dt_pub_date or null}} </span> 
             <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>

@@ -22,10 +22,10 @@ class ItemCreator
 	 * @param  [type] $days      [description]
 	 * @return [type]            [description]
 	 */
-	public function store($item_data, $user, $days, $authorized = false)
+	public function store($item_data, $user, $days, $user = null)
 	{
 		$item = new Item;
-		$item->fk_i_user_id		 	= isset($item_data['user_id']) ? intval($item['user_id']) : null;
+		$item->fk_i_user_id		 	= !is_null($user) ? intval($user->pk_i_id) : null;
 		$item->fk_i_category_id		= $item_data['category_id'];
 		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
@@ -34,7 +34,7 @@ class ItemCreator
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 			= str_random(8);
 		$item->dt_expiration		= Carbon::now()->addDays($days)->toDateTimeString();
-		$item->b_active 			= $authorized ? 1 : 0 ;
+		$item->b_active 			= !is_null($user) ? 1 : 0 ;
 		
 
 		$item->save();
@@ -54,6 +54,9 @@ class ItemCreator
 
 		$description->save();
 		
+		$this->storeMetas($item->pk_i_id, $item_data['meta']);
+
+
 		return $item->pk_i_id;
 	}
 
@@ -65,12 +68,22 @@ class ItemCreator
 	 */
 	public function storeMetas($item_id, $meta_values)
 	{
-		$metas = Meta::where('fk_i_item_id', $item_id)->get()->toArray();
+		$metas = Meta::where('fk_i_item_id', $item_id)->get();
 
 		foreach($meta_values as $key => $value){
-			if(!empty($metas)){
-				
+
+			// checking if record exists or creating a new
+			if(empty($metas)){
+				$meta = $metas->where('fk_i_field_id', $key)->first(); 
+			}else{
+				$meta = new Meta;
+				$meta->fk_i_item_id = $item_id;
+				$meta->fk_i_field_id = $key;
 			}
+
+			//setting the value and saving
+			$meta->s_value = $value;
+			$meta->save();
 		}
 	}
 

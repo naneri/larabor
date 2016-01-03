@@ -12,10 +12,10 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <form
-                                        enctype="multipart/form-data"
-                                        action="{{url('item/add')}}"
-                                        method="POST"
-                                        class="form-horizontal add-item-form">
+                                    enctype="multipart/form-data"
+                                    action="{{url('item/add')}}"
+                                    method="POST"
+                                    class="form-horizontal add-item-form">
                                     {{ csrf_field() }}
                                     <fieldset>
 
@@ -227,13 +227,13 @@
                         dz = this;
                         $.each(window.dz_images, function (key, value) {
                             var dz_file = {
-                                name: value,
+                                name: value.name,
                                 size: 12345,
                                 server_name: value
                             }
                             console.log(dz_file);
                             dz.emit("addedfile", dz_file);
-                            dz.createThumbnailFromUrl(dz_file, "{{url('uploads/temp')}}" + '/' + value);
+                            dz.createThumbnailFromUrl(dz_file, value.path);
                             dz.emit("complete", dz_file);
                             dz.files.push(dz_file);
                         });
@@ -323,6 +323,10 @@
              * @param  {[int]} select_rank [description]
              */
             var draw_select = function (all_cats, cat_id, select_rank) {
+
+                if(cat_id != null){
+                    cat_id = Number(cat_id);
+                }
                 var cats = _.where(all_cats, {'fk_i_parent_id': cat_id});
 
                 if (cats.length != 0) {
@@ -334,7 +338,6 @@
                     });
 
                     $('.category_list').append(html);
-
                 }
             };
 
@@ -381,7 +384,8 @@
                 rank = -1;
                 parent_cat = null;
                 $.each(window.cat_list, function (key, cat_id) {
-                    draw_select(window.categories, Number(parent_cat), rank);
+
+                    draw_select(window.categories, parent_cat, rank);
                     $('.category-select').last().val(cat_id);
                     rank = rank + 1;
                     parent_cat = cat_id;

@@ -118,4 +118,19 @@ class CategoryEloquentRepository implements CategoryInterface
 					->orderBy('i_position')
 					->get();
 	}	
+
+	/**
+	 * [getWithAncestorsArray description]
+	 * 
+	 * @param  [type] $cat_id [description]
+	 * @return [type]         [description]
+	 */
+	public function getWithAncestorsArray($cat_id) {
+
+		$array = collect($this->getAncestors($cat_id));
+
+		return $array->map(function($value, $key){
+			return $value->pk_i_id;
+		})->toArray();
+	}
 }

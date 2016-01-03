@@ -10,7 +10,7 @@
         <li>
           <a href="{{url('search?category=' . $item->category->pk_i_id)}}">{{$item->category->description->s_name}}</a></li>
         <li class="active">
-          {{$item->description->s_title}}
+          {{str_limit($item->description->s_title, 30)}} 
         </li>
       </ol>
     </div>
@@ -18,7 +18,16 @@
       <div class="row">
         <div class="col-sm-9 page-content col-thin-right">
           <div class="inner inner-box ads-details-wrapper">
-            <h2> {{$item->description->s_title}} </h2>
+            <h2> 
+              {{str_limit($item->description->s_title, 30)}} 
+              @if($is_owner)
+              <span class="pull-right">
+                <a href="{{route('item.edit', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Редактировать</button></a>
+                <a href="{{route('item.prolong', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-clock-o"></i> Продлить</button></a>
+                <a href="{{route('item.delete', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Удалить</button></a>
+              </span>
+              @endif
+            </h2>
             <span class="info-row"> 
             	<span class="date">
             		<i class=" icon-clock"> </i> {{$item->dt_pub_date}} 

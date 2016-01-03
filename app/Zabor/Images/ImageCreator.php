@@ -24,12 +24,12 @@ class ImageCreator{
 	 * 
 	 * @return [type]          [description]
 	 */
-	public function storeAndSaveMultiple($names = [], $item_id)
+	public function storeAndSaveMultiple($image_list = [], $item_id)
 	{
-		foreach($names as $name){
+		foreach($image_list as $image_data){
 			Log::info('creating');
-			$arr = explode('.' , $name);
-			$image = Image::make('uploads/temp/'. $name)->encode('jpg');
+			$arr = explode('.' , $image_data['name']);
+			$image = Image::make('uploads/temp/'. $image_data['name'])->encode('jpg');
 
 			$thumbnail = $image->fit(240,200);
 			$preview   = $image->fit(480,340);

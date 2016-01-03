@@ -31,8 +31,11 @@ Route::group(['prefix' => 'item'], function(){
 	Route::get('add', 'ItemController@getAdd');
 	Route::post('add', 'ItemController@store');
 	Route::post('add-image', 'ItemController@storeImage');
-	Route::get('{id}', 'ItemController@show');
+	Route::get('show/{id}/{code?}', 'ItemController@show')->name('item.show');
 	Route::post('remove-image', 'ItemController@removeImage');
+	Route::get('edit/{id}/{code?}', 'ItemController@edit')->name('item.edit');
+	Route::get('prolong/{id}/{code?}', 'ItemController@prolong')->name('item.prolong');
+	Route::get('delete/{id}/{code?}', 'ItemController@destroy')->name('item.delete');
 });
 
 Route::get('contacts', 'CustomController@contacts');
@@ -55,4 +58,8 @@ Route::get('carbon', function(){
 Route::get('check', function(){
 	$user = \App\Zabor\Mysql\User::first();
 	return view('email/activate-account',['user' => $user]);
+});
+
+Route::get('check/resp', function(){
+	return view('email.contact-us');
 });
