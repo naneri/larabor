@@ -42,22 +42,22 @@
                                         </script>
 
 
-                                        <!-- Text input-->
-                                        <div class="form-group {{zbCheckError($errors->first('title'))}}">
-                                            <label class="col-md-3 control-label" for="title">Название <span
-                                                        class="required">*</span></label>
+                        <!-- Text input-->
+                          <div class="form-group {{zbCheckError($errors->first('title'))}}">
+                          <label class="col-md-3 control-label" for="title">Название <span
+                                      class="required">*</span></label>
 
-                                            <div class="col-md-8">
-                                                <input id="Adtitle" name="title" placeholder="Ad title"
-                                                       class="form-control input-md" required="" type="text"
-                                                       value="{{old('title')}}">
-                                                @foreach ($errors->get('title') as $error)
-                                                    <p class="checkbox help-block">
-                                                        <small>{{$error}}</small>
-                                                    </p>
-                                                @endforeach
-                                            </div>
-                                        </div>
+                          <div class="col-md-8">
+                            <input id="Adtitle" name="title" placeholder="Ad title"
+                                   class="form-control input-md" required="" type="text"
+                                   value="{{$item->description->s_title or old('title')}}">
+                            @foreach ($errors->get('title') as $error)
+                              <p class="checkbox help-block">
+                                <small>{{$error}}</small>
+                              </p>
+                            @endforeach
+                          </div>
+                        </div>
 
                                         <!-- Textarea -->
                                         <div class="form-group {{zbCheckError($errors->first('description'))}}">
@@ -66,7 +66,7 @@
 
                                             <div class="col-md-8">
                                                 <textarea class="form-control" id="textarea" name="description" rows="7"
-                                                          placeholder="Describe what makes your ad unique">{{old('description')}}</textarea>
+                                                          placeholder="Describe what makes your ad unique">{{$item->description->s_description or old('description')}}</textarea>
                                                 @foreach ($errors->get('description') as $error)
                                                     <p class="checkbox help-block">
                                                         <small>{{$error}}</small>
@@ -82,7 +82,7 @@
 
                                             <div class="col-md-4">
                                                 <input id="Price" name="price" class="form-control"
-                                                       placeholder="placeholder" type="text" value="{{old('price')}}">
+                                                       placeholder="placeholder" type="text" value="{{$item->i_price or old('price')}}">
                                                 @foreach ($errors->get('price') as $error)
                                                     <p class="checkbox help-block">
                                                         <small>{{$error}}</small>
@@ -324,9 +324,7 @@
              */
             var draw_select = function (all_cats, cat_id, select_rank) {
 
-                if(cat_id != null){
-                    cat_id = Number(cat_id);
-                }
+                
                 var cats = _.where(all_cats, {'fk_i_parent_id': cat_id});
 
                 if (cats.length != 0) {
@@ -363,7 +361,7 @@
                     }
                 });
 
-                draw_select(window.categories, Number(category_id), select_rank)
+                draw_select(window.categories, category_id, select_rank)
 
                 if (ajax === true) {
                     if (select_rank > 0) {

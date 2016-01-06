@@ -94,7 +94,7 @@ class CategoryEloquentRepository implements CategoryInterface
 
 		$categories = $this->allWithDescription();
 
-		$array[] = $categories->where('pk_i_id', (int)$category_id)
+		$array[] = $categories->where('pk_i_id', $category_id)
 						->first();
 
 		while($array[0]->fk_i_parent_id != null){

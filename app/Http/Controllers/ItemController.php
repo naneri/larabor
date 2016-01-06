@@ -89,7 +89,9 @@ class ItemController extends Controller
 
         JavaScript::put('categories', $categories);
         
+        $item = null;
         return view('item.add', compact(
+            'item',
             'currencies', 
             'categories',
             'image_key'
@@ -273,16 +275,47 @@ class ItemController extends Controller
 
             $image_key = $request->old('image_key');
 
+            $item = null;
+
+            $cat_list = $request->old('category');
+
+            $image_key = $request->old('image_key');
+
+            $cat_id = end($cat_list);
+
+            $metas = $this->meta->getCategoryMeta($cat_id);
+
+            $meta_data = $request->old('meta');
+            
+            JavaScript::put('cat_list', $cat_list);
+
+            $images = Session::get('item_images.' . $image_key);
+
+            JavaScript::put('dz_images', $images);
+
+            view()->share(compact('metas', 'meta_data', 'images'));
+
         }else{
 
             $image_key = str_random(10);
 
             Session::put('item_images.' . $image_key, []);
+
+            $metas = $this->meta->getCategoryMeta($item->fk_i_category_id);
+
+            $meta_data = $item->metas->keyBy('fk_i_field_id')->map(function ($item, $key) {
+                return $item->s_value;
+            })->toArray();
+
+            JavaScript::put('dz_images', $item->images);
+
+            view()->share(compact('metas', 'meta_data', 'images'));
         }
 
         JavaScript::put('categories', $categories);
         
         return view('item.add', compact(
+            'item',
             'currencies', 
             'categories',
             'image_key'

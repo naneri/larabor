@@ -35,3 +35,27 @@ function zbGetRadioVal($meta_id, $meta_data, $option){
 		}
 	}
 }
+
+function zbGetTitle($item, $old){
+	if(!empty($old)){
+		return $old;
+	}
+
+	if(!empty($item)){
+		return $item->description->s_title;
+	}
+
+	return '';
+}
+
+function zbGetDescription($item, $old){
+	if(!empty($old)){
+		return $old;
+	}
+
+	if(!empty($item)){
+		return $item->description->s_description;
+	}
+
+	return '';
+}

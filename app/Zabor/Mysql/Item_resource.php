@@ -4,13 +4,13 @@ class Item_resource extends ZaborModel
 {
 	protected $table = "item_resource";
 
-	protected $appends = ['image_url'];
+	protected $appends = ['image_url', 'path', 'name'];
 
 	protected $fillable = ['fk_i_item_id', 's_name', 's_extension', 's_content_type', 's_path'];
 
 	public function getImageUrlAttribute($value)
 	{
-		return "{$value->s_path}{$value->name}.{$value->s_extension}";
+		return "{$this->s_path}{$this->name}.{$this->s_extension}";
 	}
 
 	public function imageThumbUrl()
@@ -27,6 +27,16 @@ class Item_resource extends ZaborModel
 	public function thumbnailUrl()
 	{
 		return "{$this->s_path}{$this->s_name}_thumbnail.{$this->s_extension}";
+	}
+
+	public function getNameAttribute()
+	{
+		return $this->s_name;
+	}
+
+	public function getPathAttribute()
+	{
+		return asset("{$this->s_path}{$this->s_name}_thumbnail.{$this->s_extension}");
 	}
 
 }
