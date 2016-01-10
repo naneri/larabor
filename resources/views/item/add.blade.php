@@ -229,7 +229,7 @@
                             var dz_file = {
                                 name: value.name,
                                 size: 12345,
-                                server_name: value
+                                server_name: value.name
                             }
                             console.log(dz_file);
                             dz.emit("addedfile", dz_file);
@@ -399,8 +399,8 @@
             $(document.body).on('change', '.category-select', function (event) {
 
                 var select_rank = parseInt($(event.target).attr('rank'));
-
-                var current_category = event.target.value;
+                //maybe this works in both OS                    
+                var current_category = Number(event.target.value);
 
                 select_category(select_rank, current_category, true)
             });

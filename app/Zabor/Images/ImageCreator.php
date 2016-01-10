@@ -27,15 +27,19 @@ class ImageCreator{
 	public function storeAndSaveMultiple($image_list = [], $item_id)
 	{
 		foreach($image_list as $image_data){
+
 			Log::info('creating');
+
 			$arr = explode('.' , $image_data['name']);
+
 			$image = Image::make('uploads/temp/'. $image_data['name'])->encode('jpg');
 
 			$thumbnail = $image->fit(240,200);
 			$preview   = $image->fit(480,340);
 			$original  = $image->fit(640,480);
 
-			$directory = 'uploads/' . floor($item_id/100);
+			$directory = "uploads/" . floor($item_id/100);
+
 			if(!File::isDirectory($directory)){
 				File::makeDirectory($directory);
 			}
@@ -52,5 +56,25 @@ class ImageCreator{
 				's_path'		=> $directory . '/'
 				]);
 		}
+	}
+
+	/**
+	 * [delete description]
+	 * 
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	public function delete($id)
+	{
+
+		$image = $this->image->find($id);
+
+		File::delete("{$image->s_path}{$image->s_name}_thumbnail.{$image->s_extension}");
+		File::delete("{$image->s_path}{$image->s_name}_preview.{$image->s_extension}");
+		File::delete("{$image->s_path}{$image->s_name}.{$image->s_extension}");
+
+		$image->delete();
+		
+		return true;
 	}
 }

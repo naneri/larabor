@@ -34,8 +34,8 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        // getting the category id
-        $cat_id = $request->input('category') ?: null;
+        // getting the category id | tried to fix issue with string input
+        $cat_id = (int)$request->input('category') ?: null;
 
         $cat_id_list    = null;
         $ancestor_list  = null;

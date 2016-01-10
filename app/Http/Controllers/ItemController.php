@@ -159,11 +159,22 @@ class ItemController extends Controller
         $key = $request->header('imageKey');
 
         try{
-            $id = array_search(['name' => $name], Session::get('item_images.'. $key));
 
-            $array = array_except(Session::get('item_images.'. $key), [$id]);
+            // checks if $name is numeric $image->id that is already in database or it is a alphabetic new name
+            if(is_numeric($name)){
 
-            Session::put('item_images.'. $key, $array);
+                $image_id = (int) $name;
+
+                $this->image->delete($image_id);
+                
+            }else{
+                $id = array_search(['name' => $name], Session::get('item_images.'. $key));
+
+                $array = array_except(Session::get('item_images.'. $key), [$id]);
+
+                Session::put('item_images.'. $key, $array);
+            }
+          
         }catch(Exception $e){
 
             return Response::json([

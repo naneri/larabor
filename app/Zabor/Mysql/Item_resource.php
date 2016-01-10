@@ -31,7 +31,7 @@ class Item_resource extends ZaborModel
 
 	public function getNameAttribute()
 	{
-		return $this->s_name;
+		return (int) $this->pk_i_id;
 	}
 
 	public function getPathAttribute()
