@@ -134,5 +134,4 @@ class ItemEloquentRepository implements ItemInterface
 		return $query->paginate(10);
 	}
 
-
 }

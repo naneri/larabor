@@ -59,3 +59,37 @@ function zbGetDescription($item, $old){
 
 	return '';
 }
+
+function zbCurrencyCheckbox($item, $old, $code){
+	if(!empty($old)){
+		return $old == $code ? 'checked' : '';
+	}
+
+	if(!empty($item)){
+		return $item->fk_c_currency_code == $code ? 'checked' : '';
+	}
+
+	if($code == 'KGS'){
+		return $code == 'KGS' ? 'checked' : '';
+	}
+
+	return '';
+
+}
+
+function zbCurrencyClass($item, $old, $code){
+	if(!empty($old)){
+		return $old == $code ? 'active' : '';
+	}
+
+	if(!empty($item)){
+		return $item->fk_c_currency_code == $code ? 'active' : '';
+	}
+
+	if($code == 'KGS'){
+		return $code == 'KGS' ? 'active' : '';
+	}
+
+	return '';
+
+}

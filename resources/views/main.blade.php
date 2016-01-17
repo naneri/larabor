@@ -1,12 +1,12 @@
 @extends('_misc._layout')
   
+
 @section('content')
   <div class="intro">
     <div class="dtable hw100">
       <div class="dtable-cell hw100">
 
         <div class="container text-center">
-         @include('_partials._alerts')
        <h1 class="intro-title animated fadeInDown"> Find Classified Ads  </h1>
           <p class="sub animateme fittext3 animated fadeIn"> Find local classified ads on bootclassified in  Minutes </p>
           

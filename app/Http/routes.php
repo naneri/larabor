@@ -34,6 +34,7 @@ Route::group(['prefix' => 'item'], function(){
 	Route::get('show/{id}/{code?}', 'ItemController@show')->name('item.show');
 	Route::post('remove-image', 'ItemController@removeImage');
 	Route::get('edit/{id}/{code?}', 'ItemController@edit')->name('item.edit');
+	Route::post('edit/{id}/{code?}', 'ItemController@update')->name('item.update');
 	Route::get('prolong/{id}/{code?}', 'ItemController@prolong')->name('item.prolong');
 	Route::get('delete/{id}/{code?}', 'ItemController@destroy')->name('item.delete');
 });
@@ -41,6 +42,10 @@ Route::group(['prefix' => 'item'], function(){
 Route::get('contacts', 'CustomController@contacts');
 Route::post('contacts', 'CustomController@postMessage');
 Route::get('search', 'SearchController@index')->name('search');
+
+Route::get('profile/main', 'ProfileController@index')->name('profile.main');
+Route::get('profile/ads', 'ProfileController@getAds')->name('profile.ads');
+
 
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){

@@ -74,5 +74,17 @@ class Item extends ZaborModel
 		$this->attributes['i_price'] = $value * 1000000;
 	}
 
+	public function getFkICategoryIdAttribute($value)
+	{
+		return (int) $value;
+	}
+
+	public function recentlyProlonged()
+	{
+		$date = Carbon::parse($this->dt_pub_date);
+
+		return $date->diffInDays(Carbon::now()) < 2;
+
+	}
 
 }

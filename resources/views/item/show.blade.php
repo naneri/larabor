@@ -16,8 +16,10 @@
     </div>
     <div class="container">
       <div class="row">
+
         <div class="col-sm-9 page-content col-thin-right">
           <div class="inner inner-box ads-details-wrapper">
+          
             <h2> 
               {{str_limit($item->description->s_title, 30)}} 
               @if($is_owner)
@@ -37,14 +39,14 @@
               <h1 class="pricetag"> {{$item->i_price or ''}} {{$item->currency->s_description or 'не указана'}}</h1>
               <ul class="bxslider">
               	@forelse($item->images as $image)
-                <li><img src="http://zabor.kg/{{$image->imageUrl()}}" alt="img" /></li>
+                <li><img src="{{asset($image->imageUrl())}}" alt="img" /></li>
                 @empty
                 <li><img src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img" /></li>
                 @endforelse
               </ul>
               <div id="bx-pager">
 	            @forelse($item->images as $key => $image)
-	                <a class="thumb-item-link" data-slide-index="{{$key}}" href=""><img src="http://zabor.kg/{{$image->imageThumbUrl()}}" alt="img" /></a>
+	                <a class="thumb-item-link" data-slide-index="{{$key}}" href=""><img src="{{asset($image->thumbnailUrl())}}" alt="img" /></a>
                 @empty
                 	<a class="thumb-item-link" data-slide-index="0" href=""><img src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img" /></a>
                 @endforelse

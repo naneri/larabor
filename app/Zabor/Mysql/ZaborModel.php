@@ -8,5 +8,7 @@ class ZaborModel extends Model
 	public $primaryKey = 'pk_i_id';
 
 	public $timestamps = false;
+
+	protected $guarded = [];
 	
 }

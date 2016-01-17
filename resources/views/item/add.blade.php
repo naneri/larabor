@@ -13,7 +13,11 @@
                             <div class="col-sm-12">
                                 <form
                                     enctype="multipart/form-data"
-                                    action="{{url('item/add')}}"
+                    @if($route == 'add')
+                    action="{{url('item/add')}}"    
+                    @else
+                    action='{{url("item/edit/{$id}/{$code}")}}'
+                    @endif
                                     method="POST"
                                     class="form-horizontal add-item-form">
                                     {{ csrf_field() }}
@@ -91,15 +95,14 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div data-toggle="buttons">
-                                                    @foreach($currencies as $currency)
-                                                        <label class="btn btn-info
-                              {{$currency->pk_c_code == 'KGS' ? 'active' : ''}}">
-                                                            <input type="radio" name="currency" id="option2"
-                                                                   value='{{$currency->pk_c_code}}'
-                                                                    {{$currency->pk_c_code == 'KGS' ? 'checked' : ''}}>
-                                                            {{$currency->s_description}}
-                                                        </label>
-                                                    @endforeach
+    @foreach($currencies as $currency)
+        <label class="btn btn-info {{zbCurrencyClass($item, old('currency'), $currency->pk_c_code)}}">
+            <input type="radio" name="currency" id="option2"
+                   value='{{$currency->pk_c_code}}'
+                    {{zbCurrencyCheckbox($item, old('currency'), $currency->pk_c_code)}}>
+            {{$currency->s_description}}
+        </label>
+    @endforeach
                                                 </div>
                                             </div>
                                         </div>
@@ -219,7 +222,7 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     'imageKey': "{{ $image_key }}"
                 },
-                acceptedFiles: 'image/jpeg,jpg,png',
+                acceptedFiles: 'image/jpeg,image/png',
                 parallelUploads: 1,
                 maxFiles: 7,
                 init: function () {
@@ -229,7 +232,8 @@
                             var dz_file = {
                                 name: value.name,
                                 size: 12345,
-                                server_name: value.name
+                                server_name: value.name,
+                                accepted: true
                             }
                             console.log(dz_file);
                             dz.emit("addedfile", dz_file);
@@ -238,7 +242,6 @@
                             dz.files.push(dz_file);
                         });
 
-                        console.log(this.files);
                     }
                 }
             });
@@ -277,11 +280,7 @@
 
                     $.notify('Проблемы при загрузке', 'error');
 
-                } else {
-
-                    $.notify('Файлы не верного формата', 'error');
-
-                }
+                } 
 
                 this.files = _.without(this.files, file);
 
@@ -379,10 +378,11 @@
 
             //if we have array with chosen categories - we render them in the template
             if (window.cat_list != null) {
+
                 rank = -1;
                 parent_cat = null;
                 $.each(window.cat_list, function (key, cat_id) {
-
+                    cat_id = Number(cat_id);    
                     draw_select(window.categories, parent_cat, rank);
                     $('.category-select').last().val(cat_id);
                     rank = rank + 1;

@@ -57,7 +57,7 @@
               <li><a href="{{url('login')}}">Войти <i class="fa fa-key"></i></a></li>
               <li><a href="{{url('register')}}">Регистрация <i class="fa fa-user-plus"></i></a></li>
             @else
-              <li><a href="{{url('login')}}">Профиль <i class="icon-user fa"></i></a></li>
+              <li><a href="{{route('profile.main')}}">Профиль <i class="icon-user fa"></i></a></li>
               <li><a href="{{url('logout')}}">Выход <i class="glyphicon glyphicon-off"></i></a></li>
             @endif
             <li class="postadd"><a class="btn btn-block   btn-border btn-post btn-danger" href="{{url('item/add')}}">Подать объявление</a></li>
@@ -69,7 +69,7 @@
     </nav>
   </div>
   <!-- /.header -->
-
+    
   @yield('content')
   
   <div class="footer" id="footer">
@@ -129,6 +129,6 @@
 @yield('scripts')
 
 @include('_misc._footer')
-
+@include('_partials._alerts')
 </body>
 </html>

@@ -18,4 +18,19 @@ class Category extends ZaborModel
 	{
 		return $this->belongsToMany('App\Zabor\Mysql\Meta', 'meta_categories', 'fk_i_category_id', 'fk_i_field_id');
 	}
+
+	public function getPkIIdAttribute($value)
+	{
+		return (int) $value;
+	}
+
+	public function getFkIParentIdAttribute($value)
+	{
+		if($value != null){
+			return (int) $value;
+		}else{
+			return $value;
+		}
+	}
+
 }

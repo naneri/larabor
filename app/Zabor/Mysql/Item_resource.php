@@ -10,7 +10,7 @@ class Item_resource extends ZaborModel
 
 	public function getImageUrlAttribute($value)
 	{
-		return "{$this->s_path}{$this->name}.{$this->s_extension}";
+		return "{$this->s_path}{$this->pk_i_id}.{$this->s_extension}";
 	}
 
 	public function imageThumbUrl()
@@ -26,7 +26,7 @@ class Item_resource extends ZaborModel
 
 	public function thumbnailUrl()
 	{
-		return "{$this->s_path}{$this->s_name}_thumbnail.{$this->s_extension}";
+		return "{$this->s_path}{$this->pk_i_id}_thumbnail.{$this->s_extension}";
 	}
 
 	public function getNameAttribute()
@@ -36,7 +36,7 @@ class Item_resource extends ZaborModel
 
 	public function getPathAttribute()
 	{
-		return asset("{$this->s_path}{$this->s_name}_thumbnail.{$this->s_extension}");
+		return asset("{$this->s_path}{$this->pk_i_id}_thumbnail.{$this->s_extension}");
 	}
 
 }
