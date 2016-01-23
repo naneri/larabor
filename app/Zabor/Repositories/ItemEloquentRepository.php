@@ -6,6 +6,7 @@ use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\Category;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Mysql\Item_meta as Meta;
+use Cache;
 
 class ItemEloquentRepository implements ItemInterface
 {
@@ -17,7 +18,8 @@ class ItemEloquentRepository implements ItemInterface
 	 */
 	public function getLast()
 	{
-		return Item::take(10)->with([
+		return  Cache::remember('last_items', 1 ,function(){
+			return Item::take(10)->with([
 	            'category.description', 
 	            'description', 
 	            'currency', 
@@ -27,8 +29,9 @@ class ItemEloquentRepository implements ItemInterface
 				->where('b_enabled', 1)
 				->where('b_active', 1)
 				->where('dt_expiration', '>', Carbon::now())
-				->orderBy('pk_i_id', 'DESC')
+				->orderBy('dt_pub_date', 'DESC')
 			  	->get();
+			  });
 	}
 
 	/**
@@ -51,16 +54,38 @@ class ItemEloquentRepository implements ItemInterface
 	}
 
 	/**
+	 * [getUserAds description]
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
+	public function getUserAds($user_id)
+	{
+		return Item::with([
+	            'category.description', 
+	            'description', 
+	            'currency', 
+	            'lastImage',
+	            'stats'
+            ])
+				->where('fk_i_user_id', $user_id)
+				->orderBy('dt_pub_date', 'DESC')
+			  	->paginate(10);
+	}
+
+
+	/**
 	 * Gives number of currently active items
 	 *  
 	 * @return [int] number of Active items
 	 */
 	public function countActive()
 	{
-		return Item::where('b_enabled', 1)
-					->where('b_active', 1)
-					->where('dt_expiration', '>', Carbon::now())
-					->count();
+		return  Cache::remember('count_main_items', 1 ,function(){
+				return Item::where('b_enabled', 1)
+							->where('b_active', 1)
+							->where('dt_expiration', '>', Carbon::now())
+							->count();
+				});
 	}
 
 	
@@ -75,7 +100,7 @@ class ItemEloquentRepository implements ItemInterface
 	{
 		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_pub_date';
 
-		$order_type = isset($data['orderType']) ? $data['orderType'] : 'ASC';
+		$order_type = isset($data['orderType']) ? $data['orderType'] : 'DESC';
 
 		// expiration date should be more than now
 		$query = Item::where('dt_expiration', '>', Carbon::now())

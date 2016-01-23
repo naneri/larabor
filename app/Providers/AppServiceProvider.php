@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Validator;
+use Hash;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extend('passcheck', function($attribute, $value, $parameters) {
+            return Hash::check($value, Auth::user()->s_password); 
+        });
     }
 
     /**

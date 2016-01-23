@@ -32,9 +32,9 @@ class ImageCreator{
 
 			$arr = explode('.' , $image_data['name']);
 
-			$image = Image::make('uploads/temp/'. $image_data['name'])->encode('jpg');
+			$image = Image::make('temp/'. $image_data['name'])->encode('jpg');
 
-			$directory = "uploads/" . floor($item_id/100);
+			$directory = "oc-content/uploads/" . floor($item_id/100);
 
 			if(!File::isDirectory($directory)){
 				File::makeDirectory($directory);

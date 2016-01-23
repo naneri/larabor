@@ -41,17 +41,17 @@ class User extends ZaborModel implements AuthenticatableContract,
 
     public function getRememberToken()
     {
-    return null; // not supported
+        return null; // not supported
     }
 
     public function setRememberToken($value)
     {
-    // not supported
+        // not supported
     }
 
     public function getRememberTokenName()
     {
-    return null; // not supported
+        return null; // not supported
     }
 
     /**
@@ -64,5 +64,10 @@ class User extends ZaborModel implements AuthenticatableContract,
         {
           parent::setAttribute($key, $value);
         }
+    }
+
+    public function description()
+    {
+        return $this->hasOne('App\Zabor\Mysql\User_description', 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');            
     }
 }

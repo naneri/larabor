@@ -389,10 +389,10 @@ class ItemController extends Controller
 
         $image = [
             'name' => $name,
-            'path' => url("uploads/temp/{$name}")
+            'path' => url("temp/{$name}")
         ];
 
-        $file->move('uploads/temp', $name);
+        $file->move('temp', $name);
 
         Session::push('item_images.'. $key, $image);
 

@@ -9,12 +9,17 @@ use App\Zabor\Mysql\Item_comment 	 as Comment;
 use App\Zabor\Mysql\Item_stats 		 as Stats;
 use App\Zabor\Mysql\Item_meta 		 as Meta;
 use App\Zabor\Images\ImageCreator;
+use App\Zabor\Services\CategoryStatsManager;
 class ItemCreator
 {
 
-	public function __construct(ImageCreator $imageCreator)
+	public function __construct(
+		ImageCreator $imageCreator,
+		CategoryStatsManager $catManager
+		)
 	{
-		$this->imageCreator = $imageCreator;
+		$this->imageCreator 	= $imageCreator;
+		$this->categoryManager 	= $catManager;
 	}
 
 	/**
@@ -42,23 +47,12 @@ class ItemCreator
 
 		$item->save();
 
-		$description = Description::where('fk_i_item_id', $item->pk_i_id)->first();
-
-		if(empty($description)){
-
-			$description = new Description;
-
-			$description->fk_i_item_id = $item->pk_i_id;
-			$description->fk_c_locale_code = 'ru_Ru';
-		}
-
-		$description->s_title		= $item_data['title'];
-		$description->s_description	= $item_data['description'];
-
-		$description->save();
+		$this->storeOrUpdateDescription($item->pk_i_id, $item_data);
 				
 		$this->storeMetas($item->pk_i_id, $item_data['meta']);
 
+		$this->categoryManager->increaseCategoryStats(
+			$item->fk_i_category_id, null, $item->b_active);
 
 		return $item->pk_i_id;
 	}
@@ -82,13 +76,29 @@ class ItemCreator
 
 		$item->save();
 
-		$description = Description::where('fk_i_item_id', $item->pk_i_id)->first();
+		$this->storeOrUpdateDescription($item->pk_i_id, $item_data);
+		
+		$this->storeMetas($item->pk_i_id, $item_data['meta']);
+
+
+		return $item->pk_i_id;
+	}
+
+	/**
+	 * [storeOrUpdateDescription description]
+	 * @param  [int] $item_id   [description]
+	 * @param  [array] $item_data [description]
+	 * @return [type]            [description]
+	 */
+	public function storeOrUpdateDescription($item_id,	$item_data)
+	{
+		$description = Description::where('fk_i_item_id', $item_id)->first();
 
 		if(empty($description)){
 
 			$description = new Description;
 
-			$description->fk_i_item_id = $item->pk_i_id;
+			$description->fk_i_item_id = $item_id;
 			$description->fk_c_locale_code = 'ru_Ru';
 		}
 
@@ -96,11 +106,8 @@ class ItemCreator
 		$description->s_description	= $item_data['description'];
 
 		$description->save();
-		
-		$this->storeMetas($item->pk_i_id, $item_data['meta']);
 
-
-		return $item->pk_i_id;
+		return true;
 	}
 
 	/**
@@ -141,9 +148,14 @@ class ItemCreator
 	 */
 	public function prolong($item, $days)
 	{
+		$old_date = $item->dt_expiration;
+
 		$item->dt_pub_date		= Carbon::now()->toDateTimeString();
 		$item->dt_expiration	= Carbon::now()->addDays($days)->toDateTimeString();
 		$item->save();
+
+		$this->categoryManager->increaseCategoryStats(
+			$item->fk_i_category_id, $old_date, $item->b_active);
 
 		return $item;
 	}

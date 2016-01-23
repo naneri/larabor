@@ -75,13 +75,16 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        if (Auth::attempt(['s_email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return redirect()->intended('/');
-        }
+        if (Auth::attempt([
+                's_email' => $request->input('email'), 
+                'password' => $request->input('password')
+                ])
+            ){
+                return redirect()->intended('/');
+            }
 
-        return redirect('login')->with(
-            'errors',
-            ['Неправильная почта или пароль']
+        return redirect('login')->with('message',
+            ['error' => 'Неправильная почта или пароль']
         );
     }
 
@@ -107,7 +110,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username'  => 'required|alpha_num|min:3|max:30',
             'email'     => 'required|email|unique:user,s_email',
-            'password'  => 'required|min:6',
+            'password'  => 'required|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -150,7 +153,7 @@ class AuthController extends Controller
     {
         $user = User::find($user_id);
 
-        $check = $token == $user->s_secret;
+        $check = ($token == $user->s_secret);
 
         if(!$check){
             return redirect('/')->with('message', [

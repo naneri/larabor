@@ -24,6 +24,16 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 	
 	Route::get('logout', 'AuthController@getLogout');
+
+
+});
+
+Route::group(['middleware' => 'auth'], function(){
+	//profile
+	Route::get('profile/main', 'ProfileController@index')->name('profile.main');
+	Route::get('profile/ads', 'ProfileController@getAds')->name('profile.ads');
+	Route::post('profile/update', 'ProfileController@update')->name('profile.update');
+	Route::post('profile/update-pass', 'ProfileController@updatePass')->name('profile.update-pass');
 });
 
 Route::group(['prefix' => 'item'], function(){
@@ -43,8 +53,8 @@ Route::get('contacts', 'CustomController@contacts');
 Route::post('contacts', 'CustomController@postMessage');
 Route::get('search', 'SearchController@index')->name('search');
 
-Route::get('profile/main', 'ProfileController@index')->name('profile.main');
-Route::get('profile/ads', 'ProfileController@getAds')->name('profile.ads');
+
+
 
 
 
