@@ -53,10 +53,19 @@ class Item extends ZaborModel
 		return $this->hasMany('App\Zabor\Mysql\Item_meta', 'fk_i_item_id', 'pk_i_id');
 	}
 
+	public function formatedPrice()
+	{
+		if(!empty($this->i_price)){
+			return number_format($this->i_price, 0, ',', ' ');
+		}
+
+		return null;
+	}
+
 	public function getIPriceAttribute($value)
 	{
 		if(!empty($value)){
-			return number_format($value/1000000, 0, ',', ' ');
+			return $value/1000000;
 		}
 		
 		return null;

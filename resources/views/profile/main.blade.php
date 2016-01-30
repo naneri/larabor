@@ -23,44 +23,28 @@
                         <label  class="col-sm-3 control-label">Имя</label>
                         <div class="col-sm-9">
                           <input type="text" name="name" class="form-control"  value="{{!is_null(old('name')) ? old('name') : $user->s_name}}">
-                          @foreach ($errors->get('name') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'name'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('phone'))}}">
                         <label  class="col-sm-3 control-label">Телефон</label>
                         <div class="col-sm-9">
                           <input type="text" name="phone" class="form-control" value="{{!is_null(old('phone')) ? old('phone') : $user->s_phone_land}}">
-                          @foreach ($errors->get('phone') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'phone'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('address'))}}">
                         <label  class="col-sm-3 control-label">Адрес</label>
                         <div class="col-sm-9">
                           <input type="text" name="address" class="form-control"  value="{{!is_null(old('address')) ? old('address') : $user->s_address}}">
-                          @foreach ($errors->get('address') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'address'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('description'))}}">
                         <label  class="col-sm-3 control-label">Описание</label>
                         <div class="col-sm-9">
                           <textarea name="description" class="form-control" rows="7">{{!is_null(old('description')) ? old('description') : $user->description->s_info}}</textarea>
-                          @foreach ($errors->get('description') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'description'])
                         </div>
                       </div>
 
@@ -89,33 +73,21 @@
                         <label  class="col-sm-3 control-label">Старый пароль</label>
                         <div class="col-sm-9">
                           <input name="old-pass" type="password" class="form-control"  placeholder="">
-                          @foreach ($errors->get('old-pass') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'old-pass'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('new-pass'))}}">
                         <label  class="col-sm-3 control-label">Новый пароль</label>
                         <div class="col-sm-9">
                           <input name="new-pass" type="password" class="form-control"  placeholder="">
-                          @foreach ($errors->get('new-pass') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'new-pass'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('new-pass-repeat'))}}">
                         <label  class="col-sm-3 control-label">Повторите новый пароль</label>
                         <div class="col-sm-9">
                           <input name="new-pass-repeat" type="password" class="form-control"  placeholder="">
-                          @foreach ($errors->get('new-pass-repeat') as $error)
-                            <p class="checkbox help-block">
-                              <small>{{$error}}</small>
-                            </p>
-                          @endforeach
+                          @include('_partials._input-errors', ['error_name' => 'new-pass-repeat'])
                         </div>
                       </div>
                       <div class="form-group">

@@ -40,7 +40,7 @@ class CustomController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        Mail::send('email.contact-us', ['data' => $request->all()], function($message){
+        Mail::send('emails.contact-us', ['data' => $request->all()], function($message){
             $message->to('support@zabor.kg');
             $message->subject('Сообщение от пользователя сайта');
         });

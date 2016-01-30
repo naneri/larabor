@@ -20,13 +20,14 @@
             <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>
             <span class="category">{{$item->category->description->s_name or null}}</span>
             <br>
-          </span> </div>
+          </span> 
+        </div>
       </div>
       <!--/.add-desc-box-->
       <div class="col-sm-3 text-right  price-box">
         <h2 class="item-price">
           @if(!is_null($item->i_price))
-            {{$item->i_price}} {{$item->currency->s_description}}
+            {{$item->formatedPrice()}} {{$item->currency->s_description}}
           @else
             не указана
           @endif

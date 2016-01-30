@@ -447,6 +447,18 @@ class ItemController extends Controller
             'code'      => 200
             ], 200);
     }
+
+    /**
+     * Contacting the owner of the ad
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function contact(Request $request)
+    {
+        
+    }
+
     /**
      * [getCategory description]
      * @param  [type] $category_list [description]

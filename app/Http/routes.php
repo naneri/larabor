@@ -10,16 +10,26 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 
 	Route::get('login', function(){
 		return view('auth.login');
-	});
+	})->name('login');
 
 	Route::post('auth/login', 'AuthController@postLogin');
 	Route::get('register', function(){
 		return view('auth.register');
-	});
+	})->name('register');
 
 	Route::post('register', 'AuthController@postRegister');
 	Route::get('account/activate/{user_id}/{token}', 'AuthController@ActivateAccount');
+
+	// Password reset link request routes...
+	Route::get('password/email', 'PasswordController@getEmail');
+	Route::post('password/email', 'PasswordController@postEmail');
+
+	// Password reset routes...
+	Route::get('password/reset/{email}/{token}', 'PasswordController@getReset');
+	Route::post('password/reset', 'PasswordController@postReset');
 });
+
+
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 	
@@ -47,22 +57,19 @@ Route::group(['prefix' => 'item'], function(){
 	Route::post('edit/{id}/{code?}', 'ItemController@update')->name('item.update');
 	Route::get('prolong/{id}/{code?}', 'ItemController@prolong')->name('item.prolong');
 	Route::get('delete/{id}/{code?}', 'ItemController@destroy')->name('item.delete');
+	Route::post('contact_owner', 'ItemController@contact')->name('item.contact-owner');
 });
 
 Route::get('contacts', 'CustomController@contacts');
 Route::post('contacts', 'CustomController@postMessage');
 Route::get('search', 'SearchController@index')->name('search');
 
-
-
-
-
-
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 	Route::get('category-meta/{category_id}', 'ApiCategoryController@getCategoryMetaHtml');
 });
 
+Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 
 /* 	Misc routes for testing;
 */
@@ -76,5 +83,5 @@ Route::get('check', function(){
 });
 
 Route::get('check/resp', function(){
-	return view('email.contact-us');
+	return view('bootply');
 });

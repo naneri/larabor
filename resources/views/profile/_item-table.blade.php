@@ -34,7 +34,7 @@
             <strong>Price:</strong>
             <span>
               @if(!is_null($item->i_price))
-                {{$item->i_price}} {{$item->currency->s_description}}
+                {{$item->formatedPrice()}} {{$item->currency->s_description}}
               @else
                 не указана
               @endif
@@ -46,7 +46,7 @@
         <div>
           <strong> 
             @if(!is_null($item->i_price))
-              {{$item->i_price}} {{$item->currency->s_description}}
+              {{$item->formatedPrice()}} {{$item->currency->s_description}}
             @else
               не указана
             @endif

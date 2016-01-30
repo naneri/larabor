@@ -132,7 +132,7 @@ class AuthController extends Controller
             'dt_access_date'=> Carbon::now()
             ]);
 
-        Mail::send('email.activate', compact('user'), function($message) use ($user){
+        Mail::send('emails.activate', compact('user'), function($message) use ($user){
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
         });

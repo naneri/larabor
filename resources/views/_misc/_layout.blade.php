@@ -15,11 +15,13 @@
 
 <!-- Custom styles for this template -->
 <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/custom.css')}}" rel="stylesheet">
 
 <!-- styles needed for carousel slider -->
 <link href="{{asset('assets/css/owl.carousel.css')}}" rel="stylesheet">
 <link href="{{asset('assets/css/owl.theme.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/css/dropzone.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('components/toastr/toastr.min.css')}}">
 @yield('styles')
 <!-- Just for debugging purposes. -->
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -76,12 +78,11 @@
     <div class="container">
       <ul class=" pull-left navbar-link footer-nav">
       <li>
-        <a href="{{url('/')}}"> Home </a> 
-        <a href="{{url('about')}}"> About us </a> 
+        <a href="{{url('/')}}"> Главная </a> 
         <a href="{{url('contacts')}}"> Контакты </a> 
       </ul>
       <ul class=" pull-right navbar-link footer-nav">
-        <li> &copy; 2015 BootClassified </li>
+        <li> &copy; 2013 - {{date("Y")}} Zabor.kg </li>
       </ul>
     </div>
     
@@ -126,6 +127,7 @@
 <script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/dropzone.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/notify.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
 @yield('scripts')
 
 @include('_misc._footer')

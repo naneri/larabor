@@ -70,4 +70,5 @@ class User extends ZaborModel implements AuthenticatableContract,
     {
         return $this->hasOne('App\Zabor\Mysql\User_description', 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');            
     }
+    
 }

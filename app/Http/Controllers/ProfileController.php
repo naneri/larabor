@@ -83,6 +83,20 @@ class ProfileController extends Controller
         }
         
     }
+
+    /**
+     * [showAds description]
+     * 
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public function showAds($user_id)
+    {
+        $items = $this->item->getUserActiveAds($user_id);
+
+        return view('profile.show-ads', compact('items'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

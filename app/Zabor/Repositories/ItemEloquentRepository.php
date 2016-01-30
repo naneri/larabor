@@ -72,6 +72,27 @@ class ItemEloquentRepository implements ItemInterface
 			  	->paginate(10);
 	}
 
+	/**
+	 * [getUserActiveAds description]
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
+	public function getUserActiveAds($user_id)
+	{
+		return Item::with([
+	            'category.description', 
+	            'description', 
+	            'currency', 
+	            'lastImage',
+	            'stats'
+            ])
+				->where('fk_i_user_id', $user_id)
+				->where('b_enabled', 1)
+				->where('b_active', 1)
+				->where('dt_expiration', '>', Carbon::now())
+				->orderBy('dt_pub_date', 'DESC')
+			  	->paginate(8);
+	}
 
 	/**
 	 * Gives number of currently active items

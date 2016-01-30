@@ -19,6 +19,16 @@ class Category extends ZaborModel
 		return $this->belongsToMany('App\Zabor\Mysql\Meta', 'meta_categories', 'fk_i_category_id', 'fk_i_field_id');
 	}
 
+
+	public function getShortNameAttribute()
+	{
+		if(!empty($this->attributes['s_name'])){
+			return str_limit($this->attributes['s_name'], 27);
+		}
+
+		return null;
+	}
+
 	public function getPkIIdAttribute($value)
 	{
 		return (int) $value;

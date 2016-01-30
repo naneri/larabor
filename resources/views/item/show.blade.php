@@ -19,9 +19,8 @@
 
         <div class="col-sm-9 page-content col-thin-right">
           <div class="inner inner-box ads-details-wrapper">
-          
             <h2> 
-              {{str_limit($item->description->s_title, 30)}} 
+              {{str_limit($item->description->s_title, 50)}} 
               @if($is_owner)
               <span class="pull-right">
                 <a href="{{route('item.edit', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Редактировать</button></a>
@@ -86,13 +85,13 @@
                   </aside>
                 </div>
               </div>
-              <div class="content-footer text-left"> 
-                <div class="text-right">
-                  <a href=""><i class=" icon-facebook ln-shadow shape-4"></i> </a>
-                  <a href=""><i class="icon-googleplus-rect ln-shadow shape-6"></i> </a>
-                  <a href=""><i class="icon-twitter-bird ln-shadow shape-3"></i></a>
-                </div>
-              </div>
+          <!--     <div class="content-footer text-left"> 
+            <div class="text-right">
+              <a href=""><i class=" icon-facebook ln-shadow shape-4"></i> </a>
+              <a href=""><i class="icon-googleplus-rect ln-shadow shape-6"></i> </a>
+              <a href=""><i class="icon-twitter-bird ln-shadow shape-3"></i></a>
+            </div>
+          </div> -->
             </div>
           </div>
           <!--/.ads-details-wrapper--> 
@@ -110,7 +109,7 @@
                 @if(!Auth::user())
                   <div class="panel-body text-center">
                     <div class="seller-info">
-                      <h3 class="no-margin">Авторизуйтесь чтобы написать пользователю</h3>
+                      <h3 class="no-margin"><a href="{{route('login')}}">Авторизуйтесь</a> чтобы написать пользователю</h3>
                     </div>
                   </div>
                 @elseif(Auth::user()->pk_i_id == $item->fk_i_user_id)
@@ -122,11 +121,20 @@
                 @else
                   <div class="panel-body text-center">
                     <div class="seller-info">
-                      <h3 class="no-margin">Richard Aki</h3>
-                      <p>Location: <strong>New York</strong></p>
-                      <p> Joined: <strong>12 Mar 2009</strong></p>
+                      <h3 class="no-margin">
+                        Владелец объявления:
+                        @if(isset($item->user->pk_i_id))
+                          <a href="{{ route('user.ads', $item->user->pk_i_id)}}">{{$item->user->s_name}}</a>
+                        @else
+                          нет данных
+                        @endif
+                      </h3>
                     </div>
-                    <div class="user-ads-action"> <a href="#contactAdvertiser" data-toggle="modal" class="btn   btn-default btn-block"><i class=" icon-mail-2"></i> Send a message </a> <a class="btn  btn-info btn-block"><i class=" icon-phone-1"></i> 01680 531 352 </a> </div>
+                    <div class="user-ads-action"> 
+                      <a href="#contactAdvertiser" data-toggle="modal" class="btn btn-success btn-block">
+                        <i class=" icon-mail-2"></i> Отправить сообщение 
+                      </a> 
+                    </div>
                   </div>
                 @endif
               </div>
@@ -140,6 +148,39 @@
     </div>
   </div>
 
+@if(Auth::check())
+<div class="modal fade" id="contactAdvertiser" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><i class=" icon-mail-2"></i> Написать владельцу </h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{route('item.contact-owner')}}" method="POST" role="form">
+          <div class="form-group">
+          {{ csrf_field() }}
+          <input type="hidden" name="item_id" value="{{$item->pk_i_id}}">
+            <label for="recipient-Phone-Number"  class="control-label">Номер Телефона <span class="text-muted">(необязательно)</span>:</label>
+            <input type="text"  maxlength="60" class="form-control" id="recipient-Phone-Number">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Сообщение:</label>
+            <textarea class="form-control" id="message-text" rows="5" data-placement="top" data-trigger="manual"></textarea>
+          </div>
+          <div class="form-group">
+            <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not valid. </p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="submit" class="btn btn-success pull-right">Отправить!</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
  
 @stop
 

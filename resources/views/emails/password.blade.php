@@ -1,0 +1,1 @@
+Click here to reset your password: {{ url('password/reset/'.$user->s_email.'/'.$token) }}
