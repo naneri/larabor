@@ -1,8 +1,7 @@
-<?php
-
-namespace App\Console\Commands;
+<?php namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use File;
 
 class ClearTemp extends Command
 {
@@ -37,6 +36,12 @@ class ClearTemp extends Command
      */
     public function handle()
     {
-        //
+        $files = File::files(public_path('temp'));
+
+        foreach($files as $file){
+            if(File::lastModified($file) + 7200 < time()){
+                File::delete($file);
+            }
+        }
     }
 }
