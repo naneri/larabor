@@ -17,11 +17,14 @@ class UserManipulator{
 
 		$result = $user->save();
 
-		User_description::where('fk_i_user_id', $user_id)
-			->where('fk_c_locale_code', 'ru_RU')
-			->update([
-				's_info' => $user_details['description']
-				]);
+		$user = User_description::firstOrCreate([
+				'fk_i_user_id' => $user_id,
+				'fk_c_locale_code' => 'ru_RU'
+			]);
+
+		$user->s_info = $user_details['description'];
+
+		$user->save();
 	}
 
 

@@ -13,12 +13,10 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 	})->name('login');
 
 	Route::post('auth/login', 'AuthController@postLogin');
-	Route::get('register', function(){
-		return view('auth.register');
-	})->name('register');
+	Route::get('register', 'AuthController@getRegister')->name('register');
 
 	Route::post('register', 'AuthController@postRegister');
-	Route::get('account/activate/{user_id}/{token}', 'AuthController@ActivateAccount');
+	Route::get('account/activate/{user_id}/{token}', 'AuthController@activateAccount');
 
 	// Password reset link request routes...
 	Route::get('password/email', 'PasswordController@getEmail');

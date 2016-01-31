@@ -128,12 +128,12 @@ class ItemController extends Controller
 
         $days = $this->category->getById($item_data['category_id'])->i_expiration_days;
 
-        if($item_id = $this->item_creator->store($item_data, $user, $days))
+        if($item = $this->item_creator->store($item_data, $user, $days))
         {
 
             $key = $request->input('image_key');
 
-            $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item_id);
+            $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item->pk_i_id);
 
         }
 

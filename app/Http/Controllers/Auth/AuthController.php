@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Auth;
 use App\Zabor\Mysql\User;
+use App\Zabor\Mysql\User_description;
 use Validator;
 use Carbon\Carbon;
 use Mail;
@@ -100,6 +101,15 @@ class AuthController extends Controller
     }
 
     /**
+     * [getRegister description]
+     * @return [type] [description]
+     */
+    public function getRegister()
+    {
+        return view('auth.register');
+    }
+
+    /**
      * [postRegister description]
      * 
      * @param  Request $request [description]
@@ -132,6 +142,11 @@ class AuthController extends Controller
             'dt_access_date'=> Carbon::now()
             ]);
 
+        User_description::create([
+            'fk_i_user_id' => $user->pk_i_id,
+             'fk_c_locale_code' => 'ru_RU'
+            ]);
+
         Mail::send('emails.activate', compact('user'), function($message) use ($user){
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
@@ -149,7 +164,7 @@ class AuthController extends Controller
      * @param [type] $user_id [description]
      * @param [type] $token   [description]
      */
-    public function ActivateAccount($user_id, $token)
+    public function activateAccount($user_id, $token)
     {
         $user = User::find($user_id);
 

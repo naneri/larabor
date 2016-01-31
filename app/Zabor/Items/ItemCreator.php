@@ -54,7 +54,7 @@ class ItemCreator
 		$this->categoryManager->increaseCategoryStats(
 			$item->fk_i_category_id, null, $item->b_active);
 
-		return $item->pk_i_id;
+		return $item;
 	}
 
 	/**
