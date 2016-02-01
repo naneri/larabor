@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'support@zabor.kg', 'name' => 'Служба поддержки Zabor.kg'],
+    'from' => ['address' => 'support@zabor.kg', 'name' => 'Zabor.kg - Служба поддержки'],
 
     /*
     |--------------------------------------------------------------------------

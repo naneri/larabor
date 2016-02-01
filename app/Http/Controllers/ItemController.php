@@ -9,6 +9,7 @@ use Session;
 use File;
 use App;
 use Response;
+use Mail;
 use Validator;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
 use App\Zabor\Repositories\Contracts\MetaInterface;
+use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\Validators\ItemValidator;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Items\ItemCreator;
@@ -36,7 +38,8 @@ class ItemController extends Controller
         ItemValidator $validator,
         ImageCreator $image,
         ItemCreator $item_creator,
-        ItemOwnerIdentifier $ownerIdentifier)
+        ItemOwnerIdentifier $ownerIdentifier,
+        UserEloquentRepository $user)
     {
         $this->item      = $item;
         $this->category  = $category;
@@ -46,6 +49,7 @@ class ItemController extends Controller
         $this->image     = $image;
         $this->item_creator = $item_creator;
         $this->ownerIdentifier = $ownerIdentifier;
+        $this->user      = $user;
     }
 
     /**
@@ -456,7 +460,39 @@ class ItemController extends Controller
      */
     public function contact(Request $request)
     {
-        
+        $this->validate($request, [
+            'item_id'   => 'required',
+            'text'   => 'required',
+            'phone'     => 'required'
+            ]);
+
+        $item_id = $request->input('item_id');
+        $text = $request->input('text');
+        $phone   = $request->input('phone');
+        $item = $this->item->getById($item_id);
+
+        if(!$item->is_actual()){
+
+            return redirect()->back()->with('message',[
+                'error' => 'объявление не актуально'
+                ]);
+        }
+
+        $email = $item->s_contact_email;
+        if(!empty($item->fk_i_user_id)){
+            $user = $this->user->getUserInfo($item->fk_i_user_id);
+
+            $email = $user->s_email;
+        }
+
+        Mail::send('emails.item.contact', compact('item', 'email', 'text', 'phone', 'user'), function ($m) use ($email) {
+
+            $m->to($email)->subject('Сообщение по вашему объявлению!');
+        });
+
+        return redirect()->back()->with('message', [
+            'success'   => 'Ваше сообщение отправлено владельцу'
+            ]);
     }
 
     /**

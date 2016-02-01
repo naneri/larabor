@@ -62,6 +62,19 @@ class Item extends ZaborModel
 		return null;
 	}
 
+	/**
+	 * checks if item is actual
+	 * @return boolean [description]
+	 */
+	public function is_actual()
+	{
+		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration > Carbon::now())
+		{
+			return true;
+		}
+		return false;
+	}
+
 	public function getIPriceAttribute($value)
 	{
 		if(!empty($value)){
