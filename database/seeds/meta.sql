@@ -24,6 +24,32 @@ SET time_zone = "+00:00";
 -- Dumping data for table `zabor_t_meta_categories`
 --
 
+--
+-- Dumping data for table `zabor_t_meta_fields`
+--
+
+INSERT INTO `zabor_t_meta_fields` (`pk_i_id`, `s_name`, `s_slug`, `e_type`, `s_options`, `b_required`, `b_searchable`) VALUES
+(1, 'Контакты', 'cellnum', 'TEXT', '', 0, 0),
+(2, 'Торг есть', '-', 'CHECKBOX', '', 0, 0),
+(3, 'Состояние', 'condition', 'RADIO', 'Новый,БУ', 0, 1),
+(4, 'Длительность аренды', 'staterent', 'RADIO', 'Помесячно,Посуточно', 1, 1),
+(6, 'Продам - Куплю', 'buysell', 'DROPDOWN', 'Продам,Куплю', 1, 1),
+(7, 'Ссылка на описание', 'descurl', 'URL', '', 0, 0),
+(9, 'Количество комнат', '-_2', 'RADIO', '1,2,3,4 и более', 0, 1),
+(10, 'Площадь', '-_3', 'RADIO', 'менее 20 м²,20 м² - 40 м²,40 м² - 70 м²,70 м² - 100 м²,100 м² и более', 0, 1),
+(12, 'Расположение руля', '-_4', 'DROPDOWN', 'Леворульный,Праворульный', 0, 1),
+(13, 'Коробка передач', '-_5', 'DROPDOWN', 'Механическая,Автоматическая', 0, 1),
+(14, 'Сдам/Сниму', '-_6', 'DROPDOWN', 'Сдам,Сниму', 0, 1),
+(15, 'Операционная система', '-_7', 'RADIO', 'iOS,Android,Windows,Прочее', 0, 1),
+(16, 'С Монитором', '-_8', 'DROPDOWN', 'Нет,Да', 1, 1),
+(17, 'Для кого', '-_1', 'RADIO', 'Для мужчин,Для женщин,Для детей,Прочее', 0, 1),
+(18, 'Размер', '-_9', 'RADIO', 'разные,менее 36,36-38,39-41,42-44,более 44', 0, 1);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
 INSERT INTO `zabor_t_meta_categories` (`fk_i_category_id`, `fk_i_field_id`) VALUES
 (2, 1),
 (4, 1),
@@ -748,28 +774,3 @@ INSERT INTO `zabor_t_meta_categories` (`fk_i_category_id`, `fk_i_field_id`) VALU
 (97, 16),
 (121, 18),
 (252, 18);
-
---
--- Dumping data for table `zabor_t_meta_fields`
---
-
-INSERT INTO `zabor_t_meta_fields` (`pk_i_id`, `s_name`, `s_slug`, `e_type`, `s_options`, `b_required`, `b_searchable`) VALUES
-(1, 'Контакты', 'cellnum', 'TEXT', '', 0, 0),
-(2, 'Торг есть', '-', 'CHECKBOX', '', 0, 0),
-(3, 'Состояние', 'condition', 'RADIO', 'Новый,БУ', 0, 1),
-(4, 'Длительность аренды', 'staterent', 'RADIO', 'Помесячно,Посуточно', 1, 1),
-(6, 'Продам - Куплю', 'buysell', 'DROPDOWN', 'Продам,Куплю', 1, 1),
-(7, 'Ссылка на описание', 'descurl', 'URL', '', 0, 0),
-(9, 'Количество комнат', '-_2', 'RADIO', '1,2,3,4 и более', 0, 1),
-(10, 'Площадь', '-_3', 'RADIO', 'менее 20 м²,20 м² - 40 м²,40 м² - 70 м²,70 м² - 100 м²,100 м² и более', 0, 1),
-(12, 'Расположение руля', '-_4', 'DROPDOWN', 'Леворульный,Праворульный', 0, 1),
-(13, 'Коробка передач', '-_5', 'DROPDOWN', 'Механическая,Автоматическая', 0, 1),
-(14, 'Сдам/Сниму', '-_6', 'DROPDOWN', 'Сдам,Сниму', 0, 1),
-(15, 'Операционная система', '-_7', 'RADIO', 'iOS,Android,Windows,Прочее', 0, 1),
-(16, 'С Монитором', '-_8', 'DROPDOWN', 'Нет,Да', 1, 1),
-(17, 'Для кого', '-_1', 'RADIO', 'Для мужчин,Для женщин,Для детей,Прочее', 0, 1),
-(18, 'Размер', '-_9', 'RADIO', 'разные,менее 36,36-38,39-41,42-44,более 44', 0, 1);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
