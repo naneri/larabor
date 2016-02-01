@@ -9,13 +9,15 @@ class ItemValidator
 	protected $item_rules = [
 		'category_id' 	=> 'required|exists:category,pk_i_id',
 		'title'			=> 'required|max:50',
-		'description'	=> 'required|min:10|max:5000',
+		'description'	=> 'required|min:5|max:5000',
 		'price'			=> 'numeric',
 		'currency'		=> 'required',
-		'seller-email'	=> 'required|email',
 		'image_key'		=> 'required'
 	];
 
+	protected $email_rules = [
+		'seller-email'	=> 'required|email|unique:user,s_email', 
+	];
 	/**
 	 * [validate description]
 	 * 
@@ -24,9 +26,15 @@ class ItemValidator
 	 * 
 	 * @return Validator           
 	 */
-	public function validate($item_data)
+	public function validate($item_data, $authorized = false)
 	{
-		$validator = Validator::make($item_data, $this->item_rules);
+		if(!$authorized){
+			$rules = array_merge($this->item_rules, $this->email_rules);
+		}else{
+			$rules = $this->item_rules;
+		}
+
+		$validator = Validator::make($item_data, $rules);
 		return $validator;
 	}
 

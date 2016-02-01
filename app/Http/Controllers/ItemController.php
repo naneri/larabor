@@ -122,7 +122,7 @@ class ItemController extends Controller
             $user = Auth::user();
         }
 
-        $validator = $this->validator->validate($item_data);
+        $validator = $this->validator->validate($item_data, Auth::check());
 
         if($validator->fails()){
             return redirect('item/add')
@@ -141,7 +141,14 @@ class ItemController extends Controller
 
         }
 
-        return redirect('/');
+        if(empty($item->fk_i_user_id)){
+             $message = ['success' => 'ваше объявление будет опубликовано в течении 12 часов после проверки модератором.'];
+        }else{
+            $message = [
+                'success' => 'ваше объявление успешно опубликовано.'
+                ];
+        }
+        return redirect('/')->with('message', $message);
     }
 
 
