@@ -13,7 +13,8 @@
           <div class="row search-row animated fadeInUp">
             <form action="{{url('search')}}" method="GET">
               <div class="col-lg-6 col-sm-6 search-col relative locationicon">
-                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input" placeholder="Искать среди {{$item_count}} объявлений" value="">
+                <i class="icon-search icon-append"></i>
+                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input has-icon" placeholder="Искать среди {{$item_count}} объявлений" value="">
 
               </div>
               <div class="col-lg-4 col-sm-4 search-col relative"> 

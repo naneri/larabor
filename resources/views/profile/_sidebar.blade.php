@@ -7,6 +7,11 @@
           <div id="MyClassified" class="panel-collapse collapse in">
             <ul class="acc-list">
               <li class="{{ $page == 'main' ? 'active' : ''}}"><a href="{{route('profile.main')}}"><i class="icon-home"></i> Мои данные </a></li>
+              <li>
+                <a target="_blank" href="{{route('user.ads', Auth::id())}}">
+                  <i class="icon-eye"></i> Публичный профиль 
+                </a>
+              </li>
               
             </ul>
           </div>
@@ -17,8 +22,6 @@
           <div id="MyAds" class="panel-collapse collapse in">
             <ul class="acc-list">
               <li class="{{ $page == 'ads' ? 'active' : ''}}"><a href="{{route('profile.ads')}}"><i class="icon-docs"></i> Мои объявления</a></li>
-             
-         
             </ul>
           </div>
         </div>
