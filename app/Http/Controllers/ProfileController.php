@@ -92,9 +92,11 @@ class ProfileController extends Controller
      */
     public function showAds($user_id)
     {
-        $items = $this->item->getUserActiveAds($user_id);
+        $user   = $this->user->getUserInfo($user_id);
 
-        return view('profile.show-ads', compact('items'));
+        $items  = $this->item->getUserActiveAds($user_id);
+
+        return view('profile.show-ads', compact('items', 'user'));
     }
 
     /**

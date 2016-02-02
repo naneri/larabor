@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "nesbot/carbon": "~1.21",
         "laracasts/utilities": "~2.0",
-        "intervention/image": "2.3.4"
+        "intervention/image": "2.3.4",
+        "jenssegers/agent": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -17,9 +18,7 @@
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "barryvdh/laravel-debugbar": "~2.0",
-        "xethron/migrations-generator": "dev-l5",
-        "way/generators": "dev-feature/laravel-five-stable"
+        "barryvdh/laravel-debugbar": "~2.0"
     },
     "autoload": {
         "files" : [

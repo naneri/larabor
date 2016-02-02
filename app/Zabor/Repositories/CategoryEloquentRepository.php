@@ -42,7 +42,7 @@ class CategoryEloquentRepository implements CategoryInterface
 		return Category::with(['description', 'stats'])
 					->has('description')
 					->where('b_enabled',1)
-					->find($category_id);
+					->findOrFail($category_id);
 	}
 
 	/**

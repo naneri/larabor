@@ -54,9 +54,13 @@
         </div>
       </td>
       <td style="width:10%" class="action-td"><div>
-          <p><a class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i> Редактировать </a></p>
-          <p> <a class="btn btn-info btn-xs"> <i class="fa fa-clock-o"></i> Продлить </a></p>
-          <p> <a class="btn btn-danger btn-xs"> <i class=" fa fa-trash"></i> Удалить </a></p>
+          <p><a href="{{route('item.edit', $item->pk_i_id)}}" class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i> Редактировать </a></p>
+          <p> <a href="{{route('item.prolong', $item->pk_i_id)}}" class="btn btn-info btn-xs"> <i class="fa fa-clock-o"></i> Продлить </a></p>
+          <p> 
+            <a href="{{route('item.delete', $item->pk_i_id)}}" class="btn btn-danger btn-xs"> 
+                <i class=" fa fa-trash"></i> Удалить 
+            </a>
+          </p>
         </div></td>
     </tr>
     @endforeach

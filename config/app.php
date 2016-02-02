@@ -150,6 +150,7 @@ return [
         
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -202,7 +203,7 @@ return [
 
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
-
+        'Agent'     => Jenssegers\Agent\Facades\Agent::class,
 
     ],
 

@@ -3,6 +3,25 @@
 @section('content')
 <div class="main-container">
   <div class="container">
+    <div class="row well info-box">
+      <div class="">
+        <div class="col-md-2 col-xs-6">
+          <img src="http://zabor.kg/oc-content/themes/bender/images/user_default.gif">
+        </div>
+        <div class="col-md-10 col-xs-6">
+          <h2>{{$user->s_name}}</h2>
+          @if(!empty($user->s_address))
+            <p><i class="fa fa-building fa-fw"></i>{{$user->s_address}}</p>
+          @endif
+          @if(!empty($user->s_phone_land))
+            <p><i class="fa fa-phone-square fa-fw"></i>{{$user->s_phone_land}}</p>
+          @endif 
+          @if(!empty($user->description->s_info))
+            <p><i class="fa fa-info-circle fa-fw"></i>{{$user->description->s_info}}</p>
+          @endif
+        </div>
+      </div>
+    </div>
     <div class="row">
       @foreach($items->chunk(4) as $item_list)
         <div class="text-center">

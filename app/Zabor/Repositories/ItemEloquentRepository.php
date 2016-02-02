@@ -50,7 +50,7 @@ class ItemEloquentRepository implements ItemInterface
 			'currency', 
 			'user',
 			'metas.meta'
-			])->find($id);
+			])->findOrFail($id);
 	}
 
 	/**

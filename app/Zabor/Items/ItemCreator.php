@@ -179,4 +179,23 @@ class ItemCreator
 		return true;
 	}
 
+	/**
+	 * [increase_count description]
+	 * 
+	 * @param  [type] $item_id [description]
+	 * @return [type]          [description]
+	 */
+	public function increase_count($item_id)
+	{
+		$stats = Stats::firstOrCreate([
+				'fk_i_item_id' 	=> $item_id,
+				'dt_date'		=> Carbon::now()->toDateString()
+			]);
+
+		Stats::where([
+				'fk_i_item_id' 	=> $item_id,
+				'dt_date'		=> Carbon::now()->toDateString()
+			])->increment('i_num_views');
+	}
+
 }

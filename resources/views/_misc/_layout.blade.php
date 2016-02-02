@@ -51,7 +51,9 @@
           <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
           <a href="{{url('/')}}" class="navbar-brand logo logo-title"> 
           <!-- Original Logo will be placed here  --> 
-          <span class="logo-icon"><i class="icon icon-search-1 ln-shadow-logo shape-0"></i> </span> BOOT<span>CLASSIFIED </span> </a> </div>
+            Zabor.kg
+          </a> 
+        </div>
         <div class="navbar-collapse collapse">
           
           <ul class="nav navbar-nav navbar-right">

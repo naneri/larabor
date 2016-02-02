@@ -14,6 +14,8 @@ use Validator;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Jenssegers\Agent\Agent;
+
 
 use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
@@ -163,12 +165,18 @@ class ItemController extends Controller
 
         $item = $this->item->getById($id);
 
+        $agent = new Agent();
+
         $is_owner = $this->ownerIdentifier->checkOwnership(
                 $item->fk_i_user_id, 
                 $item->s_secret, 
                 Auth::user(), 
                 $code
             );
+
+        if(!$agent->isRobot() && !$is_owner){
+            $this->item_creator->increase_count($id);
+        }
 
         return view('item.show', compact('item', 'is_owner', 'code'));
     }
@@ -278,7 +286,7 @@ class ItemController extends Controller
             $user = Auth::user();
         }
 
-        $validator = $this->validator->validate($item_data);
+        $validator = $this->validator->validate($item_data, Auth::check());
 
         if($validator->fails()){
             return redirect(Session::get('edit_url'))
@@ -295,7 +303,7 @@ class ItemController extends Controller
 
         }
 
-        return redirect('/');
+        return redirect(route('item.show', $item_id));
 
     }
 
@@ -331,7 +339,7 @@ class ItemController extends Controller
 
         $this->item_creator->prolong($item, $days);
 
-        return redirect('/')->with('message', [
+        return redirect()->back()->with('message', [
                 'success'   => 'Объявление продлено'
                 ]);
     }
