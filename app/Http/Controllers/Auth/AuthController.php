@@ -8,6 +8,8 @@ use App\Zabor\Mysql\User_description;
 use Validator;
 use Carbon\Carbon;
 use Mail;
+use Session;
+use URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -69,6 +71,18 @@ class AuthController extends Controller
     }
 
     /**
+     * [getLogin description]
+     * @return [type] [description]
+     */
+    public function getLogin()
+    {
+        if(URL::previous() != route('login')){
+            session(['login-origin' => URL::previous()]);
+        }
+
+        return view('auth.login');
+    }
+    /**
      * [postLogin description]
      * 
      * @param  Request $request [description]
@@ -81,7 +95,15 @@ class AuthController extends Controller
                 'password' => $request->input('password')
                 ])
             ){
-                return redirect()->intended('/');
+
+                if(Session::has('login-origin')){
+                    $redirect_url = Session::get('login-origin');
+                    Session::forget('login-origin');
+                }else{
+                    $redirect_url = '/';
+                }
+
+                return redirect()->intended($redirect_url);
             }
 
         return redirect('login')->with('message',

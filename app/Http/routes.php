@@ -8,11 +8,9 @@ Route::get('/', 'MainController@index');
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 
-	Route::get('login', function(){
-		return view('auth.login');
-	})->name('login');
+	Route::get('login', 'AuthController@getLogin')->name('login');
 
-	Route::post('auth/login', 'AuthController@postLogin');
+	Route::post('login', 'AuthController@postLogin');
 	Route::get('register', 'AuthController@getRegister')->name('register');
 
 	Route::post('register', 'AuthController@postRegister');

@@ -25,7 +25,7 @@
               <span class="pull-right">
                 <a href="{{route('item.edit', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Редактировать</button></a>
                 <a href="{{route('item.prolong', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-clock-o"></i> Продлить</button></a>
-                <a href="{{route('item.delete', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Удалить</button></a>
+                <a href="{{route('item.delete', ['id' => $item->pk_i_id, 'code' => $code, 'redirect' => 'origin'])}}"><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Удалить</button></a>
               </span>
               @endif
             </h2>

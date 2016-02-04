@@ -15,7 +15,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Jenssegers\Agent\Agent;
-
+use URL;
 
 use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
@@ -176,6 +176,10 @@ class ItemController extends Controller
 
         if(!$agent->isRobot() && !$is_owner){
             $this->item_creator->increase_count($id);
+        }
+
+        if(!Session::has('item-origin')){
+            Session::put('item-origin', URL::previous());
         }
 
         return view('item.show', compact('item', 'is_owner', 'code'));
@@ -349,8 +353,9 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $code = null)
+    public function destroy(Request $request, $id, $code = null)
     {
+
         $item = $this->item->getById($id, $code = null);
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
@@ -370,7 +375,15 @@ class ItemController extends Controller
                 ]);
         }
 
-        return redirect('/')->with('message',[
+        if($request->input('redirect') == 'origin'){
+            if(Session::has('item-origin')){
+                return redirect(session('item-origin'));
+            }else{
+                return redirect('/');
+            }
+        }
+
+        return redirect()->back()->with('message',[
             'success' => 'Объявление удалено успешно'
             ]);
     }

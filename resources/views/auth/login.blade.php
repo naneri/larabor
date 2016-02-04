@@ -12,7 +12,7 @@
                 <span class="logo-icon"><i class="icon icon-search-1 ln-shadow-logo shape-0"></i> </span> BOOT<span>CLASSIFIED </span> </h2>
             </div>
             <div class="panel-body">
-              <form action="{{url('auth/login')}}" method="POST" role="form">
+              <form action="{{url('login')}}" method="POST" role="form">
                 {{ csrf_field() }}
                 <div class="form-group">
                   <label for="sender-email" class="control-label">Электронная почта:</label>
