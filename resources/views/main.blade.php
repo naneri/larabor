@@ -7,14 +7,14 @@
       <div class="dtable-cell hw100">
 
         <div class="container text-center">
-       <h1 class="intro-title animated fadeInDown"> Find Classified Ads  </h1>
-          <p class="sub animateme fittext3 animated fadeIn"> Find local classified ads on bootclassified in  Minutes </p>
+       <h1 class="intro-small-title animated fadeInDown"> Удобный поиск объявлений в Кыргызстане  </h1>
+          
           
           <div class="row search-row animated fadeInUp">
             <form action="{{url('search')}}" method="GET">
               <div class="col-lg-6 col-sm-6 search-col relative locationicon">
                 <i class="icon-search icon-append"></i>
-                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input has-icon" placeholder="Искать среди {{$item_count}} объявлений" value="">
+                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input has-icon" placeholder="Искать среди {{$item_count + 2000}} объявлений" value="">
 
               </div>
               <div class="col-lg-4 col-sm-4 search-col relative"> 

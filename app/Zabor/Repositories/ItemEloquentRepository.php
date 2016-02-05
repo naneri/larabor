@@ -18,20 +18,18 @@ class ItemEloquentRepository implements ItemInterface
 	 */
 	public function getLast()
 	{
-		return  Cache::remember('last_items', 1 ,function(){
-			return Item::take(10)->with([
-	            'category.description', 
-	            'description', 
-	            'currency', 
-	            'lastImage',
-	            'stats'
-            ])
-				->where('b_enabled', 1)
-				->where('b_active', 1)
-				->where('dt_expiration', '>', Carbon::now())
-				->orderBy('dt_pub_date', 'DESC')
-			  	->get();
-			  });
+		return Item::take(10)->with([
+            'category.description', 
+            'description', 
+            'currency', 
+            'lastImage',
+            'stats'
+        ])
+			->where('b_enabled', 1)
+			->where('b_active', 1)
+			->where('dt_expiration', '>', Carbon::now())
+			->orderBy('dt_pub_date', 'DESC')
+		  	->get();
 	}
 
 	/**
