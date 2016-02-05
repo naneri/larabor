@@ -9,8 +9,8 @@
         
         <div class="col-sm-9 page-content">
           <div class="inner-box">
-            <h2 class="title-2"><i class="icon-docs"></i> My Ads </h2>
-            <div class="table-responsive">
+            <h2 class="title-2"><i class="icon-docs"></i> Мои объявления </h2>
+            <div class="table">
               @include('profile._item-table', compact('items'))
             </div>
             <!--/.row-box End--> 

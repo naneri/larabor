@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 
+use Config;
 use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\Item_description as Description;
 use App\Zabor\Mysql\Item_location 	 as Location;
@@ -34,17 +35,28 @@ class ItemCreator
 	{
 		$item = new Item;
 		$item->fk_i_user_id		 	= !is_null($user) ? intval($user->pk_i_id) : null;
-		$item->fk_i_category_id		= $item_data['category_id'];
+		$item->fk_i_category_id		= $item_data['category'];
 		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
 		$item->fk_c_currency_code 	= $item_data['currency'];
 		$item->s_contact_name		= isset($user->s_name) ? $user->s_name : null;
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 			= str_random(8);
-		$item->dt_expiration		= Carbon::now()->addDays($days)->toDateTimeString();
 		$item->b_active 			= !is_null($user) ? 1 : 0 ;
 
-
+		if(
+			isset($user->pk_i_id) && 
+			in_array($user->pk_i_id, Config::get('zabor.worker_id_list'))
+		){
+			if($user->pk_i_id == 25){
+				$days = (int) $days / 4;
+			}else{
+				$days = (int) $days / 2;
+			}
+		}
+			
+		$item->dt_expiration = Carbon::now()->addDays($days)->toDateTimeString();
+		
 		$item->save();
 
 		$this->storeOrUpdateDescription($item->pk_i_id, $item_data);
@@ -66,7 +78,7 @@ class ItemCreator
 	public function edit($item_data, $user, $id)
 	{
 		$item =  Item::findOrFail($id);
-		$item->fk_i_category_id		= $item_data['category_id'];
+		$item->fk_i_category_id		= $item_data['category'];
 		$item->dt_mod_date		 	= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
 		$item->fk_c_currency_code 	= $item_data['currency'];

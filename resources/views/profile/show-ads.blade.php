@@ -6,7 +6,7 @@
     <div class="row well info-box">
       <div class="">
         <div class="col-md-2 col-xs-6">
-          <img src="http://zabor.kg/oc-content/themes/bender/images/user_default.gif">
+          <img src="{{asset('images/user_default.gif')}}">
         </div>
         <div class="col-md-10 col-xs-6">
           <h2>{{$user->s_name}}</h2>

@@ -25,17 +25,20 @@
 
                 <input type="hidden" name="image_key" value="{{$image_key}}">
                 <!-- Select Basic -->
-                <div class="row form-group">
+                <div class="row form-group {{zbCheckError($errors->first('category'))}}">
                   <label class="col-md-3 control-label">Категория <span
                     class="required">*</span></label>
 
-                    <div class="col-md-8 category_list"></div>
+                    <div class="col-md-8 ">
+                      <div class="category_list"></div>
+                      @include('_partials._input-errors', ['error_name' => 'category'])
+                    </div>
                   </div>
                   <script id="entry-template" type="text/x-handlebars-template">
                     <div class="outer-div" rank='@{{rank}}'>
                       <select name="category[]" rank='@{{rank}}'
                       class="form-control category-select">
-                      <option>Выберите категорию...</option>
+                      <option value="0">Выберите категорию...</option>
                       @{{#each categories}}
                       <option value="@{{this.pk_i_id}}">
                         @{{this.description.s_name}}
@@ -73,8 +76,7 @@
 
                     <!-- Prepended text-->
                     <div class="form-group {{zbCheckError($errors->first('price'))}}">
-                      <label class="col-md-3 control-label" for="price">Цена <span
-                        class="required">*</span></label>
+                      <label class="col-md-3 control-label" for="price">Цена</label>
 
                         <div class="col-md-4">
                           <input id="Price" name="price" class="form-control"
@@ -101,8 +103,7 @@
 
                         <div class="col-md-8">
                           <div id="item_images" class="dropzone"></div>
-                          <p class="help-block">Add up to 5 photos. Use a real image of your
-                            product, not catalogs.</p>
+                          <p class="help-block">Максимум 7 фотографий</p>
                           </div>
                         </div>
                         <div class="content-subheading"><i class="fa fa-info-circle"></i> <strong>Дополнительная
@@ -194,6 +195,8 @@
               var dropzone = new Dropzone("div#item_images", {
                 url: "{{url('item/add-image')}}",
                 addRemoveLinks: true,
+                dictDefaultMessage : 'нажмите или перетащите изображение для загрузки',
+                dictRemoveFile : 'удалить',
                 headers: {
                   'X-CSRF-TOKEN': "{{ csrf_token() }}",
                   'imageKey': "{{ $image_key }}"

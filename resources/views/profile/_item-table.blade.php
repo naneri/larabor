@@ -1,10 +1,10 @@
 <table id="addManageTable" class="table table-striped table-bordered add-manage-table table demo" data-filter="#filter" data-filter-text-only="true" >
   <thead>
     <tr>
-      <th> Photo </th>
-      <th data-sort-ignore="true"> Adds Details </th>
-      <th class="hidden-xs" data-type="numeric" > Price </th>
-      <th> Option </th>
+      <th> Фотография </th>
+      <th data-sort-ignore="true"> Детали объявления </th>
+      <th class="hidden-xs" data-type="numeric" > Цена </th>
+      <th class="hidden-xs"> Управление </th>
     </tr>
   </thead>
   <tbody>
@@ -12,11 +12,7 @@
     <tr>
       <td style="width:14%" class="add-img-td">
         <a href="{{url('item/show', [$item->pk_i_id])}}">
-        @if(isset($item->lastImage))
-        <img class="thumbnail  img-responsive" src="http://larabor.local/{{$item->lastImage->thumbnailUrl()}}" alt="img">
-        @else
-        <img class="thumbnail no-margin" src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img">
-        @endif
+          <img class="thumbnail  img-responsive" src="{{asset($item->demo_image())}}" alt="img">
         </a>
       </td>
       <td style="width:58%" class="ads-details-td">
@@ -53,7 +49,7 @@
           </strong>
         </div>
       </td>
-      <td style="width:10%" class="action-td"><div>
+      <td style="width:10%" class="hidden-xs action-td"><div>
           <p><a href="{{route('item.edit', $item->pk_i_id)}}" class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i> Редактировать </a></p>
           <p> <a href="{{route('item.prolong', $item->pk_i_id)}}" class="btn btn-info btn-xs"> <i class="fa fa-clock-o"></i> Продлить </a></p>
           <p> 

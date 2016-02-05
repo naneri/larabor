@@ -10,22 +10,30 @@ use App\Http\Controllers\Controller;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
 use App\Zabor\Mysql\Item;
+use App\Zabor\Services\RedirectService;
 
 class MainController extends Controller
 {
 
-    public function __construct(ItemInterface $item, CategoryInterface $category)
+    public function __construct(
+        ItemInterface $item, 
+        CategoryInterface $category,
+        RedirectService $redirector)
     {
         $this->item         = $item;
-        $this->category    = $category;
+        $this->category     = $category;
+        $this->redirector   = $redirector;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if(!empty($request->page)){
+            return redirect($this->redirector->redirect($request->all()));
+        }
         $items = $this->item->getLast();
 
         $item_count = $this->item->countActive();

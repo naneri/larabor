@@ -28,7 +28,7 @@
                 </select>
               </div>
               <div class="col-lg-2 col-sm-2 search-col">
-                <button type="submit" class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Find</strong></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block"><strong>Искать</strong></button>
               </div>
             </form>
           </div>
@@ -45,7 +45,7 @@
         <div class="col-sm-3 page-sidebar col-thin-left">
           <aside>
             <div class="inner-box">
-              <h2 class="title-2">Popular Categories </h2>
+              <h2 class="title-2">Категории </h2>
               <div class="inner-box-content">
                 <ul class="cat-list arrow">
                   @foreach($categories as $category)

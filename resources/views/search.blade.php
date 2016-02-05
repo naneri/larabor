@@ -26,7 +26,7 @@
               
               <!-- Nav tabs -->
               <ul class="nav nav-tabs add-tabs" role="tablist">
-                <li class="active"><a href="#allAds" role="tab" data-toggle="tab">All Ads <span class="badge">{{$items->total()}}</span></a></li>
+                <li class="active"><a href="#allAds" role="tab" data-toggle="tab">Все объявления <span class="badge">{{$items->total()}}</span></a></li>
                 <li class="dropdown pull-right">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Сортировка: {{searchOrderName($searchParams)}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">

@@ -68,23 +68,27 @@ class ItemController extends Controller
 
         if(!empty($request->old())){
 
-            $cat_list = $request->old('category');
+            if($request->old('category')[0] != 0){
+                $cat_list = $request->old('category');
+
+                $cat_id = end($cat_list);
+
+                $metas = $this->meta->getCategoryMeta($cat_id);
+
+                $meta_data = $request->old('meta');
+                
+                JavaScript::put('cat_list', $cat_list);
+
+                view()->share(compact('metas', 'meta_data'));
+            }
 
             $image_key = $request->old('image_key');
-
-            $cat_id = end($cat_list);
-
-            $metas = $this->meta->getCategoryMeta($cat_id);
-
-            $meta_data = $request->old('meta');
-            
-            JavaScript::put('cat_list', $cat_list);
-
+           
             $images = Session::get('item_images.' . $image_key);
 
             JavaScript::put('dz_images', $images);
 
-            view()->share(compact('metas', 'meta_data', 'images'));
+            view()->share(compact('images'));
 
         }else{
 
@@ -113,11 +117,9 @@ class ItemController extends Controller
     {
         $user = null;
 
-        $category_id = $this->getCategory($request->input('category'));
-
         $item_data = $request->except('_token', 'category');
 
-        $item_data['category_id'] = $category_id;
+        $item_data['category'] = $this->getCategory($request->input('category'));
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;
@@ -132,7 +134,7 @@ class ItemController extends Controller
                         ->withInput();
         }
 
-        $days = $this->category->getById($item_data['category_id'])->i_expiration_days;
+        $days = $this->category->getById($item_data['category'])->i_expiration_days;
 
         if($item = $this->item_creator->store($item_data, $user, $days))
         {
@@ -144,7 +146,7 @@ class ItemController extends Controller
         }
 
         if(empty($item->fk_i_user_id)){
-             $message = ['success' => 'ваше объявление будет опубликовано в течении 12 часов после проверки модератором.'];
+             $message = ['success' => 'Ваше объявление будет опубликовано в течении 12 часов после проверки модератором.'];
         }else{
             $message = [
                 'success' => 'ваше объявление успешно опубликовано.'
@@ -165,6 +167,10 @@ class ItemController extends Controller
 
         $item = $this->item->getById($id);
 
+        if($item->b_enabled == 0){
+            throw new NotFoundHttpException("Item is not enabled");
+        }
+
         $agent = new Agent();
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
@@ -173,6 +179,7 @@ class ItemController extends Controller
                 Auth::user(), 
                 $code
             );
+
 
         if(!$agent->isRobot() && !$is_owner){
             $this->item_creator->increase_count($id);
@@ -220,24 +227,27 @@ class ItemController extends Controller
 
             $image_key = $request->old('image_key');
 
-            $cat_list = $request->old('category');
+            if($request->old('category')[0] != 0){
+                $cat_list = $request->old('category');
 
-            $cat_id = end($cat_list);
+                $cat_id = end($cat_list);
 
-            $metas = $this->meta->getCategoryMeta($cat_id);
+                $metas = $this->meta->getCategoryMeta($cat_id);
 
-            $meta_data = $request->old('meta');
-            
-            JavaScript::put('cat_list', $cat_list);
+                $meta_data = $request->old('meta');
+                
+                JavaScript::put('cat_list', $cat_list);
+
+                view()->share(compact('metas', 'meta_data'));
+            }
 
             $images = array_merge(Session::get('item_images.' . $image_key), $item->images->toArray());
 
             JavaScript::put('dz_images', $images);
 
-            view()->share(compact('metas', 'meta_data', 'images'));
+            view()->share(compact('images'));
 
             $item = null;
-
 
         }else{
 
@@ -279,11 +289,10 @@ class ItemController extends Controller
     {
         $user = null;
 
-        $category_id = $this->getCategory($request->input('category'));
-
         $item_data = $request->except('_token', 'category');
 
-        $item_data['category_id'] = $category_id;
+        $item_data['category'] = $this->getCategory($request->input('category'));
+
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;

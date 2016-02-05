@@ -35,3 +35,12 @@ body {
   margin-left: 2px;
   margin-right: 2px;
 }
+
+.dropzone{
+  background-image : url('./../new_year_background.png');
+}
+
+.dropzone .dz-preview.dz-image-preview {
+  background-image : url('./../new_year_background.png');
+
+}

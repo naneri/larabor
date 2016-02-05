@@ -15,12 +15,17 @@
       </ol>
     </div>
     <div class="container">
+      @if(!$item->is_actual())
+        <div class="alert alert-danger" role="alert">
+          <p class='text-center'><b >Объявление устарело и больше не актуально</b></p>
+        </div>
+      @endif
       <div class="row">
 
         <div class="col-sm-9 page-content col-thin-right">
           <div class="inner inner-box ads-details-wrapper">
             <h2> 
-              {{str_limit($item->description->s_title, 50)}} 
+              {{$item->description->s_title}} 
               @if($is_owner)
               <span class="pull-right">
                 <a href="{{route('item.edit', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Редактировать</button></a>
@@ -40,14 +45,14 @@
               	@forelse($item->images as $image)
                 <li><img src="{{asset($image->imageUrl())}}" alt="img" /></li>
                 @empty
-                <li><img src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img" /></li>
+                <li><img src="{{asset(Config::get('zabor.item_no_image'))}}" alt="img" /></li>
                 @endforelse
               </ul>
               <div id="bx-pager">
 	            @forelse($item->images as $key => $image)
 	                <a class="thumb-item-link" data-slide-index="{{$key}}" href=""><img src="{{asset($image->thumbnailUrl())}}" alt="img" /></a>
                 @empty
-                	<a class="thumb-item-link" data-slide-index="0" href=""><img src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img" /></a>
+                	<a class="thumb-item-link" data-slide-index="0" href=""><img src="{{asset(Config::get('zabor.item_no_image'))}}" alt="img" /></a>
                 @endforelse
               </div>
             </div>
@@ -60,29 +65,31 @@
                 	{{$item->description->s_description}}
                 </div>
                 <div class="col-md-4">
-                  <aside class="panel panel-body panel-details">
-                    <ul>
-                     @foreach($item->metas as $meta)
-                      @if(!($meta->meta->e_type == 'URL' &&$meta->s_value == ''))
-                      <li>
-                        <p class=" no-margin "><strong>{{$meta->meta->s_name}}:</strong>
+                  @if($item->is_actual())
+                    <aside class="panel panel-body panel-details">
+                      <ul>
+                       @foreach($item->metas as $meta)
+                        @if(!($meta->meta->e_type == 'URL' &&$meta->s_value == ''))
+                        <li>
+                          <p class=" no-margin "><strong>{{$meta->meta->s_name}}:</strong>
 
-                            @if($meta->meta->e_type == 'CHECKBOX')
-                              @if($meta->s_value == 1)
-                                <i style="color:green" class="fa fa-check"></i>
+                              @if($meta->meta->e_type == 'CHECKBOX')
+                                @if($meta->s_value == 1)
+                                  <i style="color:green" class="fa fa-check"></i>
+                                @else
+                                  <i style="color:red" class="fa fa-close"></i>
+                                @endif 
                               @else
-                                <i style="color:red" class="fa fa-close"></i>
-                              @endif 
-                            @else
-                                {{$meta->s_value}}
-                            @endif
-                        </p>
-                      </li>
-                      @endif
-                     @endforeach()
-                      
-                    </ul>
-                  </aside>
+                                  {{$meta->s_value}}
+                              @endif
+                          </p>
+                        </li>
+                        @endif
+                       @endforeach()
+                        
+                      </ul>
+                    </aside>
+                  @endif
                 </div>
               </div>
           <!--     <div class="content-footer text-left"> 
@@ -104,7 +111,7 @@
           <aside>
             <div class="panel sidebar-panel panel-contact-seller">
               <div class="panel-heading">
-                <p class="text-center">Написать:</p>
+                <p class="text-center">Написать владельцу:</p>
               </div>
               <div class="panel-content user-info">
                 @if(!Auth::user())

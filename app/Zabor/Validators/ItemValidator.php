@@ -7,7 +7,7 @@ use Validator;
 class ItemValidator
 {
 	protected $item_rules = [
-		'category_id' 	=> 'required|exists:category,pk_i_id',
+		'category' 		=> 'required|exists:category,pk_i_id',
 		'title'			=> 'required|max:50',
 		'description'	=> 'required|min:5|max:5000',
 		'price'			=> 'numeric',
@@ -28,13 +28,16 @@ class ItemValidator
 	 */
 	public function validate($item_data, $authorized = false)
 	{
+		//  adding email rules for unauthorized users
 		if(!$authorized){
 			$rules = array_merge($this->item_rules, $this->email_rules);
 		}else{
 			$rules = $this->item_rules;
 		}
 
+		// validating
 		$validator = Validator::make($item_data, $rules);
+
 		return $validator;
 	}
 

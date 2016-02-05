@@ -4,13 +4,11 @@
     <div class="col-md-3 col-sm-4 col-xs-6 user-item">
       <div class="thumbnail">
         <h1 class="pricetag"> {{$item->i_price or ''}} {{$item->currency->s_description or 'не указана'}}</h1>
-        <a href='{{url("item/show/{$item->pk_i_id}")}}'>
-          @if(isset($item->lastImage))
-          <img class="thumbnail" src="http://larabor.local/{{$item->lastImage->thumbnailUrl()}}" alt="img">
-          @else
-          <img class="thumbnail" src="http://zabor.kg/oc-content/themes/bender/images/no_photo.gif" alt="img">
-          @endif
-        </a>
+        <div>
+          <a href='{{url("item/show/{$item->pk_i_id}")}}'>
+            <img class="thumbnail" src="{{asset($item->demo_image())}}" alt="img">
+          </a>
+        </div>
         <div class="caption">
           <h3>{{str_limit($item->description->s_title, 50)}}</h3>
           <p class="text-left">

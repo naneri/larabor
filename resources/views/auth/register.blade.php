@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2 page-content">
           <div class="inner-box category-content">
-            <h2 class="title-2"> <i class="icon-user-add"></i> Create your account, Its free </h2>
+            <h2 class="title-2"> <i class="icon-user-add"></i> Создайте учётную запись </h2>
             <div class="row">
               <div class="col-sm-12">
                 <form method="POST" action="{{url('register')}}" class="form-horizontal">

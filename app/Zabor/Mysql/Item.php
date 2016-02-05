@@ -1,6 +1,7 @@
 <?php namespace App\Zabor\Mysql;
 
 use Carbon\Carbon;
+use Config;
 
 class Item extends ZaborModel
 {
@@ -11,6 +12,19 @@ class Item extends ZaborModel
 	public function images()
 	{
 		return $this->hasMany('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
+	}
+
+	/**
+	 * getting image to display - if item has no images default empty photo URL is returned
+	 * @return [type] [description]
+	 */
+	public function demo_image()
+	{
+		if(!empty($this->lastImage)){
+			return $this->lastImage->thumbnailUrl();
+		}else{
+			return Config::get('zabor.item_no_image');
+		}
 	}
 
 	public function lastImage()

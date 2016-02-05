@@ -28,8 +28,6 @@ class ImageCreator{
 	{
 		foreach($image_list as $image_data){
 
-			Log::info('creating');
-
 			$arr = explode('.' , $image_data['name']);
 
 			$image = Image::make('temp/'. $image_data['name'])->encode('jpg');
@@ -49,13 +47,13 @@ class ImageCreator{
 				]);
 
 			$original  = $image->fit(640,480);
-			$original->save("{$directory}/{$image_record->pk_i_id}.jpg", 100);
+			$original->save("{$directory}/{$image_record->pk_i_id}.jpg", 80);
 
 			$preview   = $image->fit(480,340);
-			$preview->save("{$directory}/{$image_record->pk_i_id}_preview.jpg", 100);	
+			$preview->save("{$directory}/{$image_record->pk_i_id}_preview.jpg", 80);	
 
 			$thumbnail = $image->fit(240,200);
-			$thumbnail->save("{$directory}/{$image_record->pk_i_id}_thumbnail.jpg", 100);
+			$thumbnail->save("{$directory}/{$image_record->pk_i_id}_thumbnail.jpg", 80);
 		}
 	}
 
