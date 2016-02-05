@@ -62,7 +62,7 @@
               <h5 class="list-title"><strong>Описание</strong></h5>
               <div class="row">
                 <div class="ads-details-info col-md-8">
-                	{{$item->description->s_description}}
+                	{!!nl2br(e($item->description->s_description))!!}
                 </div>
                 <div class="col-md-4">
                   @if($item->is_actual())
