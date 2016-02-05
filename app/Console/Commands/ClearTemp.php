@@ -43,5 +43,7 @@ class ClearTemp extends Command
                 File::delete($file);
             }
         }
+        
+        File::delete(storage_path('logs/laravel.log'));
     }
 }

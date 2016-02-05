@@ -57,3 +57,20 @@ body {
   text-transform: uppercase;
   transition: font 400ms cubic-bezier(0.25, 0.1, 0.25, 1) 0s;
 }
+
+.toast-top-left {
+  top: 80px;
+  left: 50px;
+}
+.toast-top-right {
+  top: 80px;
+  right: 50px;
+}
+.toast-bottom-right {
+  right: 80px;
+  bottom: 50px;
+}
+.toast-bottom-left {
+  bottom: 80px;
+  left: 50px;
+}
