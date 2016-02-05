@@ -3,7 +3,13 @@
     @foreach($item_list as $item)
     <div class="col-md-3 col-sm-4 col-xs-6 user-item">
       <div class="thumbnail">
-        <h1 class="pricetag"> {{$item->i_price or ''}} {{$item->currency->s_description or 'не указана'}}</h1>
+        <h1 class="pricetag"> 
+          @if(!is_null($item->i_price))
+            {{$item->formatedPrice()}} {{$item->currency->s_description}}
+          @else
+            не указана
+          @endif
+        </h1>
         <div>
           <a href='{{url("item/show/{$item->pk_i_id}")}}'>
             <img class="thumbnail" src="{{asset($item->demo_image())}}" alt="img">

@@ -40,7 +40,13 @@
             	</span>  
             </span>
             <div class="ads-image">
-              <h1 class="pricetag"> {{$item->i_price or ''}} {{$item->currency->s_description or 'не указана'}}</h1>
+              <h1 class="pricetag">
+                @if(!is_null($item->i_price))
+                  {{$item->formatedPrice()}} {{$item->currency->s_description}}
+                @else
+                  не указана
+                @endif
+              </h1>
               <ul class="bxslider">
               	@forelse($item->images as $image)
                 <li><img src="{{asset($image->imageUrl())}}" alt="img" /></li>
