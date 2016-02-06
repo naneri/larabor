@@ -121,6 +121,8 @@ class ItemController extends Controller
 
         $item_data['category'] = $this->getCategory($request->input('category'));
 
+        $item_data['price']    = trim($item_data['price']);
+
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;
             $user = Auth::user();
@@ -293,6 +295,7 @@ class ItemController extends Controller
 
         $item_data['category'] = $this->getCategory($request->input('category'));
 
+        $item_data['price']    = trim($item_data['price']);
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;

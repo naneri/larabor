@@ -200,11 +200,11 @@
 @stop
 
 @section('styles')
-<link href="{{url('assets/plugins/bxslider/jquery.bxslider.css')}}" rel="stylesheet" />
+<link href="{{asset('assets/plugins/bxslider/jquery.bxslider.css')}}" rel="stylesheet" />
 @stop
 
 @section('scripts')
-<script src="{{url('assets/plugins/bxslider/jquery.bxslider.min.js')}}"></script> 
+<script src="{{asset('assets/plugins/bxslider/jquery.bxslider.min.js')}}"></script> 
  <script>
 	$('.bxslider').bxSlider({
 	  pagerCustom: '#bx-pager'
