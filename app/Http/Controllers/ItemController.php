@@ -388,7 +388,9 @@ class ItemController extends Controller
         }
 
         if($request->input('redirect') == 'origin'){
-            return redirect('/');
+            return redirect('/')->with('message',[
+                'success' => 'Объявление удалено успешно'
+                ]);
         }
 
         return redirect()->back()->with('message',[
