@@ -46,9 +46,12 @@ Route::group(['prefix' => 'item'], function(){
 
 	Route::get('add', 'ItemController@getAdd');
 	Route::post('add', 'ItemController@store');
-	Route::post('add-image', 'ItemController@storeImage');
+	
+	Route::post('add-image', 'Api\ItemImageApiController@storeImage');
+	Route::post('remove-image', 'Api\ItemImageApiController@removeImage');
+
 	Route::get('show/{id}/{code?}', 'ItemController@show')->name('item.show');
-	Route::post('remove-image', 'ItemController@removeImage');
+	
 	Route::get('edit/{id}/{code?}', 'ItemController@edit')->name('item.edit');
 	Route::post('edit/{id}/{code?}', 'ItemController@update')->name('item.update');
 	Route::get('prolong/{id}/{code?}', 'ItemController@prolong')->name('item.prolong');
