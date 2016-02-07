@@ -388,11 +388,7 @@ class ItemController extends Controller
         }
 
         if($request->input('redirect') == 'origin'){
-            if(Session::has('item-origin')){
-                return redirect(session('item-origin'));
-            }else{
-                return redirect('/');
-            }
+            return redirect('/');
         }
 
         return redirect()->back()->with('message',[
