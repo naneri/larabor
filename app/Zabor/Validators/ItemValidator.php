@@ -8,7 +8,7 @@ class ItemValidator
 {
 	protected $item_rules = [
 		'category' 		=> 'required|exists:category,pk_i_id',
-		'title'			=> 'required|max:50',
+		'title'			=> 'required|max:100',
 		'description'	=> 'required|min:5|max:5000',
 		'price'			=> 'numeric',
 		'currency'		=> 'required',

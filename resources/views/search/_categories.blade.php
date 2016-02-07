@@ -1,6 +1,6 @@
 <div class="categories-list  list-filter">
     <ul class="list-unstyled">
-      @if(empty($cat_ancestors[0]))	
+      @if(empty($cat_ancestors[0]))
     		@foreach($cat_children as $category)
     		<li><a href="{{url('search?category='.$category->pk_i_id)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
     		@endforeach
@@ -11,7 +11,7 @@
       	</a>
       </li>
       <li>
-        <a href="{{url('search?category='.$cat_ancestors[0]->pk_i_id)}}">
+        <a href="{{searchCategory($cat_ancestors[0]->pk_i_id, $searchParams)}}">
           <span class="title {{count($cat_ancestors) == 1 ? 'bold' : ''}}">
             {{$cat_ancestors[0]->description->s_name}}
           </span>
@@ -19,14 +19,14 @@
         <ul class=" list-unstyled long-list">
           @if(count($cat_ancestors) == 1)
             @foreach($cat_children as $category)
-              <li><a href="{{url('search?category='.$category->pk_i_id)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
+              <li><a href="{{searchCategory($category->pk_i_id, $searchParams)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
             @endforeach
           @elseif(count($cat_ancestors) > 1)
             <li><a href="{{url('search?category='.$cat_ancestors[1]->pk_i_id)}}"><span class="title {{count($cat_ancestors) == 2 ? 'bold' : ''}}">{{$cat_ancestors[1]->description->s_name}}</span></a>
               <ul class="list-unstyled long-list">
                 @if(count($cat_ancestors) == 2)
                   @foreach($cat_children as $category)
-                    <li><a href="{{url('search?category='.$category->pk_i_id)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
+                    <li><a href="{{searchCategory($category->pk_i_id, $searchParams)}}"><span class="title">{{$category->description->s_name}}</span></a></li>
                   @endforeach
                 @elseif(count($cat_ancestors) > 2)  
                   <li><a href="{{url('search?category='.$cat_ancestors[2]->pk_i_id)}}">

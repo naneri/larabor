@@ -136,7 +136,7 @@
 
                               <div class="col-md-8">
                                 <button type="submit" id="button1id" class="btn btn-primary btn-lg">
-                                  Submit
+                                  Подтвердить
                                 </button>
                               </div>
                             </div>

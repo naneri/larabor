@@ -14,6 +14,12 @@ function priceOrderAsc($params){
 	return route('search', $params);
 }
 
+function searchCategory($category_id, $params){
+	$params['category'] = $category_id;
+
+	return route('search', $params);
+}
+
 function priceOrderDesc($params){
 	$params['orderBy']  	= 'i_price';
 	$params['orderType']	= 'DESC';

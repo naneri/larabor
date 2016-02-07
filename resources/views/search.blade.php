@@ -8,7 +8,7 @@
         <div class="col-sm-3 page-sidebar">
           <aside>
             <div class="inner-box">
-              @include('search._categories', compact('cat_ancestors', 'cat_children'))
+              @include('search._categories', compact('cat_ancestors', 'cat_children', 'searchParams'))
               <!--/.categories-list-->
               
               @include('search._form', compact('metas', 'searchParams', 'currencies'))    
