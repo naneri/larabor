@@ -1,5 +1,9 @@
 @extends('_misc._layout')
 
+@section('title')
+  Мои объявления
+@stop 
+
 @section('content')
 <div class="main-container">
     <div class="container">

@@ -1,5 +1,9 @@
 @extends('_misc._layout')
-  
+
+@section('meta')
+<meta name="title" content="Zabor.KG - Доска бесплатных объявлений." />
+<meta name="description" content="Главная страница сайта Zabor.kg - доска бесплатных объявлений" />
+@stop
 
 @section('content')
   <div class="intro">

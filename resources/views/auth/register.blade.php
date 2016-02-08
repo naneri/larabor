@@ -1,5 +1,14 @@
 @extends('_misc._layout')
 
+@section('title')
+  Регистрация на Zabor.kg
+@stop
+
+@section('meta')
+<meta name="title" content="Регистрация на Zabor.kg" />
+<meta name="description" content="Страница регистрации на Zabor.kg" />
+@stop
+
 @section('content')
 <div class="main-container">
     <div class="container">

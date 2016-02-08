@@ -1,5 +1,14 @@
 @extends('_misc._layout')
 
+@section('title')
+  Объявления пользователя {{$user->s_name}}
+@stop
+
+@section('meta')
+<meta name="title" content="Объявления пользователя {{$user->s_name}} на Zabor.kg" />
+<meta name="description" content="Объявления и информация пользователя {{$user->s_name}} - адрес, телефон, дополнительная информация" />
+@stop
+
 @section('content')
 <div class="main-container">
   <div class="container">

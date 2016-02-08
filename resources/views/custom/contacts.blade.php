@@ -1,5 +1,12 @@
 @extends('_misc._layout')
 
+@section('title', 'Служба поддержки Zabor.kg')
+
+@section('meta')
+<meta name="title" content="Служба поддержки Zabor.kg" />
+<meta name="description" content="Форма обратной связи с администрацией Zabor.kg" />
+@show
+
 @section('content')
 	<div class="main-container">
     <div class="container">

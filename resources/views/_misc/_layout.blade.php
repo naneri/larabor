@@ -9,11 +9,17 @@
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"> -->
 <link rel="shortcut icon" href="{{asset('images/icons/zabor-favicon.png')}}">
-<title>Zabor.kg - Доска бесплатный объявлений</title>
+<title>
+  @section('title')
+  Zabor.kg - Доска бесплатных объявлений
+  @show
+</title>
 
 
+@section('meta')
 <meta name="title" content="Zabor.KG - Доска бесплатных объявлений." />
 <meta name="description" content="Zabor.kg - Доска бесплатных объявлений Бишкека и Кыргызстана." />
+@show
 
 
 <!-- Bootstrap core CSS -->

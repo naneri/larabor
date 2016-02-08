@@ -1,7 +1,17 @@
 @extends('_misc._layout')
 
-@section('content')
+@section('title')
+  Поиск объявлений
+@stop
 
+@section('meta')
+<meta name="title" content="Поиск объявлений на Zabor.kg" />
+<meta name="description" content="Страница поиска объявлений на Zabor.kg" />
+@stop
+
+
+
+@section('content')
 <div class="main-container">
     <div class="container">
       <div class="row">

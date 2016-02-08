@@ -1,5 +1,9 @@
 @extends('_misc._layout')
 
+@section('title')
+  Мои данные
+@stop  
+
 @section('content')
 <div class="main-container">
     <div class="container">

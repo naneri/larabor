@@ -1,5 +1,13 @@
 @extends('_misc._layout')
 
+@section('title')
+  Подать объявление на Zabor.kg
+@stop
+
+@section('meta')
+<meta name="title" content="Добавить объявления на Zabor.kg" />
+<meta name="description" content="Страница подачи объявления на Zabor.kg" />
+@stop
 
 @section('content')
 <div class="main-container">

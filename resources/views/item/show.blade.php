@@ -1,5 +1,15 @@
 @extends('_misc._layout')
 
+@section('title')
+  {{$item->description->s_title}} - Zabor.kg
+@stop
+
+@section('meta')
+<meta name="title" content="{{$item->description->s_title}} купить в Бишкеке и других городах Кыргызстана." />
+<meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}}" />
+@stop 
+
+
 @section('content')
 <div class="main-container">
     <div class="container">

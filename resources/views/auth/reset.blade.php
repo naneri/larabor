@@ -1,5 +1,14 @@
 @extends('_misc._layout')
 
+@section('title')
+  Восстановление пароля на Zabor.kg
+@stop 
+
+@section('meta')
+<meta name="title" content="Восстановление пароля на Zabor.kg" />
+<meta name="description" content="Страница восстановления пароля на Zabor.kg" />
+@stop
+
 @section('content')
 <div class="main-container">
     <div class="container">
