@@ -1,6 +1,6 @@
-@foreach($items->chunk(4) as $item_list)
+
   <div class="text-center">
-    @foreach($item_list as $item)
+    @foreach($chunk as $item)
     <div class="col-md-3 col-sm-4 col-xs-6 user-item">
       <div class="thumbnail">
         <h1 class="pricetag"> 
@@ -30,4 +30,3 @@
     </div>
     @endforeach  
   </div>
-@endforeach

@@ -45,13 +45,19 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      @if($items->isEmpty())
+    
+    @if($items->isEmpty())
+      <div class="row">
         <p><h2 class="text-center text-muted">Нет объявлений...</h2></p>
-      @else
-        @include('profile._item-gallery', compact('items'))
-      @endif
-    </div>
+      </div>
+    @else
+      @foreach($items->chunk(4) as $chunk)
+        <div class="row">
+          @include('profile._item-gallery', compact('chunk'))
+        </div>
+      @endforeach
+    @endif
+    
     <div class="row">
       <div class="pagination-bar text-center">
         <ul class="pagination">
