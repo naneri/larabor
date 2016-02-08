@@ -60,7 +60,7 @@ class SearchController extends Controller
         $items = $this->item->searchItems($request->except('category'), $cat_id_list);
 
         $searchParams = $request->except('page');
-dd($searchParams);
+
         return view('search', [
             'items' => $items->appends($request->except('page')),
             'cat_ancestors' => $ancestor_list,
