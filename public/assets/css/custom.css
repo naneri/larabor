@@ -28,7 +28,7 @@ body {
 .user-item h3{
   height: 60px;
   color: #149078;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .info-box{
@@ -74,3 +74,23 @@ body {
   bottom: 80px;
   left: 50px;
 }
+
+.Ads-Details .list-title strong{
+  margin: 0px 20px;
+}
+
+.Ads-Details .row{
+  margin: 0px 10px 20px;
+}
+
+/* .navbar{
+  background-image: url('./../giftly.png');
+}
+
+.footer{
+  background-image: url('./../giftly.png');
+} */
+/* 
+body{
+  background-image: url('./../concrete_seamless.png');
+} */
