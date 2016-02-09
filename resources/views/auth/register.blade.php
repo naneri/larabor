@@ -83,7 +83,7 @@
                       <div class="col-md-8">
                        
                         <div style="clear:both"></div>
-                        <button class="btn btn-primary" type="submit">Register</button> </div>
+                        <button class="btn btn-primary" type="submit">Зарегистрироваться</button> </div>
                     </div>
                   </fieldset>
                 </form>

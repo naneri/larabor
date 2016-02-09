@@ -18,7 +18,7 @@
             <div class="panel-intro text-center">
               <h2 class="logo-title"> 
                 <!-- Original Logo will be placed here  --> 
-                <span class="logo-icon"><i class="icon icon-search-1 ln-shadow-logo shape-0"></i> </span> BOOT<span>CLASSIFIED </span> </h2>
+                <span class="logo-icon"><i class="icon icon-login ln-shadow-logo shape-0"></i> </span> ВХОД </h2>
             </div>
             <div class="panel-body">
               <form action="{{url('login')}}" method="POST" role="form">
