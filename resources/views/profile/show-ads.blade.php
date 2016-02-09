@@ -46,13 +46,13 @@
       </div>
       <div class="row text-right info-box-footer hidden-xs">
         <span><b>Поделиться:</b></span>
-        <a href="http://www.facebook.com/sharer.php?u={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+        <a target="_blank" href="http://www.facebook.com/sharer.php?u={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
           <span class="label label-primary"><i class="fa fa-facebook"></i> Facebook</span>
          </a>
-        <a href="https://plus.google.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+        <a target="_blank" target="_blank" href="https://plus.google.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
           <span class="label label-danger"><i class="fa fa-google-plus"></i> Google+</span>
          </a>
-        <a href="http://twitter.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+        <a target="_blank" href="http://twitter.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
           <span class="label label-info"><i class="fa fa-twitter"></i> Twitter</span>
         </a
       </div>
