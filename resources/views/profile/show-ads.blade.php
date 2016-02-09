@@ -54,10 +54,10 @@
          </a>
         <a target="_blank" href="http://twitter.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
           <span class="label label-info"><i class="fa fa-twitter"></i> Twitter</span>
-        </a
+        </a>
       </div>
     </div>
-  </div>
+  
     
     @if($items->isEmpty())
       <div class="row">
@@ -79,6 +79,6 @@
     </div>
   </div>
 </div>
-
+</div>
 
 @stop
