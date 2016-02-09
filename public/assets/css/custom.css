@@ -102,3 +102,15 @@ body{
 .info-box-footer{
   border-top: 1px solid #ddd;
 }
+
+.add-item .form-control{
+  font-size: 16px;
+}
+
+.search-form .form-control{
+  font-size: 18px;
+}
+
+.search-row .form-control{
+  font-size: 16px;
+}

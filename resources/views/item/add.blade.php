@@ -13,7 +13,7 @@
 <div class="main-container">
   <div class="container">
     <div class="row">
-      <div class="col-md-9 page-content">
+      <div class="col-md-9 page-content add-item">
         <div class="inner-box category-content">
           <h2 class="title-2 uppercase"><strong> <i class="icon-docs"></i> Подать Объявление</strong></h2>
           @include('_partials._alerts')
