@@ -13,9 +13,9 @@
 <div class="main-container">
   <div class="container">
     <div class="row well info-box">
-      <div class="">
-        <div class="col-md-2 col-xs-6">
-          <img src="{{asset('images/user_default.gif')}}">
+      <div class="row info-box-main">
+        <div class="col-md-2 col-xs-6 ">
+          <img class="center-block" src="{{asset('images/user_default.gif')}}">
         </div>
         <div class="col-md-10 col-xs-6">
           <h2>{{$user->s_name}}</h2>
@@ -44,7 +44,20 @@
             </p>
         </div>
       </div>
+      <div class="row text-right info-box-footer hidden-xs">
+        <span><b>Поделиться:</b></span>
+        <a href="http://www.facebook.com/sharer.php?u={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+          <span class="label label-primary"><i class="fa fa-facebook"></i> Facebook</span>
+         </a>
+        <a href="https://plus.google.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+          <span class="label label-danger"><i class="fa fa-google-plus"></i> Google+</span>
+         </a>
+        <a href="http://twitter.com/share?url={{urlencode(route('user.ads', [$user->pk_i_id]))}}"> 
+          <span class="label label-info"><i class="fa fa-twitter"></i> Twitter</span>
+        </a
+      </div>
     </div>
+  </div>
     
     @if($items->isEmpty())
       <div class="row">
@@ -58,14 +71,14 @@
       @endforeach
     @endif
     
-    <div class="row">
-      <div class="pagination-bar text-center">
-        <ul class="pagination">
-          {!! $items->render()!!}
-        </ul>
-      </div>
+  <div class="row">
+    <div class="pagination-bar text-center">
+      <ul class="pagination">
+        {!! $items->render()!!}
+      </ul>
     </div>
   </div>
 </div>
+
 
 @stop

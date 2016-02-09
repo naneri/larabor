@@ -105,16 +105,23 @@
                         
                       </ul>
                     </aside>
+                   
                   @endif
                 </div>
               </div>
-          <!--     <div class="content-footer text-left"> 
-            <div class="text-right">
-              <a href=""><i class=" icon-facebook ln-shadow shape-4"></i> </a>
-              <a href=""><i class="icon-googleplus-rect ln-shadow shape-6"></i> </a>
-              <a href=""><i class="icon-twitter-bird ln-shadow shape-3"></i></a>
-            </div>
-          </div> -->
+                <div class="content-footer text-left"> 
+                  <div class="text-right">
+                     <a class="btn btn-fb" href="http://www.facebook.com/sharer.php?u={{urlencode(route('item.show', [$item->pk_i_id]))}}"> 
+                      <i class="fa fa-facebook"></i> Facebook
+                     </a>
+                     <a class="btn btn-danger" href="https://plus.google.com/share?url={{urlencode(route('item.show', [$item->pk_i_id]))}}"> 
+                      <i class="fa fa-google-plus"></i> Google+
+                     </a>
+                     <a class="btn btn-tw" href="http://twitter.com/share?url={{urlencode(route('item.show', [$item->pk_i_id]))}}"> 
+                      <i class="fa fa-twitter"></i> Twitter
+                     </a>
+                  </div>
+                </div> 
             </div>
           </div>
           <!--/.ads-details-wrapper--> 
@@ -123,7 +130,7 @@
         <!--/.page-content-->
         
         @if($item->is_actual())
-        <div class="col-sm-3  page-sidebar-right">
+        <div class="col-md-3  page-sidebar-right">
           <aside>
             <div class="panel sidebar-panel panel-contact-seller">
               <div class="panel-heading">
@@ -165,6 +172,7 @@
             </div>
             <!--/.categories-list--> 
           </aside>
+          
         </div>
         @endif
 

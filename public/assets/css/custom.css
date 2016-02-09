@@ -94,3 +94,11 @@ body {
 body{
   background-image: url('./../concrete_seamless.png');
 } */
+
+.info-box{
+  padding: 19px 25px 5px 21px;;
+}
+
+.info-box-footer{
+  border-top: 1px solid #ddd;
+}

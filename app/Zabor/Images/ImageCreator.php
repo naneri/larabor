@@ -26,17 +26,24 @@ class ImageCreator{
 	 */
 	public function storeAndSaveMultiple($image_list = [], $item_id)
 	{
+		// directory creating logic
+		$directory = "oc-content/uploads/" . floor($item_id/100);
+
+		if(!File::isDirectory($directory)){
+			File::makeDirectory($directory);
+		}
+
 		foreach($image_list as $image_data){
 
 			$arr = explode('.' , $image_data['name']);
 
 			$image = Image::make('temp/'. $image_data['name'])->encode('jpg');
 
-			$directory = "oc-content/uploads/" . floor($item_id/100);
+		/*	$width = (int) max($image->width(), $image->height() * 3 / 4);
 
-			if(!File::isDirectory($directory)){
-				File::makeDirectory($directory);
-			}
+			$height = (int) max($image->height(), $image->width() * 4 / 3);
+
+			$image->resizeCanvas($width, $height);*/
 
 			$image_record = $this->image->create([
 				'fk_i_item_id'  => $item_id, 
