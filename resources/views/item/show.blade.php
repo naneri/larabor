@@ -78,7 +78,7 @@
               <h5 class="list-title"><strong>Описание</strong></h5>
               <div class="row">
                 <div class="ads-details-info col-md-8">
-                	{!!nl2br(e($item->description->s_description))!!}
+                	{!!nl2br(e($item->showDescription()))!!}
                 </div>
                 <div class="col-md-4">
                   @if($item->is_actual())
@@ -95,8 +95,10 @@
                                 @else
                                   <i style="color:red" class="fa fa-close"></i>
                                 @endif 
+                              @elseif($meta->meta->e_type == 'URL')
+                                <a href="{{$meta->s_value}}">{{$meta->s_value}}</a>
                               @else
-                                  {{$meta->s_value}}
+                                {{$meta->s_value}}
                               @endif
                           </p>
                         </li>

@@ -76,6 +76,15 @@ class Item extends ZaborModel
 		return null;
 	}
 
+
+	public function showDescription()
+	{
+		if(!$this->is_actual()){
+			return preg_replace('/\d/', '*', $this->description->s_description);
+		}
+		return $this->description->s_description;
+	}
+
 	/**
 	 * checks if item is actual
 	 * @return boolean [description]
