@@ -36,6 +36,11 @@ class SearchController extends Controller
     {
         // getting the category id | tried to fix issue with string input
         $cat_id = (int)$request->input('category') ?: null;
+        if($cat_id){
+            $category = $this->category->getById($cat_id);
+        }else{
+            $category = null;
+        }
 
         $cat_id_list    = null;
         $ancestor_list  = null;
@@ -68,6 +73,7 @@ class SearchController extends Controller
             'searchParams'  => $searchParams,
             'metas'         => $metas,
             'currencies'    => $currencies,
+            'category'      => $category
             ]);
     }
 

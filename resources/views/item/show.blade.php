@@ -1,12 +1,20 @@
 @extends('_misc._layout')
 
 @section('title')
-  {{$item->description->s_title}} - Zabor.kg
+  {{$item->description->s_title}}
 @stop
 
 @section('meta')
-<meta name="title" content="{{$item->description->s_title}} купить в Бишкеке и других городах Кыргызстана." />
-<meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}}" />
+<meta name="title" content="{{$item->description->s_title}} - Zabor.kg"/>
+<meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
+
+<meta property="og:title" content="{{$item->description->s_title}} на Zabor.kg" />
+<meta property="og:description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}}" />
+<meta property="og:image" content="{{
+    isset($item->images[0]) ?
+    asset($item->images[0]->imageUrl()) :
+    asset(Config::get('zabor.item_no_image'))
+     }}" />
 @stop 
 
 

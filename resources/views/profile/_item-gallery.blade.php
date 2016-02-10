@@ -16,7 +16,7 @@
           </a>
         </div>
         <div class="caption">
-          <h3>{{str_limit($item->description->s_title, 50)}}</h3>
+          <a href='{{url("item/show/{$item->pk_i_id}")}}'><h3>{{str_limit($item->description->s_title, 50)}}</h3></a>
           <p class="text-left">
             <span class="info-row"> 
               <span class="category">{{str_limit($item->category->description->s_name, 27)}}</span>

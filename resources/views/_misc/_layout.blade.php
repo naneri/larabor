@@ -77,7 +77,9 @@
               <li><a href="{{route('profile.ads')}}">Профиль <i class="icon-user fa"></i></a></li>
               <li><a href="{{url('logout')}}">Выход <i class="glyphicon glyphicon-off"></i></a></li>
             @endif
-            <li class="postadd"><a class="btn btn-block   btn-border btn-post btn-danger" href="{{url('item/add')}}">Подать объявление</a></li>
+            <li class="postadd text-center">
+              <a class="btn btn-block   btn-border btn-post btn-danger" href="{{url('item/add')}}">Подать объявление</a>
+            </li>
           </ul>
         </div>
         <!--/.nav-collapse --> 

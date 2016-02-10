@@ -1,12 +1,12 @@
 @extends('_misc._layout')
 
 @section('title')
-  Поиск объявлений
+  Поиск{{$category ? ': ' . $category->description->s_name : ' объявлений'}} на Zabor.kg
 @stop
 
 @section('meta')
-<meta name="title" content="Поиск объявлений на Zabor.kg" />
-<meta name="description" content="Страница поиска объявлений на Zabor.kg" />
+<meta name="title" content="Поиск{{$category ? ': ' . $category->description->s_name : ' объявлений'}} на Zabor.kg" />
+<meta name="description" content="Страница поиска объявлений на Zabor.kg. {{$category ? ': ' . $category->description->s_name : ' Все объявления'}}" />
 @stop
 
 

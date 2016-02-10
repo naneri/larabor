@@ -7,6 +7,10 @@
 @section('meta')
 <meta name="title" content="Объявления пользователя {{$user->s_name}} на Zabor.kg" />
 <meta name="description" content="Объявления и информация пользователя {{$user->s_name}} - адрес, телефон, дополнительная информация" />
+
+<meta property="og:title" content="Объявления пользователя {{$user->s_name}} на Zabor.kg" />
+<meta property="og:description" content="Объявления и информация пользователя {{$user->s_name}} - адрес, телефон, дополнительная информация" />
+<meta property="og:image" content="{{asset('images/user_default.gif')}}" />
 @stop
 
 @section('content')

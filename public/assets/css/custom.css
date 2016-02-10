@@ -118,3 +118,7 @@ body{
 aside.panel.panel-body.panel-details {
     word-break: break-word;
 }
+
+.navbar-nav > li.postadd a{
+  padding: 12px ;
+}
