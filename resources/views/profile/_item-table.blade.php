@@ -26,6 +26,10 @@
             <i class="fa fa-calendar"> </i>
             {{$item->dt_pub_date or null}}  <i class="icon-eye"></i> {{$item->stats->sum('i_num_views')}}
           </p>
+          <p style="color:#A93B3B">
+            <i  class="fa fa-calendar-times-o"> </i>
+            {{$item->dt_expiration or null}}
+          </p>
           <p class="visible-xs"> 
             <strong>Price:</strong>
             <span>

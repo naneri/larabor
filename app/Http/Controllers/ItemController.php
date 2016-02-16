@@ -49,8 +49,8 @@ class ItemController extends Controller
         $this->validator = $validator;
         $this->meta      = $meta;
         $this->image     = $image;
-        $this->item_creator = $item_creator;
-        $this->ownerIdentifier = $ownerIdentifier;
+        $this->item_creator     = $item_creator;
+        $this->ownerIdentifier  = $ownerIdentifier;
         $this->user      = $user;
     }
 
@@ -68,19 +68,7 @@ class ItemController extends Controller
 
         if(!empty($request->old())){
 
-            if($request->old('category')[0] != 0){
-                $cat_list = $request->old('category');
-
-                $cat_id = end($cat_list);
-
-                $metas = $this->meta->getCategoryMeta($cat_id);
-
-                $meta_data = $request->old('meta');
-                
-                JavaScript::put('cat_list', $cat_list);
-
-                view()->share(compact('metas', 'meta_data'));
-            }
+            $this->getCategoryAndMetaInfo($request->old());
 
             $image_key = $request->old('image_key');
            
@@ -176,12 +164,11 @@ class ItemController extends Controller
         $agent = new Agent();
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
-                $item->fk_i_user_id, 
-                $item->s_secret, 
-                Auth::user(), 
-                $code
-            );
-
+            $item->fk_i_user_id, 
+            $item->s_secret, 
+            Auth::user(), 
+            $code
+        );
 
         if(!$agent->isRobot() && !$is_owner){
             $this->item_creator->increase_count($id);
@@ -229,19 +216,7 @@ class ItemController extends Controller
 
             $image_key = $request->old('image_key');
 
-            if($request->old('category')[0] != 0){
-                $cat_list = $request->old('category');
-
-                $cat_id = end($cat_list);
-
-                $metas = $this->meta->getCategoryMeta($cat_id);
-
-                $meta_data = $request->old('meta');
-                
-                JavaScript::put('cat_list', $cat_list);
-
-                view()->share(compact('metas', 'meta_data'));
-            }
+            $this->getCategoryAndMetaInfo($request->old());
 
             $images = array_merge(Session::get('item_images.' . $image_key), $item->images->toArray());
 
@@ -398,9 +373,6 @@ class ItemController extends Controller
             ]);
     }
 
-
-    
-
     /**
      * Contacting the owner of the ad
      * 
@@ -460,5 +432,28 @@ class ItemController extends Controller
         }
 
         return $output;
+    }
+
+    /**
+     * [getCategoryAndMetaInfo description]
+     * @param  [type] $old [description]
+     * @return [type]      [description]
+     */
+    protected function getCategoryAndMetaInfo($old)
+    {
+        if($old['category'][0] != 0){
+
+            $cat_list = $old['category'];
+
+            $cat_id = end($cat_list);
+
+            $metas = $this->meta->getCategoryMeta($cat_id);
+
+            $meta_data = $old['meta'];
+            
+            JavaScript::put('cat_list', $cat_list);
+
+            view()->share(compact('metas', 'meta_data'));
+        }
     }
 }

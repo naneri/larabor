@@ -79,9 +79,6 @@ class Item extends ZaborModel
 
 	public function showDescription()
 	{
-		if(!$this->is_actual()){
-			return preg_replace('/\d/', '*', $this->description->s_description);
-		}
 		return $this->description->s_description;
 	}
 
@@ -108,6 +105,13 @@ class Item extends ZaborModel
 	}
 
 	public function getDtPubDateAttribute($value)
+	{
+		$time = new Carbon($value);
+
+		return $time->toDateString();
+	}
+
+	public function getDtExpirationAttribute($value)
 	{
 		$time = new Carbon($value);
 
