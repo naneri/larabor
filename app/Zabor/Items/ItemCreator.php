@@ -43,7 +43,7 @@ class ItemCreator
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 			= str_random(8);
 		$item->b_active 			= !is_null($user) ? 1 : 0 ;
-
+		$item->b_enabled			= 1;
 		if(
 			isset($user->pk_i_id) && 
 			in_array($user->pk_i_id, Config::get('zabor.affiliates'))
@@ -198,7 +198,10 @@ class ItemCreator
 	 */
 	public function activate($item_id)
 	{
-		Item::where('pk_i_id', $item_id)->update(['b_active' => 1]);
+		Item::where('pk_i_id', $item_id)->update([
+			'b_active' => 1,
+			'b_enabled'	=> 1,
+			]);
 
 		return Item::find($item_id);
 	}
