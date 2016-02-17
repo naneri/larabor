@@ -2,15 +2,25 @@
 
 @section('content')
 	<div class="row">
-	    <div class="col-lg-12">
-	        <div class="text-center m-t-lg">
-	            <h1>
-	                Welcome in INSPINIA Static SeedProject
-	            </h1>
-	            <small>
-	                It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
-	            </small>
-	        </div>
-	    </div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Monthly custom ads</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{$items_posted}}</h1>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Current active custom ads</h5>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{$item_active}}</h1>
+				</div>
+			</div>
+		</div>
 	</div>
 @stop

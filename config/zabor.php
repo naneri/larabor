@@ -3,7 +3,7 @@
 return [
 	
 	// IDs of the users affiliated with the website
-	'worker_id_list'	=> [2, 25], 
+	'affiliates'	=> [2, 25], 
 
 	// The validation rules for item description
 	'item'	=> [

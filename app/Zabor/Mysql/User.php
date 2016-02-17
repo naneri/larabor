@@ -55,6 +55,16 @@ class User extends ZaborModel implements AuthenticatableContract,
     }
 
     /**
+     * checks if user is admin
+     */
+    public function is_admin()
+    {
+        if($this->is_admin == 1){
+            return true;
+        }
+        return false;
+    }
+    /**
     * Overrides the method to ignore the remember token.
     */
     public function setAttribute($key, $value)

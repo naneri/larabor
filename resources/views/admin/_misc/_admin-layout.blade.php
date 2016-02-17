@@ -13,7 +13,7 @@
 
     <link href="{{asset('admin/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/style.css')}}" rel="stylesheet">
-
+    <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" type="text/css" >
 </head>
 
 <body>
@@ -36,11 +36,11 @@
                         IN+
                     </div>
                 </li>
-                <li class="active">
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
+                <li>
+                    <a href="{{url('admin/main')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
                 </li>
                 <li>
-                    <a href="minor.html"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
+                    <a href="{{url('admin/item/inactive')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Inactive Items</span> </a>
                 </li>
             </ul>
 
@@ -92,7 +92,7 @@
 <!-- Custom and plugin javascript -->
 <script src="{{asset('admin/js/inspinia.js')}}"></script>
 <script src="{{asset('admin/js/plugins/pace/pace.min.js')}}"></script>
-
+@yield('scripts')
 
 </body>
 

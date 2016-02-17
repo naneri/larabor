@@ -31,7 +31,9 @@ Route::group([
 	'prefix'	=> 'admin'], function(){
 		
 		Route::get('main', 'AdminController@index');
-
+		Route::get('item/inactive', 'AdminController@inactiveItems');
+		Route::post('item/delete', 'AdminController@deleteItem');
+		Route::get('item/activate', 'AdminController@activateItem');
 	});
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
@@ -77,17 +79,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 
-/* 	Misc routes for testing;
-*/
-Route::get('carbon', function(){
-	echo "<pre>"; print_r(Carbon::now()->addDays(30)->toDateTimeString()); echo "</pre>";
-	exit;
-});
-Route::get('check', function(){
-	$user = \App\Zabor\Mysql\User::first();
-	return view('email/activate-account',['user' => $user]);
-});
 
-Route::get('check/resp', function(){
-	return view('bootply');
+Route::get('test/email', function(){
+	 $item = Item::find(75000);
+	 return view('emails.item.activated', compact('item'));
 });

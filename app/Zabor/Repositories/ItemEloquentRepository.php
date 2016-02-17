@@ -1,6 +1,7 @@
 <?php namespace App\Zabor\Repositories;
 
 use Carbon\Carbon;
+use Config;
 
 use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\Category;
@@ -178,4 +179,49 @@ class ItemEloquentRepository implements ItemInterface
 		return $query->paginate(10);
 	}
 
+
+	/**
+     * gets number of ads posted by non affiliates in last days
+     *  
+     * @param  [type] $day_limit [limit of days to count the ads]
+     * @return [type]            [description]
+     */
+    public static function customLastAds($day_limit)
+    {
+
+        return Item::where('dt_pub_date', '>', Carbon::now()->subDays($day_limit))
+    			->where('b_enabled', 1)
+				->where('b_active', 1)
+                ->where(function($query){
+                    $query->whereNotIn('fk_i_user_id', Config::get('zabor.affiliates'))
+                        ->orWhere('fk_i_user_id', null);
+                })
+                ->count();
+    }
+
+    /**
+     * [activeCustomAds description]
+     * @return [type] [description]
+     */
+    static function activeCustomAds()
+    {
+        return Item::where('dt_expiration', '>=', Carbon::now())
+        			->where('b_enabled', 1)
+					->where('b_active', 1)
+                    ->where(function($query){
+                        $query->whereNotIn('fk_i_user_id', Config::get('zabor.affiliates'))
+                            ->orWhere('fk_i_user_id', null);
+                    })
+                    ->count();
+    }
+
+    /**
+     * Get custom inactive ads
+     * 
+     * @return [type] [description]
+     */
+    public function getCustomInactiveItems($order_param)
+    {
+    	return Item::where('b_active', 0)->orderBy($order_param, 'DESC')->paginate();
+    }
 }

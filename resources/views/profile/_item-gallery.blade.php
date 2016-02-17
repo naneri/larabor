@@ -1,7 +1,7 @@
 
   <div class="text-center">
     @foreach($chunk as $item)
-    <div class="col-md-3 col-sm-4 col-xs-6 user-item">
+    <div class="col-md-3 col-sm-4 col-xs-12 user-item">
       <div class="thumbnail">
         <h1 class="pricetag"> 
           @if(!is_null($item->i_price))

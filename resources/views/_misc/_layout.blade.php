@@ -70,10 +70,14 @@
         <div class="navbar-collapse collapse">
           
           <ul class="nav navbar-nav navbar-right">
+
             @if(!Auth::check())
               <li><a href="{{url('login')}}">Войти <i class="fa fa-key"></i></a></li>
               <li><a href="{{url('register')}}">Регистрация <i class="fa fa-user-plus"></i></a></li>
             @else
+              @if(Auth::user()->is_admin())
+                <li><a href="{{url('admin/main')}}">Админка</a></li>
+              @endif
               <li><a href="{{route('profile.ads')}}">Профиль <i class="icon-user fa"></i></a></li>
               <li><a href="{{url('logout')}}">Выход <i class="glyphicon glyphicon-off"></i></a></li>
             @endif

@@ -4,9 +4,19 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Items\ItemCreator;
 
 class AdminController extends Controller
 {
+    public $item;
+
+    public function __construct(ItemInterface $item, ItemCreator $creator)
+    {
+        $this->item = $item;
+        $this->item_creator = $creator;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,72 +24,51 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.main');
+        $items_posted = $this->item->customLastAds(30);
+
+        $item_active = $this->item->activeCustomAds();
+
+        return view('admin.main', compact('items_posted', 'item_active'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * [inactiveItems description]
+     * @return [type] [description]
      */
-    public function create()
+    public function inactiveItems(Request $request)
     {
-        //
+        $order_param = $request->get('order_param') ?: 'pk_i_id';
+
+        $items = $this->item->getCustomInactiveItems($order_param);
+
+        return view('admin.inactive-items', compact('items', 'order_param'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * [deleteItem description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
      */
-    public function store(Request $request)
+    public function deleteItem(Request $request)
     {
-        //
+        $item_id = $request->get('id');
+
+        $item = $this->item->getById($item_id);
+
+        $this->item_creator->delete($item);
+
+        return response()->json(['success' => true]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function activateItem(Request $request)
     {
-        //
-    }
+        $item_id = $request->get('id');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $item = $this->item_creator->activate($item_id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item){
+                $message->to($item->s_contact_email)->subject('Ваше объявление было активировано!');
+        });
+        return response()->json(['success' => true]);
     }
 }

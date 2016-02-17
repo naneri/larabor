@@ -46,7 +46,7 @@ class ItemCreator
 
 		if(
 			isset($user->pk_i_id) && 
-			in_array($user->pk_i_id, Config::get('zabor.worker_id_list'))
+			in_array($user->pk_i_id, Config::get('zabor.affiliates'))
 		){
 			if($user->pk_i_id == 25){
 				$days = (int) $days / 4;
@@ -189,6 +189,18 @@ class ItemCreator
 		Item::where('pk_i_id', $item_id)->delete();
 
 		return true;
+	}
+
+	/**
+	 * [activate description]
+	 * @param  [type] $item_id [description]
+	 * @return [type]          [description]
+	 */
+	public function activate($item_id)
+	{
+		Item::where('pk_i_id', $item_id)->update(['b_active' => 1]);
+
+		return Item::find($item_id);
 	}
 
 	/**
