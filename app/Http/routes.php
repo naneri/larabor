@@ -25,11 +25,18 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 	Route::post('password/reset', 'PasswordController@postReset');
 });
 
+Route::group([
+	'namespace' => 'Admin', 
+	'middleware' => 'is_admin',
+	'prefix'	=> 'admin'], function(){
+		
+		Route::get('main', 'AdminController@index');
 
+	});
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 	
-	Route::get('logout', 'AuthController@getLogout');
+	Route::get('logout', 'AuthController@getLogout')->name('logout');
 
 
 });

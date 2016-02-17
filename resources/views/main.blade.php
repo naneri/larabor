@@ -2,7 +2,7 @@
 
 @section('meta')
 <meta name="title" content="Zabor.KG - Доска бесплатных объявлений." />
-<meta name="description" content="Главная страница сайта Zabor.kg - доска бесплатных объявлений" />
+<meta name="description" content="Главная страница сайта Zabor.kg - доска бесплатных объявлений. Куплля, продажа, аренда и предоставляение услег в Бишкеке и Кыргызстане" />
 @stop
 
 @section('content')
