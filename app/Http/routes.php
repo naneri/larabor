@@ -32,8 +32,9 @@ Route::group([
 		
 		Route::get('main', 'AdminController@index');
 		Route::get('item/inactive', 'AdminController@inactiveItems');
-		Route::post('item/delete', 'AdminController@deleteItem');
 		Route::get('item/activate', 'AdminController@activateItem');
+		Route::post('item/block', 'AdminController@blockItem');
+		Route::post('item/delete', 'AdminController@deleteItem');
 	});
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){

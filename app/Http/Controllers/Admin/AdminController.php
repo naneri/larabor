@@ -60,6 +60,11 @@ class AdminController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * [activateItem description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function activateItem(Request $request)
     {
         $item_id = $request->get('id');
@@ -69,6 +74,20 @@ class AdminController extends Controller
         \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item){
                 $message->to($item->s_contact_email)->subject('Ваше объявление было активировано!');
         });
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * [blockItem description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function blockItem(Request $request)
+    {
+        $item_id = $request->get('id');
+
+        $item = $this->item_creator->block($item_id);
+
         return response()->json(['success' => true]);
     }
 }

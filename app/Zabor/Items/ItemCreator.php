@@ -208,6 +208,20 @@ class ItemCreator
 	}
 
 	/**
+	 * [block description]
+	 * @param  [type] $item_id [description]
+	 * @return [type]          [description]
+	 */
+	public function block($item_id)
+	{
+		Item::where('pk_i_id', $item_id)->update([
+				'b_enabled'	=> 0
+			]);
+
+		return Item::find($item_id);
+	}
+
+	/**
 	 * [increase_count description]
 	 * 
 	 * @param  [type] $item_id [description]

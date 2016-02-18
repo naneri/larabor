@@ -15,7 +15,13 @@
 			</thead>
 			<tbody>
 				@foreach($items as $item)
-				<tr data-toggle="tooltip" title="{{@$item->description->s_description}} | {{@$item->formatedPrice()}} {{@$item->fk_c_currency_code}}">
+				<tr 
+					data-toggle="tooltip" 
+					title="{{@$item->description->s_description}} | {{@$item->formatedPrice()}} {{@$item->fk_c_currency_code}}"
+					@if($item->is_enabled == 0)
+						class="danger"
+					@endif
+					>
 					<th style="width:50px"><img src="{{asset($item->demo_image())}}" class="img-responsive" alt=""></th>
 					<th>{{@$item->pk_i_id}}</th>
 					<th> 
@@ -30,6 +36,7 @@
             </a>
             <ul class="dropdown-menu dropdown-user">
             	<li><a onclick="activateItem({{$item->pk_i_id}})">Activate</a></li>
+              <li><a class="item_delete_button" onclick="blockItem({{$item->pk_i_id}})" href="#">Block item</a></li>
               <li><a class="item_delete_button" onclick="deleteItem({{$item->pk_i_id}})" href="#">Delete item</a></li>
               
             </ul>
@@ -54,18 +61,27 @@
 		    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
 		});
 
-		function deleteItem(item_id)
+		function activateItem(item_id)
 		{
-			$.post('{{url("admin/item/delete")}}', 
+			$.get('{{url("admin/item/activate")}}',
 				{id : item_id})
 			.done(function(){
 				location.reload();
 			})
 		}
 
-		function activateItem(item_id)
+		function blockItem(item_id)
 		{
-			$.get('{{url("admin/item/activate")}}',
+			$.post('{{url("admin/item/block")}}', 
+				{id : item_id})
+			.done(function(){
+				location.reload();
+			})
+		}
+
+		function deleteItem(item_id)
+		{
+			$.post('{{url("admin/item/delete")}}', 
 				{id : item_id})
 			.done(function(){
 				location.reload();
