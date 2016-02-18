@@ -95,6 +95,18 @@ class Item extends ZaborModel
 		return false;
 	}
 
+	/**
+	 * [is_active description]
+	 * @return boolean [description]
+	 */
+	public function is_active()
+	{
+		if($this->dt_expiration > Carbon::now()){
+			return true;
+		}
+		return false;
+	}
+
 	public function getIPriceAttribute($value)
 	{
 		if(!empty($value)){

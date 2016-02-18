@@ -191,7 +191,7 @@ class ItemController extends Controller
     {
         Session::put('edit_url', $request->url());
 
-        $item = $this->item->getById($id, $code = null);
+        $item = $this->item->getById($id, $code);
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
                 $item->fk_i_user_id, 
@@ -307,7 +307,7 @@ class ItemController extends Controller
      */
     public function prolong($id, $code = null)
     {
-        $item = $this->item->getById($id, $code = null);
+        $item = $this->item->getById($id, $code);
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
                 $item->fk_i_user_id, 
@@ -343,7 +343,7 @@ class ItemController extends Controller
     public function destroy(Request $request, $id, $code = null)
     {
 
-        $item = $this->item->getById($id, $code = null);
+        $item = $this->item->getById($id, $code);
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
                 $item->fk_i_user_id, 

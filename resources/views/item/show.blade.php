@@ -89,7 +89,7 @@
                 	{!!nl2br(e($item->showDescription()))!!}
                 </div>
                 <div class="col-md-4">
-                  @if($item->is_actual())
+                  @if($item->is_active())
                     <aside class="panel panel-body panel-details">
                       <ul>
                        @foreach($item->metas as $meta)

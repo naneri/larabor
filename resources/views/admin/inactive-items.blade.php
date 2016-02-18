@@ -16,10 +16,10 @@
 			<tbody>
 				@foreach($items as $item)
 				<tr data-toggle="tooltip" title="{{@$item->description->s_description}} | {{@$item->formatedPrice()}} {{@$item->fk_c_currency_code}}">
-					<th style="width:50px"><img src="{{@$item->demo_image()}}" class="img-responsive" alt=""></th>
+					<th style="width:50px"><img src="{{asset($item->demo_image())}}" class="img-responsive" alt=""></th>
 					<th>{{@$item->pk_i_id}}</th>
 					<th> 
-						<a href="{{route('item.show',$item->pk_i_id)}}">{{@$item->description->s_title}}</a> 
+						<a href="{{route('item.show',[$item->pk_i_id, $item->s_secret])}}">{{str_limit(@$item->description->s_title, 30)}}</a> 
 					</th>
 					<th>{{@$item->dt_pub_date}}</th>
 					<th>{{@$item->stats->sum('i_num_views')}}</th>
@@ -29,8 +29,9 @@
               <i class="fa fa-wrench"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
+            	<li><a onclick="activateItem({{$item->pk_i_id}})">Activate</a></li>
               <li><a class="item_delete_button" onclick="deleteItem({{$item->pk_i_id}})" href="#">Delete item</a></li>
-              <li><a onclick="activateItem({{$item->pk_i_id}})">Activate</a></li>
+              
             </ul>
 					</th>
 				

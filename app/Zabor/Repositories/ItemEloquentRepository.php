@@ -222,6 +222,15 @@ class ItemEloquentRepository implements ItemInterface
      */
     public function getCustomInactiveItems($order_param)
     {
-    	return Item::where('b_active', 0)->orderBy($order_param, 'DESC')->paginate();
+    	return Item::where('b_active', 0)
+  								->orderBy($order_param, 'DESC')
+					    		->with([
+					            'category.description', 
+					            'description', 
+					            'currency', 
+					            'lastImage',
+					            'stats'
+					        ])
+					    		->paginate();
     }
 }
