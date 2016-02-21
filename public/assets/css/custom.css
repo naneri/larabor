@@ -122,3 +122,8 @@ aside.panel.panel-body.panel-details {
 .navbar-nav > li.postadd a{
   padding: 12px ;
 }
+
+.main-category-list li{
+  border-bottom: 1px dotted #ddd;
+  padding: 3px 7px;
+}

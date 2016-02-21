@@ -8,7 +8,7 @@
 <meta name="title" content="{{$item->description->s_title}} - Zabor.kg"/>
 <meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
 
-<meta property="og:title" content="{{$item->description->s_title}} на Zabor.kg" />
+<meta property="og:title" content="{{$item->description->s_title}}" />
 <meta property="og:description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}}" />
 <meta property="og:image" content="{{
     isset($item->images[0]) ?

@@ -3,6 +3,7 @@
 use App\Zabor\Repositories\MetaEloquentRepository;
 use Carbon\Carbon;
 use App\Zabor\Mysql\Item;
+use App\Zabor\Mysql\Category;
 
 Route::get('/', 'MainController@index');
 
@@ -82,6 +83,5 @@ Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 
 
 Route::get('test/email', function(){
-	 $item = Item::find(75000);
-	 return view('emails.item.activated', compact('item'));
+	 dd(Category::where('fk_i_parent_id', null)->get()->lists('s_icon'));
 });

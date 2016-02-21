@@ -222,7 +222,7 @@
                         server_name: value.name,
                         accepted: true
                       }
-                      console.log(dz_file);
+ 
                       dz.emit("addedfile", dz_file);
                       dz.createThumbnailFromUrl(dz_file, value.path);
                       dz.emit("complete", dz_file);
@@ -264,7 +264,7 @@ dropzone.removeFile = function (file) {
 dropzone.on('error', function (file, error, xhr) {
 
   if (xhr != null) {
-
+    console.log(error);
     toastr.error('Проблемы при загрузке');
 
   } 

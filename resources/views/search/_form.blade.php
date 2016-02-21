@@ -2,7 +2,7 @@
   <form method="GET" action="{{url('search')}}" role="form" >
     <input type="hidden" name="category" value="{{$searchParams['category'] or null}}">
     <input type="hidden" name="orderBy" value="{{$searchParams['orderBy'] or 'dt_pub_date'}}">
-    <input type="hidden" name="orderType" value="{{$searchParams['orderType'] or 'ASC'}}">
+    <input type="hidden" name="orderType" value="{{$searchParams['orderType'] or 'DESC'}}">
 
     <div class="locations-list  list-filter">
       <h5 class="list-title"><strong>Ваш поиск</strong></h5>
