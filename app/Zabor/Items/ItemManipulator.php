@@ -11,7 +11,8 @@ use App\Zabor\Mysql\Item_stats 		 as Stats;
 use App\Zabor\Mysql\Item_meta 		 as Meta;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Services\CategoryStatsManager;
-class ItemCreator
+
+class ItemManipulator
 {
 
 	public function __construct(

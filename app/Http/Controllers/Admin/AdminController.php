@@ -5,13 +5,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Items\ItemCreator;
+use App\Zabor\Items\ItemManipulator;
 
 class AdminController extends Controller
 {
     public $item;
 
-    public function __construct(ItemInterface $item, ItemCreator $creator)
+    public function __construct(ItemInterface $item, ItemManipulator $creator)
     {
         $this->item = $item;
         $this->item_creator = $creator;

@@ -4,16 +4,9 @@ namespace App\Http\Controllers;
 
 use JavaScript;
 use Auth;
-use Log;
 use Session;
-use File;
-use App;
-use Response;
 use Mail;
-use Validator;
-use Exception;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Jenssegers\Agent\Agent;
 use URL;
 
@@ -24,13 +17,23 @@ use App\Zabor\Repositories\Contracts\MetaInterface;
 use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\Validators\ItemValidator;
 use App\Zabor\Images\ImageCreator;
-use App\Zabor\Items\ItemCreator;
+use App\Zabor\Items\ItemManipulator;
 use App\Zabor\Items\ItemOwnerIdentifier;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ItemController extends Controller
 {
+
+    protected $item;
+    protected $category;
+    protected $currency;
+    protected $validator;
+    protected $meta;
+    protected $image;
+    protected $item_creator;
+    protected $ownerIdentifier;
+    protected $user;
 
     public function __construct(
         ItemInterface $item, 
@@ -39,7 +42,7 @@ class ItemController extends Controller
         MetaInterface $meta,
         ItemValidator $validator,
         ImageCreator $image,
-        ItemCreator $item_creator,
+        ItemManipulator $item_creator,
         ItemOwnerIdentifier $ownerIdentifier,
         UserEloquentRepository $user)
     {
@@ -55,9 +58,8 @@ class ItemController extends Controller
     }
 
     /**
-     * [getAdd description]
-     * 
-     * @return [type] [description]
+     * @param Request $request
+     * @return $this
      */
     public function getAdd(Request $request)
     {
@@ -103,6 +105,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $user = null;
 
         $item_data = $request->except('_token', 'category');
