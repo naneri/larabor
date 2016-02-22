@@ -105,7 +105,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
         $user = null;
 
         $item_data = $request->except('_token', 'category');
