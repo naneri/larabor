@@ -34,7 +34,7 @@ class ItemTest extends TestCase
         $manipulator = App::make(ItemManipulator::class);
 
         $item = $manipulator->store($item_data, null, 30);
-\Log::info($item);
+
         $this->assertEquals($item_data['seller-email'], $item->s_contact_email);
     }
 }

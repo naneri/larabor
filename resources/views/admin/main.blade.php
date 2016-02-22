@@ -22,5 +22,40 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Top Sellers</h5>
+					<div class="ibox-tools">
+						<a class="collapse-link">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+						<a class="close-link">
+							<i class="fa fa-times"></i>
+						</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<table class="table table-hover no-margins">
+						<thead>
+						<tr>
+							<th>Email</th>
+							<th>Ads</th>
+							<th>Name</th>
+						</tr>
+						</thead>
+						<tbody>
+						@foreach($top_sellers as $seller)
+							<tr>
+								<td><small>{{@$seller->user->s_email}}</small></td>
+								<td>{{@$seller->item_count}}</td>
+								<td><a href="{{route('user.ads', [$seller->user->pk_i_id])}}">{{@$seller->user->s_name}}</a></td>
+							</tr>
+						@endforeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 @stop

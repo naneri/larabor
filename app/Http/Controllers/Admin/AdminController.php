@@ -6,15 +6,21 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
+use App\Zabor\User\UserEloquentRepository;
 
 class AdminController extends Controller
 {
     public $item;
+    protected $item_creator;
+    protected $user;
 
-    public function __construct(ItemInterface $item, ItemManipulator $creator)
+    public function __construct(ItemInterface $item,
+                                ItemManipulator $creator,
+                                UserEloquentRepository $user)
     {
         $this->item = $item;
         $this->item_creator = $creator;
+        $this->user = $user;
     }
 
     /**
@@ -28,7 +34,9 @@ class AdminController extends Controller
 
         $item_active = $this->item->activeCustomAds();
 
-        return view('admin.main', compact('items_posted', 'item_active'));
+        $top_sellers = $this->user->getTopSellers();
+
+        return view('admin.main', compact('items_posted', 'item_active', 'top_sellers'));
     }
 
     /**
