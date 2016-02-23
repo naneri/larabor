@@ -32,7 +32,7 @@ class CustomController extends Controller
         $validator = Validator::make($request->all(), [
                 'name'  => 'required|min:3|max:20',
                 'email' => 'required|email',
-                'message' => 'required|min:20'
+                'message' => 'required|min:10'
             ]);
 
         if($validator->fails()){

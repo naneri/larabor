@@ -23,6 +23,7 @@
                 <div class="panel-body">
                 	<form action="" class="form-horizontal" method="post">
 	                    <fieldset>
+												{{ csrf_field() }}
 													<div class="row">
                             <div class="col-sm-6">
 	                            <div class="form-group">
