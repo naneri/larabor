@@ -18,7 +18,7 @@
 				<tr 
 					data-toggle="tooltip" 
 					title="{{@$item->description->s_description}} | {{@$item->formatedPrice()}} {{@$item->fk_c_currency_code}}"
-					@if($item->is_enabled == 0)
+					@if($item->b_enabled == 0)
 						class="danger"
 					@endif
 					>

@@ -127,3 +127,9 @@ aside.panel.panel-body.panel-details {
   border-bottom: 1px dotted #ddd;
   padding: 3px 7px;
 }
+
+@media (min-width: 768px){
+  #search-filters{
+    display: block!important;
+  }
+}
