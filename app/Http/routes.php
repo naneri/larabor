@@ -85,3 +85,6 @@ Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/email', function(){
 	 dd(Category::where('fk_i_parent_id', null)->get()->lists('s_icon'));
 });
+
+Route::get('test/crawler', 'MainController@testCrawler');
+

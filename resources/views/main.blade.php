@@ -57,7 +57,7 @@
               <div class="inner-box-content">
                 <ul class="cat-list main-category-list">
                   @foreach($categories as $category)
-                    <li> <i class="icon-{{$category->s_icon}}"></i><a href="{{url('search?category=' . $category->pk_i_id)}}"> {{$category->description->s_name}} <span style="color:grey" class="small">({{$category->stats->i_num_items}}) </span></a></li>
+                    <li> <i class="fontastic-{{$category->s_icon}}"></i><a href="{{url('search?category=' . $category->pk_i_id)}}"> {{$category->description->s_name}} <span style="color:grey" class="small">({{$category->stats->i_num_items}}) </span></a></li>
                   @endforeach
                 </ul>
               </div>
