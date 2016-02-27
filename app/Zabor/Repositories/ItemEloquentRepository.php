@@ -231,7 +231,7 @@ class ItemEloquentRepository implements ItemInterface
 					            'lastImage',
 					            'stats'
 					        ])
-					    		->paginate();
+					    		->get();
     }
 
 
