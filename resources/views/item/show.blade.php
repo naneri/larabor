@@ -5,13 +5,11 @@
 @stop
 
 @section('meta')
-<meta name="title" content="{!!$item->description->s_title!!} - Zabor.kg"/>
-<meta name="description" content="{!! $item->description->s_description !!}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
-<meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
-<meta name="description" content="{{{$item->description->s_description}}}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
+<meta name="title" content="{!! stripForMeta($item->description->s_title)!!} - Zabor.kg"/>
+<meta name="description" content="{{$item->category->description->s_name}} : {!! stripForMeta($item->description->s_description) !!}, - купить в Бишкеке и других городах Кыргызстана." />
 
-<meta property="og:title" content="{!! $item->description->s_title !!}" />
-<meta property="og:description" content="{!! $item->description->s_description !!}, {!! $item->category->description->s_name !!}" />
+<meta property="og:title" content="{!! stripForMeta($item->description->s_title) !!}" />
+<meta property="og:description" content="{!! stripForMeta($item->description->s_description) !!}, {!! $item->category->description->s_name !!}" />
 <meta property="og:image" content="{{
     isset($item->images[0]) ?
     asset($item->images[0]->imageUrl()) :
@@ -88,7 +86,7 @@
               <h5 class="list-title"><strong>Описание</strong></h5>
               <div class="row">
                 <div class="ads-details-info col-md-8">
-                	{!!nl2br($item->showDescription())!!}
+                	{!!nl2br(e($item->showDescription()))!!}
                 </div>
                 <div class="col-md-4">
                   @if($item->is_active())

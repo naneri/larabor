@@ -14,7 +14,14 @@
   Zabor.kg - Доска бесплатных объявлений
   @show
 </title>
-
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-73364271-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 @section('meta')
 <meta name="title" content="Zabor.KG - Доска бесплатных объявлений." />
@@ -103,7 +110,7 @@
         <a href="{{url('contacts')}}"> Контакты </a> 
       </ul>
       <ul class=" pull-right navbar-link footer-nav">
-        <li> &copy; 2013 - {{date("Y")}} Zabor.kg </li>
+        <li> &copy; 2013 - {{date("Y")}} Zabor.kg, г.Бишкек - Кыргызстан </li>
       </ul>
     </div>
     
@@ -150,18 +157,7 @@
 <script type="text/javascript" src="{{asset('assets/js/notify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
 @yield('scripts')
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  @if(Auth::check())
-  ga('set', 'userId', '{{Auth::id()}}'); // Set the user ID using signed-in user_id.
-  @endif
-  ga('create', 'UA-73364271-1', 'auto');
-  ga('send', 'pageview');
 
-</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
   (function (d, w, c) {
