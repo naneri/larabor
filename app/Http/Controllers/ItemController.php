@@ -105,14 +105,16 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-
         $user = null;
 
         $item_data = $request->except('_token', 'category');
 
         $item_data['category'] = $this->getCategory($request->input('category'));
-
         $item_data['price']    = trim($item_data['price']);
+
+        // cleaning the input
+        $item_data['title']             = clean($item_data['title']);
+        $item_data['description']       = clean($item_data['description']);
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;
@@ -272,8 +274,11 @@ class ItemController extends Controller
         $item_data = $request->except('_token', 'category');
 
         $item_data['category'] = $this->getCategory($request->input('category'));
-
         $item_data['price']    = trim($item_data['price']);
+
+        // cleaning the input
+        $item_data['title']             = clean($item_data['title']);
+        $item_data['description']       = clean($item_data['description']);
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;

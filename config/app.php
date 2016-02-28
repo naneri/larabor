@@ -136,7 +136,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -146,13 +146,16 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
-        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 
-        
+        /**
+         * 3rd party
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
-
+        Mews\Purifier\PurifierServiceProvider::class,
     ],
 
     /*
@@ -205,6 +208,7 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
+        'Purifier'  => Mews\Purifier\Facades\Purifier::class,
 
     ],
 
