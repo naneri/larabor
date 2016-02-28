@@ -88,7 +88,7 @@ class Item extends ZaborModel
 	 */
 	public function is_actual()
 	{
-		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration > Carbon::now())
+		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration >= Carbon::now()->subDay(1))
 		{
 			return true;
 		}
