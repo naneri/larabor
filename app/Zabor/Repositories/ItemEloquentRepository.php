@@ -248,7 +248,6 @@ class ItemEloquentRepository implements ItemInterface
 					->take(3)
 					->orderByRaw("RAND()")
 					->with([
-						'category.description',
 						'description',
 						'currency',
 						'lastImage',

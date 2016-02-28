@@ -133,3 +133,8 @@ aside.panel.panel-body.panel-details {
     display: block!important;
   }
 }
+
+.related-ads-price{
+  display : inline-block;
+  color   : green
+}

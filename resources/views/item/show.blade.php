@@ -202,14 +202,15 @@
                           <h5 class="add-title">
                             {{$item->description->s_title}}
                             @if(!is_null($item->i_price))
-                              - {{$item->formatedPrice()}} {{$item->currency->s_description}}
+                              - <span class="related-ads-price">
+                                <b>{{$item->formatedPrice()}} {{$item->currency->s_description}}</b>
+                                </span>
                             @endif
                           </h5>
 
                           <span class="info-row">
                             <span class="date"><i class="fa fa-calendar"> </i> {{$item->dt_pub_date or null}} </span>
-                            <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>
-                            <span class="category">{{$item->category->description->s_name or null}}</span>
+                            <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span>
                             <br>
                           </span>
                         </div>
