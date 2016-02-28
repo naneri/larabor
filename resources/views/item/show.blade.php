@@ -182,7 +182,38 @@
             </div>
             <!--/.categories-list--> 
           </aside>
-          
+
+          @if(!$related_items->isEmpty())
+            <aside>
+              <div class="panel sidebar-panel panel-contact-seller">
+                <div class="panel-heading">
+                  <p class="text-center">Похожие объявления:</p>
+                </div>
+                <div class="panel-content user-info">
+                  @foreach($related_items as $item)
+                    <div style="padding:5px">
+                      <a class="" href="">
+                      <img style="margin-bottom:0px" class="img-responsive thumbnail center-block" src="{{asset($item->demo_image())}}" alt="">
+                        <div class="text-center">
+                          <h5 class="add-title">{{$item->description->s_title}}</h5>
+                          <span class="info-row">
+                            <span class="date"><i class="fa fa-calendar"> </i> {{$item->dt_pub_date or null}} </span>
+                            <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>
+                            <span class="category">{{$item->category->description->s_name or null}}</span>
+                            <br>
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                    @if($item != $related_items->last()) <hr style="margin-bottom: 0px"> @endif
+                  @endforeach
+                </div>
+              </div>
+
+            </aside>
+          @endif
+
+
         </div>
         @endif
 
@@ -224,7 +255,8 @@
   </div>
 </div>
 @endif
- 
+
+
 @stop
 
 @section('styles')

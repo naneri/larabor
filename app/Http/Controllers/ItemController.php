@@ -166,6 +166,8 @@ class ItemController extends Controller
             throw new NotFoundHttpException("Item is not enabled");
         }
 
+        $related_items = $this->item->find_related($item);
+
         $agent = new Agent();
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
@@ -183,7 +185,7 @@ class ItemController extends Controller
             Session::put('item-origin', URL::previous());
         }
 
-        return view('item.show', compact('item', 'is_owner', 'code'));
+        return view('item.show', compact('item', 'is_owner', 'code', 'related_items'));
     }
 
     /**

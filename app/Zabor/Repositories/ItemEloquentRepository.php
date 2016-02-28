@@ -230,9 +230,30 @@ class ItemEloquentRepository implements ItemInterface
 					            'currency', 
 					            'lastImage',
 					            'stats'
-					        ])
+					        	])
 					    		->paginate();
     }
 
-
+	/**
+	 * @param Item $item
+	 * @return mixed
+	 */
+	public function find_related(Item $item)
+	{
+		return Item::where('b_enabled', 1)
+					->where('pk_i_id', '!=', $item->pk_i_id)
+					->where('b_active', 1)
+					->where('dt_expiration', '>', Carbon::now())
+					->where('fk_i_category_id', $item->fk_i_category_id)
+					->take(3)
+					->orderByRaw("RAND()")
+					->with([
+						'category.description',
+						'description',
+						'currency',
+						'lastImage',
+						'stats'
+					])
+					->get();
+	}
 }
