@@ -57,9 +57,9 @@ class AdminController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function deleteItem(Request $request)
+    public function deleteItem(Request $request, $id)
     {
-        $item_id = $request->get('id');
+        $item_id = $id;
 
         $item = $this->item->getById($item_id);
 

@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    @yield('meta')
     <title>INSPINIA | Main view</title>
 
     <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
