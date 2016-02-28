@@ -138,9 +138,10 @@
           
         </div>
         <!--/.page-content-->
-        
-        @if($item->is_actual())
+
+
         <div class="col-md-3  page-sidebar-right">
+        @if($item->is_actual())
           <aside>
             <div class="panel sidebar-panel panel-contact-seller">
               <div class="panel-heading">
@@ -182,6 +183,9 @@
             </div>
             <!--/.categories-list--> 
           </aside>
+          @endif
+
+
 
           @if(!$related_items->isEmpty())
             <aside>
@@ -192,10 +196,16 @@
                 <div class="panel-content user-info">
                   @foreach($related_items as $item)
                     <div style="padding:5px">
-                      <a class="" href="">
+                      <a href="{{route('item.show', $item->pk_i_id)}}">
                       <img style="margin-bottom:0px" class="img-responsive thumbnail center-block" src="{{asset($item->demo_image())}}" alt="">
                         <div class="text-center">
-                          <h5 class="add-title">{{$item->description->s_title}}</h5>
+                          <h5 class="add-title">
+                            {{$item->description->s_title}}
+                            @if(!is_null($item->i_price))
+                              - {{$item->formatedPrice()}} {{$item->currency->s_description}}
+                            @endif
+                          </h5>
+
                           <span class="info-row">
                             <span class="date"><i class="fa fa-calendar"> </i> {{$item->dt_pub_date or null}} </span>
                             <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>
@@ -212,10 +222,9 @@
 
             </aside>
           @endif
-
-
         </div>
-        @endif
+
+
 
         <!--/.page-side-bar--> 
       </div>
