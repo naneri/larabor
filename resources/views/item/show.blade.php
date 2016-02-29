@@ -276,8 +276,10 @@
 @section('scripts')
 <script src="{{asset('assets/plugins/bxslider/jquery.bxslider.min.js')}}"></script> 
  <script>
-	$('.bxslider').bxSlider({
-	  pagerCustom: '#bx-pager'
-	});
+   $(document).ready(function(){
+     $('.bxslider').bxSlider({
+       pagerCustom: '#bx-pager'
+     });
+   });
 	</script> 
 @stop
