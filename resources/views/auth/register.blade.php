@@ -53,11 +53,22 @@
                       <label for="inputEmail3" class="col-md-4 control-label">Почта</label>
                       <div class="col-md-6">
                         <input name="email" type="email" class="form-control" id="inputEmail3" value="{{old('email')}}">
-                        @foreach ($errors->get('email') as $error)
+                        @if($errors->has('email'))
                           <p class="checkbox help-block">
-                            {{$error}}
+                            @if(!is_null(session('user')))
+                              @if(session('user')->b_active == 0)
+                                Учётная запись с данной почтой не была активирована,вы можете <a href="{{route('reactivate', session('user')->s_email)}}">запросить повторную активацию</a>
+                              @else
+                                Учётная запись с данной почтой уже существует. Если вы забыли пароль, вы может восстановить пройдя
+                                <a href="{{route('reset.password')}}">по ссылке</a>
+                              @endif
+                            @else
+                              @foreach ($errors->get('email') as $error)
+                                  {{$error}}
+                              @endforeach
+                            @endif
                           </p>
-                        @endforeach
+                        @endif
                       </div>
                     </div>
                     <div class="form-group

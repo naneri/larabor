@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Zabor\Mysql\UserData;
 use Auth;
 use App\Zabor\Mysql\User;
 use App\Zabor\Mysql\User_description;
@@ -37,6 +38,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
@@ -146,9 +148,12 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $user = User::where('s_email', $request->input('email'))->first();
+
             return redirect('register')
                         ->withErrors($validator)
-                        ->withInput();
+                        ->withInput()
+                        ->with('user', $user);
         }
 
         $user = User::create([
@@ -166,8 +171,10 @@ class AuthController extends Controller
 
         User_description::create([
             'fk_i_user_id' => $user->pk_i_id,
-             'fk_c_locale_code' => 'ru_RU'
+            'fk_c_locale_code' => 'ru_RU'
             ]);
+
+        UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
 
         Mail::send('emails.activate', compact('user'), function($message) use ($user){
             $message->to($user->s_email);
@@ -181,10 +188,43 @@ class AuthController extends Controller
     }
 
     /**
-     * [ActivateAccount description]
-     * 
-     * @param [type] $user_id [description]
-     * @param [type] $token   [description]
+     * @param $email
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reActivate($email)
+    {
+        $user = User::where('s_email', $email)->first();
+
+        if($user->b_active == 1){
+            return redirect('/')->with('message', [
+                'info' => 'учётная запись уже активирована'
+            ]);
+        }
+
+        if($user->data->activate_attempts > 2){
+            return redirect('/')->with('message', [
+                'error' => 'слишком много попыток активаций, обратитесь к администрации для активации в ручную'
+            ]);
+        }
+
+        $user->data->increment('activate_attempts');
+
+        Mail::send('emails.activate', compact('user'), function($message) use ($user){
+            $message->to($user->s_email);
+            $message->subject('Регистрация на Zabor.kg');
+        });
+
+        return redirect('/')->with('message', [
+            'info' => 'Письмо с активацией отправлено вам на почту'
+        ]);
+    }
+
+    /**
+     * @param $user_id
+     * @param $token
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function activateAccount($user_id, $token)
     {

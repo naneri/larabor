@@ -16,9 +16,10 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 
 	Route::post('register', 'AuthController@postRegister');
 	Route::get('account/activate/{user_id}/{token}', 'AuthController@activateAccount');
+	Route::get('account/reactivate/{email}', 'AuthController@reActivate')->name('reactivate');
 
 	// Password reset link request routes...
-	Route::get('password/email', 'PasswordController@getEmail');
+	Route::get('password/email', 'PasswordController@getEmail')->name('reset.password');
 	Route::post('password/email', 'PasswordController@postEmail');
 
 	// Password reset routes...
