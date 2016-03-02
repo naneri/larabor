@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Zabor\Mysql\UserData;
 use Auth;
-use App\Zabor\Mysql\User;
-use App\Zabor\Mysql\User_description;
 use Validator;
 use Carbon\Carbon;
 use Mail;
@@ -15,6 +12,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+
+use App\Zabor\Mysql\UserData;
+use App\Zabor\Mysql\User;
+use App\Zabor\Mysql\User_description;
+use App\Zabor\User\UserEloquentRepository;
 
 class AuthController extends Controller
 {
@@ -36,9 +38,11 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        UserEloquentRepository $user
+    )
     {
-
+        $this->user = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
@@ -97,7 +101,6 @@ class AuthController extends Controller
                 'password' => $request->input('password')
                 ])
             ){
-
                 if(Session::has('login-origin')){
                     $redirect_url = Session::get('login-origin');
                     Session::forget('login-origin');
@@ -181,7 +184,6 @@ class AuthController extends Controller
             $message->subject('Регистрация на Zabor.kg');
         });
 
-
         return redirect('/')->with('message', [
             'info' => 'Письмо с активацией отправлено вам на почту'
             ]);
@@ -194,7 +196,7 @@ class AuthController extends Controller
      */
     public function reActivate($email)
     {
-        $user = User::where('s_email', $email)->first();
+        $user = $this->user->findByEmail($email);
 
         if($user->b_active == 1){
             return redirect('/')->with('message', [
@@ -228,7 +230,7 @@ class AuthController extends Controller
      */
     public function activateAccount($user_id, $token)
     {
-        $user = User::find($user_id);
+        $user = $this->user->findById($user_id);
 
         $check = ($token == $user->s_secret);
 

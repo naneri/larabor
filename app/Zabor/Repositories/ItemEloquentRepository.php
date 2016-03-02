@@ -4,13 +4,16 @@ use Carbon\Carbon;
 use Config;
 
 use App\Zabor\Mysql\Item;
-use App\Zabor\Mysql\Category;
 use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Mysql\Item_meta as Meta;
 use Cache;
 
-class ItemEloquentRepository implements ItemInterface
+class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 {
+
+	public function __construct(Item $model)
+	{
+		$this->model = $model;
+	}
 
 	/**
 	 * Gets Last Items

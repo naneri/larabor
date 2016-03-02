@@ -393,14 +393,14 @@ class ItemController extends Controller
     {
         $this->validate($request, [
             'item_id'   => 'required',
-            'text'   => 'required',
+            'text'      => 'required',
             'phone'     => 'required'
             ]);
 
         $item_id = $request->input('item_id');
-        $text = $request->input('text');
+        $text    = $request->input('text');
         $phone   = $request->input('phone');
-        $item = $this->item->getById($item_id);
+        $item    = $this->item->getById($item_id);
 
         if(!$item->is_actual()){
 
@@ -410,7 +410,9 @@ class ItemController extends Controller
         }
 
         $email = $item->s_contact_email;
+
         if(!empty($item->fk_i_user_id)){
+
             $user = $this->user->getUserInfo($item->fk_i_user_id);
 
             $email = $user->s_email;
