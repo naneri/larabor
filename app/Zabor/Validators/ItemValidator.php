@@ -18,6 +18,7 @@ class ItemValidator
 	protected $email_rules = [
 		'seller-email'	=> 'required|email|unique:user,s_email', 
 	];
+
 	/**
 	 * [validate description]
 	 * 
