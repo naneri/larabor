@@ -88,7 +88,7 @@ class Item extends ZaborModel
 	 */
 	public function is_actual()
 	{
-		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration >= Carbon::now()->subDay(1))
+		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration >= Carbon::now())
 		{
 			return true;
 		}
@@ -123,13 +123,6 @@ class Item extends ZaborModel
 		return $time->toDateString();
 	}
 
-	public function getDtExpirationAttribute($value)
-	{
-		$time = new Carbon($value);
-
-		return $time->toDateString();
-	}
-
 	public function setIPriceAttribute($value)
 	{
 		$this->attributes['i_price'] = $value * 1000000;
@@ -140,6 +133,9 @@ class Item extends ZaborModel
 		return (int) $value;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function recentlyProlonged()
 	{
 		$date = Carbon::parse($this->dt_pub_date);
@@ -148,4 +144,21 @@ class Item extends ZaborModel
 
 	}
 
+	/**
+	 * @return string
+	 */
+	public function showExpirationDate()
+	{
+		$time = new Carbon($this->dt_expiration);
+
+		return $time->toDateString();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_old()
+	{
+		return $this->dt_expiration < Carbon::now();
+	}
 }

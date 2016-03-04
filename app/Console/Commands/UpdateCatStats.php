@@ -42,7 +42,6 @@ class UpdateCatStats extends Command
      */
     public function handle()
     {
-
         // ToDo refactor all this stuff
         foreach(app(CatRepo::class)->getRootCategories()->lists('pk_i_id') as $id){
             $ids = app(CatRepo::class)->getIdWithChildrenIds($id);
