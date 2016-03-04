@@ -104,7 +104,7 @@
                                   <i style="color:red" class="fa fa-close"></i>
                                 @endif 
                               @elseif($meta->meta->e_type == 'URL')
-                                <a href="{{$meta->s_value}}">{{$meta->s_value}}</a>
+                                <a rel="nofollow" href="{{$meta->s_value}}">{{$meta->s_value}}</a>
                               @else
                                 {{$meta->s_value}}
                               @endif

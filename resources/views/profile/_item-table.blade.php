@@ -66,7 +66,3 @@
     @endforeach
   </tbody>
 </table>
-
-@section('scripts')
-
-@stop
