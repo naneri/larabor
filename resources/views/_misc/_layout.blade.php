@@ -71,7 +71,7 @@
           <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
           <a href="{{url('/')}}" class="navbar-brand logo logo-title"> 
           <!-- Original Logo will be placed here  --> 
-            Zabor.kg
+            <img style="height:45px" src="{{asset('images/banner.jpg')}}">
           </a> 
         </div>
         <div class="navbar-collapse collapse">
@@ -124,7 +124,7 @@
 
 <!-- Placed at the end of the document so the pages load faster --> 
  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"> </script>
+<script src="{{asset('components/jquery/jquery.min.js')}}"> </script>
 <script src="{{asset('assets/bootstrap/js/bootstrap.min.js')}}"></script> 
 
 <!-- include carousel slider plugin  --> 
