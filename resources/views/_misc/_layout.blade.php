@@ -152,10 +152,10 @@
 
 <script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.autocomplete.js')}}"></script>
 
+<script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/dropzone.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/notify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
-<script src="{{asset('components/lodash/dist/lodash.min.js')}}"></script>
 <script src="{{asset('assets/js/vue.min.js')}}"></script>
 <script src="{{asset('components/vue-resource/dist/vue-resource.min.js')}}"></script>
 @yield('scripts')
