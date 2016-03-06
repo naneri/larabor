@@ -152,7 +152,6 @@
 
 <script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.autocomplete.js')}}"></script>
 
-<script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/dropzone.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/notify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
