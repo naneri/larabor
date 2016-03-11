@@ -140,12 +140,8 @@
 <script src="{{asset('assets/plugins/jquery.fs.scroller/jquery.fs.scroller.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery.fs.selecter/jquery.fs.selecter.js')}}"></script>
 
-
-<!-- include custom script for site  --> 
+<!-- include custom script for site  -->
 <script src="{{asset('assets/js/script.js')}}"></script>
-
-
-
 
 <!-- include jquery autocomplete plugin  -->
 
