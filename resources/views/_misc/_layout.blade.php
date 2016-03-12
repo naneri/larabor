@@ -52,13 +52,6 @@
 
 <!-- include pace script for automatic web page progress bar  -->
 
-<script>
-    paceOptions = {
-      elements: true
-    };
-</script>
-<script src="{{asset('assets/js/pace.min.js')}}"></script>
-
 </head>
 <body>
   
@@ -130,27 +123,14 @@
 <!-- include carousel slider plugin  --> 
 <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script> 
 
-<!-- include equal height plugin  --> 
-<script src="{{asset('assets/js/jquery.matchHeight-min.js')}}"></script> 
-
 <!-- include jquery list shorting plugin plugin  --> 
 <script src="{{asset('assets/js/hideMaxListItem.js')}}"></script> 
-
-<!-- include jquery.fs plugin for custom scroller and selecter  --> 
-<script src="{{asset('assets/plugins/jquery.fs.scroller/jquery.fs.scroller.js')}}"></script>
-<script src="{{asset('assets/plugins/jquery.fs.selecter/jquery.fs.selecter.js')}}"></script>
 
 <!-- include custom script for site  -->
 <script src="{{asset('assets/js/script.js')}}"></script>
 
-<!-- include jquery autocomplete plugin  -->
-
-
-<script type="text/javascript" src="{{asset('assets/plugins/autocomplete/jquery.autocomplete.js')}}"></script>
-
 <script type="text/javascript" src="{{asset('assets/js/lodash.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/dropzone.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/js/notify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('assets/js/vue.min.js')}}"></script>
 <script src="{{asset('components/vue-resource/dist/vue-resource.min.js')}}"></script>
