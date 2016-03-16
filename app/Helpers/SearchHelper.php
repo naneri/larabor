@@ -1,6 +1,14 @@
 <?php
 
-function publishedAsc($params){
+
+function updatedDesc($params){
+	$params['orderBy']  	= 'dt_update_date';
+	$params['orderType']	= 'DESC';
+
+	return route('search', $params);
+}
+
+function publishedDesc($params){
 	$params['orderBy']  	= 'dt_pub_date';
 	$params['orderType']	= 'DESC';
 
@@ -29,8 +37,12 @@ function priceOrderDesc($params){
 
 function searchOrderName($params){
 	if(!isset($params['orderBy']) && !isset($params['orderType'])){
-		$params['orderBy']  	= 'dt_pub_date';
+		$params['orderBy']  	= 'dt_update_date';
 		$params['orderType']	= 'DESC';
+	}
+
+	if($params['orderBy'] == 'dt_update_date' && $params['orderType']	== 'DESC'){
+		return 'Активные';
 	}
 
 	if($params['orderBy'] == 'dt_pub_date' && $params['orderType']	== 'DESC'){

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Validator;
 use Hash;
 use Auth;
+use App;
 
 class AppServiceProvider extends ServiceProvider
 {

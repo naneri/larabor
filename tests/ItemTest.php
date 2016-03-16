@@ -9,7 +9,6 @@ class ItemTest extends TestCase
 {
     use WithoutMiddleware;
 
-
     /**
      * @test
      */

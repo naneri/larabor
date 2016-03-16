@@ -32,7 +32,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 			->where('b_enabled', 1)
 			->where('b_active', 1)
 			->where('dt_expiration', '>', Carbon::now())
-			->orderBy('dt_pub_date', 'DESC')
+			->orderBy('dt_update_date', 'DESC')
 		  	->get();
 	}
 
@@ -70,7 +70,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 	            'stats'
             ])
 				->where('fk_i_user_id', $user_id)
-				->orderBy('dt_pub_date', 'DESC')
+				->orderBy('dt_update_date', 'DESC')
 			  	->paginate(10);
 	}
 
@@ -92,7 +92,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 				->where('b_enabled', 1)
 				->where('b_active', 1)
 				->where('dt_expiration', '>', Carbon::now())
-				->orderBy('dt_pub_date', 'DESC')
+				->orderBy('dt_update_date', 'DESC')
 			  	->paginate(8);
 	}
 
@@ -121,7 +121,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 	 */
 	public function searchItems($data, $category_id_list = null)
 	{
-		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_pub_date';
+		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_update_date';
 
 		$order_type = isset($data['orderType']) ? $data['orderType'] : 'DESC';
 

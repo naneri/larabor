@@ -19,7 +19,7 @@ class ItemManipulator
 	public function __construct(
 		ImageCreator $imageCreator,
 		CategoryStatsManager $catManager
-		)
+	)
 	{
 		$this->imageCreator 	= $imageCreator;
 		$this->categoryManager 	= $catManager;
@@ -39,6 +39,7 @@ class ItemManipulator
 		$item->fk_i_user_id		 	= !is_null($user) ? intval($user->pk_i_id) : null;
 		$item->fk_i_category_id	= $item_data['category'];
 		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
+		$item->dt_update_date		= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
 		$item->fk_c_currency_code = $item_data['currency'];
 		$item->s_contact_name			= isset($user->s_name) ? $user->s_name : null;
@@ -172,7 +173,7 @@ class ItemManipulator
 	{
 		$old_date = $item->dt_expiration;
 
-		$item->dt_pub_date		= Carbon::now()->toDateTimeString();
+		$item->dt_update_date	= Carbon::now()->toDateTimeString();
 		$item->dt_expiration	= Carbon::now()->addDays($days)->toDateTimeString();
 		$item->save();
 

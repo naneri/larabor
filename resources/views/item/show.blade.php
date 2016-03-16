@@ -54,7 +54,7 @@
             </h2>
             <span class="info-row"> 
             	<span class="date">
-            		<i class=" icon-clock"> </i> {{$item->dt_pub_date}} 
+            		<i class=" icon-clock"> </i> {{$item->showPubDate()}} 
             	</span>  
             </span>
             <div class="ads-image">
@@ -209,7 +209,7 @@
                           </h5>
 
                           <span class="info-row">
-                            <span class="date"><i class="fa fa-calendar"> </i> {{$item->dt_pub_date or null}} </span>
+                            <span class="date"><i class="fa fa-calendar"> </i> {{$item->showPubDate()}} </span>
                             <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span>
                             <br>
                           </span>

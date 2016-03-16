@@ -27,7 +27,7 @@
 					<th> 
 						<a href="{{route('item.show',[$item->pk_i_id, $item->s_secret])}}">{{str_limit(@$item->description->s_title, 30)}}</a> 
 					</th>
-					<th>{{@$item->dt_pub_date}}</th>
+					<th>{{@$item->showPubDate()}}</th>
 					<th>{{@$item->stats->sum('i_num_views')}}</th>
 					<th class="custom-tools">
 						{{@$item->s_contact_email}}

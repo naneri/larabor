@@ -35,14 +35,18 @@ class CustomController extends Controller
                 'message' => 'required|min:10'
             ]);
 
+        $user_email = $request->input('email');
+
         if($validator->fails()){
             return redirect('contacts')
                 ->withErrors($validator)
                 ->withInput();
         }
-        Mail::send('emails.contact-us', ['data' => $request->all()], function($message){
+
+        Mail::send('emails.contact-us', ['data' => $request->all()], function($message) use ($user_email){
             $message->to('support@zabor.kg');
-            $message->subject('Сообщение от пользователя сайта');
+            $message->replyTo($user_email);
+            $message->subject('Сообщение от пользователя');
         });
 
         return redirect('/')->with('message', [

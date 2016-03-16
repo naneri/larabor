@@ -47,7 +47,7 @@
                       <div class="form-group {{zbCheckError($errors->first('description'))}}">
                         <label  class="col-sm-3 control-label">Описание</label>
                         <div class="col-sm-9">
-                          <textarea name="description" class="form-control" rows="7">{{!is_null(old('description')) ? old('description') : $user->description->s_info}}</textarea>
+                          <textarea name="description" class="form-control" rows="7">{{!is_null(old('description')) ? old('description') : @$user->description->s_info}}</textarea>
                           @include('_partials._input-errors', ['error_name' => 'description'])
                         </div>
                       </div>

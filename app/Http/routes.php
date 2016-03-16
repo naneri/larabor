@@ -31,12 +31,11 @@ Route::group([
 		Route::get('item/activate', 'AdminController@activateItem');
 		Route::post('item/block', 'AdminController@blockItem');
 		Route::post('item/delete', 'AdminController@deleteItem');
-	});
+});
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 	
 	Route::get('logout', 'AuthController@getLogout')->name('logout');
-
 
 });
 
