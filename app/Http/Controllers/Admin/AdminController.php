@@ -30,9 +30,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $items_posted = $this->item->customLastAds(30);
+        $items_posted = $this->item->customLastAdsCount(30);
 
-        $item_active = $this->item->activeCustomAds();
+        $item_active = $this->item->activeCustomAdsCount();
 
         $top_sellers = $this->user->getTopSellers();
 
@@ -97,5 +97,13 @@ class AdminController extends Controller
         $item = $this->item_creator->block($item_id);
 
         return response()->json(['success' => true]);
+    }
+
+
+    public function userItems()
+    {
+        $items = $this->item->getCustomItems();
+
+        return view('admin.user-items', compact('items'));
     }
 }

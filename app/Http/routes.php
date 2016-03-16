@@ -31,6 +31,8 @@ Route::group([
 		Route::get('item/activate', 'AdminController@activateItem');
 		Route::post('item/block', 'AdminController@blockItem');
 		Route::post('item/delete', 'AdminController@deleteItem');
+		
+		Route::get('items/non-affiliate', 'AdminController@userItems');
 });
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
@@ -76,3 +78,5 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
+
+Route::get('test', function() { return view('admin.user-items'); });
