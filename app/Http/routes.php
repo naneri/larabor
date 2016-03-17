@@ -27,10 +27,14 @@ Route::group([
 	'prefix'	=> 'admin'], function(){
 		
 		Route::get('main', 'AdminController@index');
+		Route::get('item/get-inactive-items', 'AdminController@getInactiveItems');
+		Route::get('item/user-items', 'AdminController@getUserItems');
 		Route::get('item/inactive', 'AdminController@inactiveItems');
-		Route::get('item/activate', 'AdminController@activateItem');
-		Route::post('item/block', 'AdminController@blockItem');
-		Route::post('item/delete', 'AdminController@deleteItem');
+		Route::post('item/activate/{id}', 'AdminController@activateItem');
+		Route::post('item/block/{id}', 'AdminController@blockItem');
+		Route::delete('item/delete/{id}', 'AdminController@deleteItem')->name("admin.item.delete");
+		
+		Route::get('items/non-affiliate', 'AdminController@userItems');
 });
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
@@ -76,3 +80,5 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
+
+Route::get('test', function() { return view('admin.user-items'); });

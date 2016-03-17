@@ -22,7 +22,7 @@
             <form action="{{url('search')}}" method="GET">
               <div class="col-lg-6 col-sm-6 search-col relative locationicon">
                 <i class="icon-search icon-append"></i>
-                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input has-icon" placeholder="Искать среди {{$item_count + 2000}} объявлений" value="">
+                <input type="text" name="text"  class="form-control locinput input-rel searchtag-input has-icon" placeholder="Искать среди {{$item_count + Config::get('zabor.ad_increase_number')}} объявлений" value="">
 
               </div>
               <div class="col-lg-4 col-sm-4 search-col relative"> 

@@ -8,6 +8,8 @@ class Item extends ZaborModel
 	protected $table = "item";
 
 	protected $guarded = [];
+
+	protected $appends = ['edit_link'];
 	
 	/**
 	*
@@ -197,5 +199,14 @@ class Item extends ZaborModel
 	public function is_old()
 	{
 		return $this->dt_expiration < Carbon::now();
+	}
+
+	/**
+	 * get Item link
+	 * @return [type] [description]
+	 */
+	public function getEditLinkAttribute()
+	{
+		return route('item.edit', [$this->attributes['pk_i_id'], $this->attributes['s_secret']]);
 	}
 }

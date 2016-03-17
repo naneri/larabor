@@ -233,7 +233,7 @@ class ItemManipulator
 				'b_enabled'	=> 0
 			]);
 
-		return Item::find($item_id);
+		return true;
 	}
 
 	/**

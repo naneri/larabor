@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    @yield('meta')
     <title>INSPINIA | Main view</title>
 
     <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -41,6 +41,9 @@
                 </li>
                 <li>
                     <a href="{{url('admin/item/inactive')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Inactive Items</span> </a>
+                </li>
+                <li>
+                    <a href="{{url('admin/items/non-affiliate')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Custom Items</span> </a>
                 </li>
             </ul>
 

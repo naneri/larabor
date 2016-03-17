@@ -30,9 +30,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $items_posted = $this->item->customLastAds(30);
+        $items_posted = $this->item->customLastAdsCount(30);
 
-        $item_active = $this->item->activeCustomAds();
+        $item_active = $this->item->activeCustomAdsCount();
 
         $top_sellers = $this->user->getTopSellers();
 
@@ -45,11 +45,12 @@ class AdminController extends Controller
      */
     public function inactiveItems(Request $request)
     {
-        $order_param = $request->get('order_param') ?: 'pk_i_id';
+        return view('admin.inactive-items');
+    }
 
-        $items = $this->item->getCustomInactiveItems($order_param);
-
-        return view('admin.inactive-items', compact('items', 'order_param'));
+    public function getInactiveItems()
+    {
+        return $this->item->getCustomInactiveItems();
     }
 
     /**
@@ -57,9 +58,9 @@ class AdminController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function deleteItem(Request $request)
+    public function deleteItem(Request $request, $id)
     {
-        $item_id = $request->get('id');
+        $item_id = $id;
 
         $item = $this->item->getById($item_id);
 
@@ -73,11 +74,9 @@ class AdminController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function activateItem(Request $request)
+    public function activateItem(Request $request, $id)
     {
-        $item_id = $request->get('id');
-
-        $item = $this->item_creator->activate($item_id);
+        $item = $this->item_creator->activate($id);
 
         \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item){
                 $message->to($item->s_contact_email)->subject('Ваше объявление было активировано!');
@@ -90,12 +89,36 @@ class AdminController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function blockItem(Request $request)
+    public function blockItem(Request $request, $id)
     {
-        $item_id = $request->get('id');
+        if($this->item_creator->block($id)){
+            
+            $item = $this->item->getById($id);
 
-        $item = $this->item_creator->block($item_id);
+            return response()->json(['success' => true, 'item'  => $item]);
+        }
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => false]);
+    }
+
+
+    /**
+     * [userItems description]
+     * @return [type] [description]
+     */
+    public function userItems()
+    {
+        return view('admin.user-items');
+    }
+
+    /**
+     * [getUserItems description]
+     * @return [type] [description]
+     */
+    public function getUserItems()
+    {
+        $items = $this->item->getCustomItems();
+
+        return $items;
     }
 }
