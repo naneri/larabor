@@ -5,6 +5,7 @@
 @stop
 
 @section('meta')
+<meta name="robots" content="noindex">
 <meta name="title" content="Поиск{{$category ? ': ' . $category->description->s_name : ' объявлений'}} на Zabor.kg" />
 <meta name="description" content="Страница поиска объявлений на Zabor.kg. {{$category ? ': ' . $category->description->s_name : ' Все объявления'}}" />
 @stop
@@ -45,7 +46,8 @@
                 <li class="dropdown pull-right">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Сортировка: {{searchOrderName($searchParams)}}<span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{{publishedAsc($searchParams)}}">Новые</a></li>
+                    <li><a data-toggle="tooltip" data-placement="right" title="Сортировка - вначале недавно продлённые или созданные" href="{{updatedDesc($searchParams)}}">Активные</a></li>
+                    <li><a data-toggle="tooltip" data-placement="right" title="Сортировка - вначале недавно созданные" href="{{publishedDesc($searchParams)}}">Новые</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{priceOrderAsc($searchParams)}}">Подешевле</a></li>
                     <li><a href="{{priceOrderDesc($searchParams)}}">Подороже</a></li>

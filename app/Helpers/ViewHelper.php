@@ -93,3 +93,15 @@ function zbCurrencyClass($item, $old, $code){
 	return '';
 
 }
+
+/**
+ * @param $string
+ *
+ * @return mixed|string
+ */
+function stripForMeta($string){
+	$string = strip_tags($string);
+	$string = str_replace("\r", " ", $string);
+	$string = str_replace("\n", " ", $string);
+	return str_limit($string, 100);
+}

@@ -105,14 +105,16 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-
         $user = null;
 
         $item_data = $request->except('_token', 'category');
 
         $item_data['category'] = $this->getCategory($request->input('category'));
-
         $item_data['price']    = trim($item_data['price']);
+
+        // cleaning the input
+        $item_data['title']             = clean($item_data['title']);
+        $item_data['description']       = clean($item_data['description']);
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;
@@ -164,6 +166,8 @@ class ItemController extends Controller
             throw new NotFoundHttpException("Item is not enabled");
         }
 
+        $related_items = $this->item->find_related($item);
+
         $agent = new Agent();
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
@@ -181,7 +185,7 @@ class ItemController extends Controller
             Session::put('item-origin', URL::previous());
         }
 
-        return view('item.show', compact('item', 'is_owner', 'code'));
+        return view('item.show', compact('item', 'is_owner', 'code', 'related_items'));
     }
 
     /**
@@ -272,8 +276,11 @@ class ItemController extends Controller
         $item_data = $request->except('_token', 'category');
 
         $item_data['category'] = $this->getCategory($request->input('category'));
-
         $item_data['price']    = trim($item_data['price']);
+
+        // cleaning the input
+        $item_data['title']             = clean($item_data['title']);
+        $item_data['description']       = clean($item_data['description']);
 
         if(Auth::check()){
             $item_data['seller-email'] = Auth::user()->s_email;
@@ -386,14 +393,14 @@ class ItemController extends Controller
     {
         $this->validate($request, [
             'item_id'   => 'required',
-            'text'   => 'required',
+            'text'      => 'required',
             'phone'     => 'required'
             ]);
 
         $item_id = $request->input('item_id');
-        $text = $request->input('text');
+        $text    = $request->input('text');
         $phone   = $request->input('phone');
-        $item = $this->item->getById($item_id);
+        $item    = $this->item->getById($item_id);
 
         if(!$item->is_actual()){
 
@@ -403,7 +410,9 @@ class ItemController extends Controller
         }
 
         $email = $item->s_contact_email;
+
         if(!empty($item->fk_i_user_id)){
+
             $user = $this->user->getUserInfo($item->fk_i_user_id);
 
             $email = $user->s_email;

@@ -1,9 +1,5 @@
 @extends('admin._misc._admin-layout')
 
-@section('meta')
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-@stop
-
 @section('content')
 <div class="row" id="items-app">
     <div class="col-lg-12">
@@ -54,10 +50,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="item in items" class="@{{item.b_enabled == 0 ? 'bg-danger' : ''}}" track-by="pk_i_id">
+                        <tr 
+                            v-for="item in items" 
+                            class="@{{item.b_enabled == 0 ? 'bg-danger' : ''}}" 
+                            track-by="pk_i_id"
+                        >
                             <td><input type="checkbox" name="input[]"></td> 
-                           
-                            <td>@{{item.description.s_title}}</td>
+                            <td><a :href="item.edit_link">@{{item.description.s_title}}</a></td>
                             <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
                             <td>@{{item.dt_pub_date}}</td>
                             <td>
@@ -87,44 +86,32 @@
     new Vue({
       el: '#items-app',
       data: {
-        items : [],
-        page : 1,
+        items: [],
+        page: 1,
         last_page: 1
       },
       ready: function(){
-        this.getItems(this.page);
+        this.getItems(this.page)
       },
       methods : {
-        count_stats : function(stats){
-          return _.sumBy(stats, 'i_num_views');
-        },
         getItems: function(page){
-          this.$http.get("{{url('admin/item/get-inactive-items')}}", {page : page}).success(function(response){
+          this.$http.get("{{url('admin/item/user-items')}}", {page : page}).success(function(response){
               this.items = response.data;
               this.page = response.current_page;
               this.last_page = response.last_page;
           })
         },
-        activateItem: function(item){
-          this.$http.post("{{url('admin/item/activate')}}/" + item.pk_i_id).success(function(){
-            this.items.$remove(item);
-          })
+        count_stats : function(stats){
+          return _.sumBy(stats, 'i_num_views');
         },
-        blockItem: function(item){
-          this.$http.post("{{url('admin/item/block')}}/" + item.pk_i_id).success(function(data){
-            var index = this.items.indexOf(item);
-            this.items.$set(index, data.item);
-          })
-        },
-        deleteItem: function(item){
+        delete_item: function(item){
           this.$http.delete("{{url('admin/item/delete')}}/" + item.pk_i_id).success(function(){
             this.items.$remove(item);
           })
         }
       }
     })
+
+
   </script>
 @stop
-
-
-

@@ -1,5 +1,6 @@
 <?php namespace App\Zabor\Items;
 
+use App\Zabor\Mysql\MetaCategory;
 use Carbon\Carbon;
 
 use Config;
@@ -18,7 +19,7 @@ class ItemManipulator
 	public function __construct(
 		ImageCreator $imageCreator,
 		CategoryStatsManager $catManager
-		)
+	)
 	{
 		$this->imageCreator 	= $imageCreator;
 		$this->categoryManager 	= $catManager;
@@ -38,6 +39,7 @@ class ItemManipulator
 		$item->fk_i_user_id		 	= !is_null($user) ? intval($user->pk_i_id) : null;
 		$item->fk_i_category_id	= $item_data['category'];
 		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
+		$item->dt_update_date		= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
 		$item->fk_c_currency_code = $item_data['currency'];
 		$item->s_contact_name			= isset($user->s_name) ? $user->s_name : null;
@@ -62,7 +64,7 @@ class ItemManipulator
 
 		$this->storeOrUpdateDescription($item->pk_i_id, $item_data);
 				
-		$this->storeMetas($item->pk_i_id, $item_data['meta']);
+		$this->storeMetas($item, $item_data['meta']);
 
 		$this->categoryManager->increaseCategoryStats(
 			$item->fk_i_category_id, null, $item->b_active);
@@ -92,7 +94,7 @@ class ItemManipulator
 
 		$this->storeOrUpdateDescription($item->pk_i_id, $item_data);
 		
-		$this->storeMetas($item->pk_i_id, $item_data['meta']);
+		$this->storeMetas($item, $item_data['meta']);
 
 
 		return $item->pk_i_id;
@@ -125,31 +127,38 @@ class ItemManipulator
 	}
 
 	/**
-	 * [storeMetas description]
-	 * @param  [type] $item_id     [description]
-	 * @param  [type] $meta_values [description]
-	 * @return [type]              [description]
+	 * @param $item
+	 * @param $meta_values
 	 */
-	public function storeMetas($item_id, $meta_values)
+	public function storeMetas($item, $meta_values)
 	{
-		$metas = Meta::where('fk_i_item_id', $item_id)->get();
+		// getting all item metas
+		$metas = Meta::where('fk_i_item_id', $item->pk_i_id)->get();
 
-		foreach($meta_values as $key => $value){
+		// deleting all old metas of $item that user did not send
+		Meta::where('fk_i_item_id', $item->pk_i_id)->whereNotIn('fk_i_field_id', array_keys($meta_values))->delete();
 
-			// checking if record exists or creating a new
-			if(!$metas->where('fk_i_field_id', (int) $key)->isEmpty()){
-				$meta = Meta::where('fk_i_field_id', (int) $key)
-							->where('fk_i_item_id', $item_id)
-							->update(['s_value' => $value]);
-			}else{
-				Meta::create([
-					'fk_i_item_id' 	=> $item_id,
-					'fk_i_field_id'	=> $key,
-					's_value' 		=> $value
+		// getting all $item->category metas
+		$actual_metas = MetaCategory::where('fk_i_category_id', $item->fk_i_category_id)->lists('fk_i_field_id');
+
+		foreach($actual_metas as $key){
+
+			if(isset($meta_values[$key])){
+				// checking if record exists or creating a new
+				if(!$metas->where('fk_i_field_id', (int) $key)->isEmpty()){
+					$meta = Meta::where('fk_i_field_id', (int) $key)
+						->where('fk_i_item_id', $item->pk_i_id)
+						->update(['s_value' => $meta_values[$key]]);
+				}else{
+					Meta::create([
+						'fk_i_item_id' 	=> $item->pk_i_id,
+						'fk_i_field_id'	=> $key,
+						's_value' 		=> $meta_values[$key]
 					]);
+				}
 			}
-
 		}
+		// ToDo refactor to comply with DDD.
 	}
 
 	/**
@@ -164,7 +173,7 @@ class ItemManipulator
 	{
 		$old_date = $item->dt_expiration;
 
-		$item->dt_pub_date		= Carbon::now()->toDateTimeString();
+		$item->dt_update_date	= Carbon::now()->toDateTimeString();
 		$item->dt_expiration	= Carbon::now()->addDays($days)->toDateTimeString();
 		$item->save();
 
@@ -174,8 +183,13 @@ class ItemManipulator
 		return $item;
 	}
 
+	/**
+	 * @param $item
+	 * @return bool
+	 */
 	public function delete($item)
 	{
+		// ToDo refactor to comply with DDD.
 		$item_id = $item->pk_i_id;
 		foreach($item->images as $image)
 		{
@@ -219,7 +233,7 @@ class ItemManipulator
 				'b_enabled'	=> 0
 			]);
 
-		return Item::find($item_id);
+		return true;
 	}
 
 	/**

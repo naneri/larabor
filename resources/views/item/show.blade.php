@@ -5,11 +5,11 @@
 @stop
 
 @section('meta')
-<meta name="title" content="{{$item->description->s_title}} - Zabor.kg"/>
-<meta name="description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}} - купить в Бишкеке и других городах Кыргызстана." />
+<meta name="title" content="{!! stripForMeta($item->description->s_title)!!} - Zabor.kg"/>
+<meta name="description" content="{{$item->category->description->s_name}} : {!! stripForMeta($item->description->s_description) !!}, - купить в Бишкеке и других городах Кыргызстана." />
 
-<meta property="og:title" content="{{$item->description->s_title}}" />
-<meta property="og:description" content="{{$item->description->s_description}}, {{$item->category->description->s_name}}" />
+<meta property="og:title" content="{!! stripForMeta($item->description->s_title) !!}" />
+<meta property="og:description" content="{!! stripForMeta($item->description->s_description) !!}, {!! $item->category->description->s_name !!}" />
 <meta property="og:image" content="{{
     isset($item->images[0]) ?
     asset($item->images[0]->imageUrl()) :
@@ -54,7 +54,7 @@
             </h2>
             <span class="info-row"> 
             	<span class="date">
-            		<i class=" icon-clock"> </i> {{$item->dt_pub_date}} 
+            		<i class=" icon-clock"> </i> {{$item->showPubDate()}} 
             	</span>  
             </span>
             <div class="ads-image">
@@ -104,7 +104,7 @@
                                   <i style="color:red" class="fa fa-close"></i>
                                 @endif 
                               @elseif($meta->meta->e_type == 'URL')
-                                <a href="{{$meta->s_value}}">{{$meta->s_value}}</a>
+                                <a rel="nofollow" href="{{$meta->s_value}}">{{$meta->s_value}}</a>
                               @else
                                 {{$meta->s_value}}
                               @endif
@@ -138,9 +138,10 @@
           
         </div>
         <!--/.page-content-->
-        
-        @if($item->is_actual())
+
+
         <div class="col-md-3  page-sidebar-right">
+        @if($item->is_actual())
           <aside>
             <div class="panel sidebar-panel panel-contact-seller">
               <div class="panel-heading">
@@ -182,9 +183,49 @@
             </div>
             <!--/.categories-list--> 
           </aside>
-          
+          @endif
+
+
+
+          @if(!$related_items->isEmpty())
+            <aside>
+              <div class="panel sidebar-panel panel-contact-seller">
+                <div class="panel-heading">
+                  <p class="text-center">Похожие объявления:</p>
+                </div>
+                <div class="panel-content user-info">
+                  @foreach($related_items as $item)
+                    <div style="padding:5px">
+                      <a href="{{route('item.show', $item->pk_i_id)}}">
+                      <img style="margin-bottom:0px" class="img-responsive thumbnail center-block" src="{{asset($item->demo_image())}}" alt="">
+                        <div class="text-center">
+                          <h5 class="add-title">
+                            {{$item->description->s_title}}
+                            @if(!is_null($item->i_price))
+                              - <span class="related-ads-price">
+                                <b>{{$item->formatedPrice()}} {{$item->currency->s_description}}</b>
+                                </span>
+                            @endif
+                          </h5>
+
+                          <span class="info-row">
+                            <span class="date"><i class="fa fa-calendar"> </i> {{$item->showPubDate()}} </span>
+                            <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span>
+                            <br>
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                    @if($item != $related_items->last()) <hr style="margin-bottom: 0px"> @endif
+                  @endforeach
+                </div>
+              </div>
+
+            </aside>
+          @endif
         </div>
-        @endif
+
+
 
         <!--/.page-side-bar--> 
       </div>
@@ -224,7 +265,8 @@
   </div>
 </div>
 @endif
- 
+
+
 @stop
 
 @section('styles')
@@ -234,8 +276,10 @@
 @section('scripts')
 <script src="{{asset('assets/plugins/bxslider/jquery.bxslider.min.js')}}"></script> 
  <script>
-	$('.bxslider').bxSlider({
-	  pagerCustom: '#bx-pager'
-	});
+   $(document).ready(function(){
+     $('.bxslider').bxSlider({
+       pagerCustom: '#bx-pager'
+     });
+   });
 	</script> 
 @stop

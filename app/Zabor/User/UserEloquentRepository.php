@@ -24,4 +24,13 @@ class UserEloquentRepository{
 			->get();
 	}
 
+	public function findById($id)
+	{
+		return User::find($id);
+	}
+
+	public function findByEmail($email)
+	{
+		return User::where('s_email', $email)->first();
+	}
 }

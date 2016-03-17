@@ -42,6 +42,9 @@
                 <li>
                     <a href="{{url('admin/item/inactive')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Inactive Items</span> </a>
                 </li>
+                <li>
+                    <a href="{{url('admin/items/non-affiliate')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Custom Items</span> </a>
+                </li>
             </ul>
 
         </div>

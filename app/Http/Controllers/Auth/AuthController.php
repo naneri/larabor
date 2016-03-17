@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
-use App\Zabor\Mysql\User;
-use App\Zabor\Mysql\User_description;
 use Validator;
 use Carbon\Carbon;
 use Mail;
@@ -14,6 +12,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+
+use App\Zabor\Mysql\UserData;
+use App\Zabor\Mysql\User;
+use App\Zabor\Mysql\User_description;
+use App\Zabor\User\UserEloquentRepository;
 
 class AuthController extends Controller
 {
@@ -35,8 +38,11 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        UserEloquentRepository $user
+    )
     {
+        $this->user = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
@@ -95,7 +101,6 @@ class AuthController extends Controller
                 'password' => $request->input('password')
                 ])
             ){
-
                 if(Session::has('login-origin')){
                     $redirect_url = Session::get('login-origin');
                     Session::forget('login-origin');
@@ -146,9 +151,12 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $user = User::where('s_email', $request->input('email'))->first();
+
             return redirect('register')
                         ->withErrors($validator)
-                        ->withInput();
+                        ->withInput()
+                        ->with('user', $user);
         }
 
         $user = User::create([
@@ -166,14 +174,15 @@ class AuthController extends Controller
 
         User_description::create([
             'fk_i_user_id' => $user->pk_i_id,
-             'fk_c_locale_code' => 'ru_RU'
+            'fk_c_locale_code' => 'ru_RU'
             ]);
+
+        UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
 
         Mail::send('emails.activate', compact('user'), function($message) use ($user){
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
         });
-
 
         return redirect('/')->with('message', [
             'info' => 'Письмо с активацией отправлено вам на почту'
@@ -181,14 +190,47 @@ class AuthController extends Controller
     }
 
     /**
-     * [ActivateAccount description]
-     * 
-     * @param [type] $user_id [description]
-     * @param [type] $token   [description]
+     * @param $email
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reActivate($email)
+    {
+        $user = $this->user->findByEmail($email);
+
+        if($user->b_active == 1){
+            return redirect('/')->with('message', [
+                'info' => 'учётная запись уже активирована'
+            ]);
+        }
+
+        if($user->data->activate_attempts > 2){
+            return redirect('/')->with('message', [
+                'error' => 'слишком много попыток активаций, обратитесь к администрации для активации в ручную'
+            ]);
+        }
+
+        $user->data->increment('activate_attempts');
+
+        Mail::send('emails.activate', compact('user'), function($message) use ($user){
+            $message->to($user->s_email);
+            $message->subject('Регистрация на Zabor.kg');
+        });
+
+        return redirect('/')->with('message', [
+            'info' => 'Письмо с активацией отправлено вам на почту'
+        ]);
+    }
+
+    /**
+     * @param $user_id
+     * @param $token
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function activateAccount($user_id, $token)
     {
-        $user = User::find($user_id);
+        $user = $this->user->findById($user_id);
 
         $check = ($token == $user->s_secret);
 

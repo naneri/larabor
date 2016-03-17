@@ -4,13 +4,16 @@ use Carbon\Carbon;
 use Config;
 
 use App\Zabor\Mysql\Item;
-use App\Zabor\Mysql\Category;
 use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Mysql\Item_meta as Meta;
 use Cache;
 
-class ItemEloquentRepository implements ItemInterface
+class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 {
+
+	public function __construct(Item $model)
+	{
+		$this->model = $model;
+	}
 
 	/**
 	 * Gets Last Items
@@ -29,7 +32,7 @@ class ItemEloquentRepository implements ItemInterface
 			->where('b_enabled', 1)
 			->where('b_active', 1)
 			->where('dt_expiration', '>', Carbon::now())
-			->orderBy('dt_pub_date', 'DESC')
+			->orderBy('dt_update_date', 'DESC')
 		  	->get();
 	}
 
@@ -67,7 +70,7 @@ class ItemEloquentRepository implements ItemInterface
 	            'stats'
             ])
 				->where('fk_i_user_id', $user_id)
-				->orderBy('dt_pub_date', 'DESC')
+				->orderBy('dt_update_date', 'DESC')
 			  	->paginate(10);
 	}
 
@@ -89,7 +92,7 @@ class ItemEloquentRepository implements ItemInterface
 				->where('b_enabled', 1)
 				->where('b_active', 1)
 				->where('dt_expiration', '>', Carbon::now())
-				->orderBy('dt_pub_date', 'DESC')
+				->orderBy('dt_update_date', 'DESC')
 			  	->paginate(8);
 	}
 
@@ -105,7 +108,7 @@ class ItemEloquentRepository implements ItemInterface
 							->where('b_active', 1)
 							->where('dt_expiration', '>', Carbon::now())
 							->count();
-				});
+		});
 	}
 
 	
@@ -118,7 +121,7 @@ class ItemEloquentRepository implements ItemInterface
 	 */
 	public function searchItems($data, $category_id_list = null)
 	{
-		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_pub_date';
+		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_update_date';
 
 		$order_type = isset($data['orderType']) ? $data['orderType'] : 'DESC';
 
@@ -186,7 +189,7 @@ class ItemEloquentRepository implements ItemInterface
      * @param  [type] $day_limit [limit of days to count the ads]
      * @return [type]            [description]
      */
-    public static function customLastAds($day_limit)
+    public static function customLastAdsCount($day_limit)
     {
 
         return Item::where('dt_pub_date', '>', Carbon::now()->subDays($day_limit))
@@ -203,7 +206,7 @@ class ItemEloquentRepository implements ItemInterface
      * [activeCustomAds description]
      * @return [type] [description]
      */
-    static function activeCustomAds()
+    static function activeCustomAdsCount()
     {
         return Item::where('dt_expiration', '>=', Carbon::now())
         			->where('b_enabled', 1)
@@ -220,19 +223,60 @@ class ItemEloquentRepository implements ItemInterface
      * 
      * @return [type] [description]
      */
-    public function getCustomInactiveItems($order_param)
+    public function getCustomInactiveItems()
     {
     	return Item::where('b_active', 0)
-  								->orderBy($order_param, 'DESC')
-					    		->with([
-					            'category.description', 
-					            'description', 
-					            'currency', 
-					            'lastImage',
-					            'stats'
-					        ])
-					    		->get();
+				->orderBy('dt_pub_date', 'DESC')
+	    		->with([
+		            'category.description', 
+		            'description', 
+		            'currency', 
+		            'lastImage',
+		            'stats'
+		        ])
+		        ->paginate(30);
     }
 
+	/**
+	 * @param Item $item
+	 * @return mixed
+	 */
+	public function find_related(Item $item)
+	{
+		return Item::where('b_enabled', 1)
+					->where('pk_i_id', '!=', $item->pk_i_id)
+					->where('b_active', 1)
+					->where('dt_expiration', '>', Carbon::now())
+					->where('fk_i_category_id', $item->fk_i_category_id)
+					->take(3)
+					->orderByRaw("RAND()")
+					->with([
+						'description',
+						'currency',
+						'lastImage',
+						'stats'
+					])
+					->get();
+	}
 
+
+	public function getCustomItems()
+	{
+		return Item::where('b_enabled', 1)
+					->where('b_active', 1)
+					->where('dt_expiration', '>', Carbon::now())
+					->where(function($query){
+	                    $query->whereNotIn('fk_i_user_id', Config::get('zabor.affiliates'))
+	                        ->orWhere('fk_i_user_id', null);
+	                })
+	                ->with([
+			            'category.description', 
+			            'description', 
+			            'currency', 
+			            'lastImage',
+			            'stats'
+			        ])
+			        ->orderBy('dt_pub_date', 'DESC')
+			        ->paginate(30);
+	}
 }

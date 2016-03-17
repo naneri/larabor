@@ -8,11 +8,88 @@ class Item extends ZaborModel
 	protected $table = "item";
 
 	protected $guarded = [];
+
+	protected $appends = ['edit_link'];
 	
+	/**
+	*
+	*	Query functions
+	*
+	*/
+
 	public function images()
 	{
 		return $this->hasMany('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
 	}
+
+	/**
+	 * @return [type]
+	 */
+	public function lastImage()
+	{
+		return $this->hasOne('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function description()
+	{
+		return $this->hasOne('App\Zabor\Mysql\Item_description', 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function location()
+	{
+		return $this->hasOne('App\Zabor\Mysql\Item_location', 'fk_i_item_id', 'pk_i_id');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function stats()
+	{
+		return $this->hasMany('App\Zabor\Mysql\Item_stats', 'fk_i_item_id', 'pk_i_id');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function category()
+	{
+		return $this->belongsTo('App\Zabor\Mysql\Category', 'fk_i_category_id', 'pk_i_id');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function currency()
+	{
+		return $this->belongsTo('App\Zabor\Mysql\Currency', 'fk_c_currency_code', 'pk_c_code');
+	}
+
+	/**
+	 * @return [type]
+	 */
+	public function user()
+	{
+		return $this->belongsTo('App\Zabor\Mysql\User', 'fk_i_user_id', 'pk_i_id');
+	}
+
+	public function metas()
+	{
+		return $this->hasMany('App\Zabor\Mysql\Item_meta', 'fk_i_item_id', 'pk_i_id');
+	}
+
+
+
+	/**
+	*
+	*	Model functions
+	*
+	*/
 
 	/**
 	 * getting image to display - if item has no images default empty photo URL is returned
@@ -27,46 +104,9 @@ class Item extends ZaborModel
 		}
 	}
 
-	public function lastImage()
-	{
-		return $this->hasOne('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
-	}
-
-	public function description()
-	{
-		return $this->hasOne('App\Zabor\Mysql\Item_description', 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
-	}
-
-	public function location()
-	{
-		return $this->hasOne('App\Zabor\Mysql\Item_location', 'fk_i_item_id', 'pk_i_id');
-	}
-
-	public function stats()
-	{
-		return $this->hasMany('App\Zabor\Mysql\Item_stats', 'fk_i_item_id', 'pk_i_id');
-	}
-
-	public function category()
-	{
-		return $this->belongsTo('App\Zabor\Mysql\Category', 'fk_i_category_id', 'pk_i_id');
-	}
-
-	public function currency()
-	{
-		return $this->belongsTo('App\Zabor\Mysql\Currency', 'fk_c_currency_code', 'pk_c_code');
-	}
-
-	public function user()
-	{
-		return $this->belongsTo('App\Zabor\Mysql\User', 'fk_i_user_id', 'pk_i_id');
-	}
-
-	public function metas()
-	{
-		return $this->hasMany('App\Zabor\Mysql\Item_meta', 'fk_i_item_id', 'pk_i_id');
-	}
-
+	/**
+	 * @return [type]
+	 */
 	public function formatedPrice()
 	{
 		if(!empty($this->i_price)){
@@ -76,10 +116,16 @@ class Item extends ZaborModel
 		return null;
 	}
 
-
 	public function showDescription()
 	{
 		return $this->description->s_description;
+	}
+
+	public function showPubDate()
+	{
+		$time = new Carbon($this->dt_pub_date);
+
+		return $time->toDateString();
 	}
 
 	/**
@@ -88,7 +134,7 @@ class Item extends ZaborModel
 	 */
 	public function is_actual()
 	{
-		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration > Carbon::now())
+		if($this->b_enabled == 1 && $this->b_active == 1 && $this->dt_expiration >= Carbon::now())
 		{
 			return true;
 		}
@@ -116,36 +162,51 @@ class Item extends ZaborModel
 		return null;
 	}
 
-	public function getDtPubDateAttribute($value)
-	{
-		$time = new Carbon($value);
-
-		return $time->toDateString();
-	}
-
-	public function getDtExpirationAttribute($value)
-	{
-		$time = new Carbon($value);
-
-		return $time->toDateString();
-	}
-
 	public function setIPriceAttribute($value)
 	{
 		$this->attributes['i_price'] = $value * 1000000;
 	}
 
+	
 	public function getFkICategoryIdAttribute($value)
 	{
 		return (int) $value;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function recentlyProlonged()
 	{
-		$date = Carbon::parse($this->dt_pub_date);
+		$date = Carbon::parse($this->dt_update_date);
 
 		return $date->diffInDays(Carbon::now()) < 2;
-
 	}
 
+	/**
+	 * @return string
+	 */
+	public function showExpirationDate()
+	{
+		$time = new Carbon($this->dt_expiration);
+
+		return $time->toDateString();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_old()
+	{
+		return $this->dt_expiration < Carbon::now();
+	}
+
+	/**
+	 * get Item link
+	 * @return [type] [description]
+	 */
+	public function getEditLinkAttribute()
+	{
+		return route('item.edit', [$this->attributes['pk_i_id'], $this->attributes['s_secret']]);
+	}
 }
