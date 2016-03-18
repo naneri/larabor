@@ -25,12 +25,7 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> 
-                             </span> <span class="text-muted text-xs block">Admin zone <b class="caret"></b></span> </span> </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="{{route('logout')}}">Logout</a></li>
-                            </ul>
+                            <a href="{{url('/')}}">Zabor.kg</a>
                     </div>
                     <div class="logo-element">
                         IN+

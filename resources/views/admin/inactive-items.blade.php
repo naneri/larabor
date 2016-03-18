@@ -50,6 +50,7 @@
                             <th>Title </th>
                             <th>Views</th>
                             <th>Date</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -60,8 +61,10 @@
                             <td>@{{item.description.s_title}}</td>
                             <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
                             <td>@{{item.dt_pub_date}}</td>
+                            <td>@{{item.s_contact_email}}</td>
                             <td>
                               <a v-on:click="activateItem(item)"><i class="fa-2x fa fa-rocket text-navy"></i></a> 
+                              <a :href="item.edit_link"><i class="fa-2x fa fa-pencil text-navy"></i></a> 
                               <a v-on:click="blockItem(item)"><i class="fa-2x fa fa-times-circle text-danger"></i></a> 
                               <a v-on:click="deleteItem(item)"><i class="fa-2x fa fa-trash text-danger"></i></a>
                             </td>
