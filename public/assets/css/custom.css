@@ -146,3 +146,11 @@ aside.panel.panel-body.panel-details {
 .main-ad-list a{
   font-size:20px;
 }
+
+.contact-form .panel-heading{
+   padding: 10px 15px 0px 15px;
+}
+
+.contact-form .panel-body{
+  padding: 0px 15px 15px 15px;
+}

@@ -21,7 +21,9 @@
                   </h5>
                 </div>
                 <div class="panel-body">
-                	<form action="" class="form-horizontal" method="post">
+                  <p>Дорогие пользователи!</p>
+                  <p>Вы можете воспользоваться данной формой контактов для связи с администрацией. Возникли вопросы по функционалу? Нашли ошибку в работе сайта? Или у вас есть идеи и предложения? Не стесняйтесь и напишите нам! </p>
+                	<form class="form-horizontal" method="post">
 	                    <fieldset>
 												{{ csrf_field() }}
 													<div class="row">
