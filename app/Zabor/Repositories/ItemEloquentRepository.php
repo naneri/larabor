@@ -182,6 +182,25 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 		return $query->paginate(10);
 	}
 
+	/**
+	 * [countCategoryActiveItems description]
+	 * @param  [array] $id_list [description]
+	 * @return [type]          [description]
+	 */
+	public function countCategoryCustomActiveItems($id_list)
+	{
+		return $this->model
+					->whereIn('fk_i_category_id', $id_list)
+					->where('dt_expiration', '>', Carbon::now())
+	    			->where('b_enabled', 1)
+					->where('b_active', 1)
+					->where(function($query){
+	                    $query->whereNotIn('fk_i_user_id', Config::get('zabor.affiliates'))
+	                        ->orWhere('fk_i_user_id', null);
+	                })
+					->get()
+					->count();
+	}
 
 	/**
      * gets number of ads posted by non affiliates in last days
