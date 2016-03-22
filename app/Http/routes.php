@@ -33,8 +33,8 @@ Route::group([
 		Route::post('item/activate/{id}', 'AdminController@activateItem');
 		Route::post('item/block/{id}', 'AdminController@blockItem');
 		Route::delete('item/delete/{id}', 'AdminController@deleteItem')->name("admin.item.delete");
-		
 		Route::get('items/non-affiliate', 'AdminController@userItems');
+		Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){

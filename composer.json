@@ -13,7 +13,8 @@
         "jenssegers/agent": "^2.3",
         "barryvdh/laravel-ide-helper": "^2.1",
         "guzzlehttp/guzzle": "~6.0",
-        "mews/purifier": "^2.0"
+        "mews/purifier": "^2.0",
+        "rap2hpoutre/laravel-log-viewer": "^0.6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

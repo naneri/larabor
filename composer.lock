@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4f843de4846617606a26099594fadffd",
-    "content-hash": "a3e54a8de8291597e944e93bf5ad8277",
+    "hash": "ffa7b765d433b454756ff9e03afa161e",
+    "content-hash": "4fb8a6cdb5d63acca8dff0e69694b046",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1606,6 +1606,52 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
+        },
+        {
+            "name": "rap2hpoutre/laravel-log-viewer",
+            "version": "v0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
+                "reference": "111628d33a138553a1494a6fd9f6572afe01beea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/111628d33a138553a1494a6fd9f6572afe01beea",
+                "reference": "111628d33a138553a1494a6fd9f6572afe01beea",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.2.*|5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/controllers"
+                ],
+                "psr-0": {
+                    "Rap2hpoutre\\LaravelLogViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rap2hpoutre",
+                    "email": "raphael@ornikar.com"
+                }
+            ],
+            "description": "A Laravel log reader",
+            "keywords": [
+                "log",
+                "log-reader",
+                "log-viewer",
+                "logging"
+            ],
+            "time": "2016-03-10 09:38:19"
         },
         {
             "name": "swiftmailer/swiftmailer",
