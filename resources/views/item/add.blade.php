@@ -45,14 +45,14 @@
                   <script id="entry-template" type="text/x-handlebars-template">
                     <div class="outer-div" rank='@{{rank}}'>
                       <select name="category[]" rank='@{{rank}}'
-                      class="form-control category-select">
-                      <option value="0">Выберите категорию...</option>
-                      @{{#each categories}}
-                      <option value="@{{this.pk_i_id}}">
-                        @{{this.description.s_name}}
-                      </option>
-                      @{{/each}}
-                    </select>
+                      class="form-control category-select" required>
+                        <option value="">Выберите категорию...</option>
+                        @{{#each categories}}
+                        <option value="@{{this.pk_i_id}}">
+                          @{{this.description.s_name}}
+                        </option>
+                        @{{/each}}
+                      </select>
                   </div>
                 </script>
 
@@ -301,13 +301,7 @@ dropzone.on('error', function (file, error, xhr) {
     var source = $("#entry-template").html();
     var template = Handlebars.compile(source);
 
-    /**
-     * creates an html template and appends it
-     *
-     * @param  {[array]} all_cats    [description]
-     * @param  {[int]} cat_id      [description]
-     * @param  {[int]} select_rank [description]
-     */
+     
      var draw_select = function (all_cats, cat_id, select_rank) {
 
       
@@ -325,13 +319,7 @@ dropzone.on('error', function (file, error, xhr) {
       }
     };
 
-    /**
-     * Some logic triggered by category select
-     *
-     * @param  {int}            select_rank [description]
-     * @param  {int}            category_id [description]
-     * @param  {boolean}    ajax            [description]
-     */
+    
      var select_category = function (select_rank, category_id, ajax) {
 
         // ToDo - add filling of meta on category change
