@@ -180,6 +180,7 @@ class AuthController extends Controller
         UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
 
         Mail::send('emails.activate', compact('user'), function($message) use ($user){
+            $message->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
         });
@@ -213,6 +214,7 @@ class AuthController extends Controller
         $user->data->increment('activate_attempts');
 
         Mail::send('emails.activate', compact('user'), function($message) use ($user){
+            $message->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
         });

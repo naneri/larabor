@@ -63,6 +63,7 @@ class PasswordController extends Controller
             ]);
 
         Mail::send('emails.password', compact('token', 'user'), function ($m) use ($user, $token) {
+            $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $m->to($user->s_email);
             $m->subject('восстановление пароля');
         });

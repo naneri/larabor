@@ -419,7 +419,7 @@ class ItemController extends Controller
         }
 
         Mail::send('emails.item.contact', compact('item', 'email', 'text', 'phone', 'user'), function ($m) use ($email) {
-
+            $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $m->to($email)->subject('Сообщение по вашему объявлению!');
         });
 
