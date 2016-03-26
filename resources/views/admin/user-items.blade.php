@@ -57,7 +57,7 @@
                             track-by="pk_i_id"
                         >
                             <td><input type="checkbox" name="input[]"></td> 
-                            <td><a :href="item.edit_link">@{{item.description.s_title}}</a></td>
+                            <td><a :href="item.show_link">@{{item.description.s_title}}</a></td>
                             <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
                             <td>@{{item.dt_pub_date}}</td>
                             <td>@{{item.s_contact_email}}</td>

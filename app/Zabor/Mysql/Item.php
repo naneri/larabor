@@ -9,7 +9,7 @@ class Item extends ZaborModel
 
 	protected $guarded = [];
 
-	protected $appends = ['edit_link'];
+	protected $appends = ['edit_link', 'show_link'];
 	
 	/**
 	*
@@ -202,11 +202,20 @@ class Item extends ZaborModel
 	}
 
 	/**
-	 * get Item link
+	 * get Item "Edit" link
 	 * @return [type] [description]
 	 */
 	public function getEditLinkAttribute()
 	{
 		return route('item.edit', [$this->attributes['pk_i_id'], $this->attributes['s_secret']]);
+	}
+
+	/**
+	 * get Item "Show" link
+	 * @return [type] [description]
+	 */
+	public function getShowLinkAttribute()
+	{
+		return route('item.show', [$this->attributes['pk_i_id']]);
 	}
 }
