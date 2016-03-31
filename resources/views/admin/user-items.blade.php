@@ -42,7 +42,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Image</th>
                             <th>Title </th>
                             <th>Views</th>
                             <th>Date</th>
@@ -56,13 +56,16 @@
                             class="@{{item.b_enabled == 0 ? 'bg-danger' : ''}}" 
                             track-by="pk_i_id"
                         >
-                            <td><input type="checkbox" name="input[]"></td> 
+                            <td style="width:100px">
+                              <img class="img-responsive" :src="item.js_image">
+                            </td> 
                             <td><a :href="item.show_link">@{{item.description.s_title}}</a></td>
                             <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
                             <td>@{{item.dt_pub_date}}</td>
                             <td>@{{item.s_contact_email}}</td>
                             <td>
                               <a v-on:click="activateItem(item)"><i class="fa-2x fa fa-rocket text-navy"></i></a> 
+                              <a :href="item.edit_link"><i class="fa-2x fa fa-pencil text-navy"></i></a> 
                               <a v-on:click="blockItem(item)"><i class="fa-2x fa fa-times-circle text-danger"></i></a> 
                               <a v-on:click="deleteItem(item)"><i class="fa-2x fa fa-trash text-danger"></i></a>
                             </td>
@@ -106,7 +109,7 @@
         count_stats : function(stats){
           return _.sumBy(stats, 'i_num_views');
         },
-        delete_item: function(item){
+        deleteItem: function(item){
           this.$http.delete("{{url('admin/item/delete')}}/" + item.pk_i_id).success(function(){
             this.items.$remove(item);
           })

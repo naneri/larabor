@@ -46,7 +46,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>Image</th>
                             <th>Title </th>
                             <th>Views</th>
                             <th>Date</th>
@@ -56,7 +56,9 @@
                         </thead>
                         <tbody>
                         <tr v-for="item in items" class="@{{item.b_enabled == 0 ? 'bg-danger' : ''}}" track-by="pk_i_id">
-                            <td><input type="checkbox" name="input[]"></td> 
+                            <td style="width:100px">
+                              <img class="img-responsive" :src="item.js_image">
+                            </td> 
                            
                             <td>@{{item.description.s_title}}</td>
                             <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>

@@ -9,7 +9,7 @@ class Item extends ZaborModel
 
 	protected $guarded = [];
 
-	protected $appends = ['edit_link', 'show_link'];
+	protected $appends = ['edit_link', 'show_link', 'js_image'];
 	
 	/**
 	*
@@ -217,5 +217,15 @@ class Item extends ZaborModel
 	public function getShowLinkAttribute()
 	{
 		return route('item.show', [$this->attributes['pk_i_id']]);
+	}
+
+
+	public function getJsImageAttribute()
+	{
+		if(!empty($this->lastImage)){
+			return asset($this->lastImage->thumbnailUrl());
+		}else{
+			return asset(Config::get('zabor.item_no_image'));
+		}
 	}
 }
