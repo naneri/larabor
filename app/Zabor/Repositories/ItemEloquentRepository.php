@@ -70,7 +70,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 	            'stats'
             ])
 				->where('fk_i_user_id', $user_id)
-				->orderBy('dt_update_date', 'DESC')
+				->orderBy('dt_pub_date', 'DESC')
 			  	->paginate(10);
 	}
 
