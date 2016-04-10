@@ -37,12 +37,12 @@ class ItemManipulator
 	{
 		$item = new Item;
 		$item->fk_i_user_id		 	= !is_null($user) ? intval($user->pk_i_id) : null;
-		$item->fk_i_category_id	= $item_data['category'];
+		$item->fk_i_category_id		= $item_data['category'];
 		$item->dt_pub_date		 	= Carbon::now()->toDateTimeString();
 		$item->dt_update_date		= Carbon::now()->toDateTimeString();
 		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
-		$item->fk_c_currency_code = $item_data['currency'];
-		$item->s_contact_name			= isset($user->s_name) ? $user->s_name : null;
+		$item->fk_c_currency_code 	= $item_data['currency'];
+		$item->s_contact_name		= isset($user->s_name) ? $user->s_name : null;
 		$item->s_contact_email		= $item_data['seller-email'];
 		$item->s_secret 					= str_random(8);
 		$item->b_active 					= !is_null($user) ? 1 : 0 ;
@@ -83,12 +83,11 @@ class ItemManipulator
 		// Retrieving the item record
 		$item =  Item::findOrFail($id);
 
-		
-		$item->fk_i_category_id	= $item_data['category'];
+		$item->fk_i_category_id		= $item_data['category'];
 		$item->dt_mod_date		 	= Carbon::now()->toDateTimeString();
-		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price'] : null;
-		$item->fk_c_currency_code = $item_data['currency'];
-		$item->s_contact_name			= isset($user->s_name) ? $user->s_name : null;
+		$item->i_price 			  	= isset($item_data['price']) ? $item_data['price']  : null;
+		$item->fk_c_currency_code 	= $item_data['currency'];
+		$item->s_contact_name		= isset($user->s_name) 		 ? $user->s_name 		: null;
 
 		$item->save();
 
@@ -255,4 +254,13 @@ class ItemManipulator
 			])->increment('i_num_views');
 	}
 
+	public function updatePrice($item_id, $price)
+	{
+		$item = Item::find($item_id);
+
+		$item->i_price = $price;
+
+		return $item->save();
+
+	}
 }

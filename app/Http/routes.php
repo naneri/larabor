@@ -76,6 +76,11 @@ Route::get('search', 'SearchController@index')->name('search');
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 	Route::get('category-meta/{category_id}', 'ApiCategoryController@getCategoryMetaHtml');
+
+	Route::get('user/items', 'ItemApiController@getUserItems');
+	Route::put('item/updatePrice/{id}', 'ItemApiController@updatePrice');
+	Route::put('item/prolong/{id}', 'ItemApiController@prolong');
+	Route::delete('item/delete/{id}', 'ItemApiController@destroy');
 });
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');

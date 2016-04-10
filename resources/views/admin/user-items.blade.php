@@ -60,7 +60,7 @@
                               <img class="img-responsive" :src="item.js_image">
                             </td> 
                             <td><a :href="item.show_link">@{{item.description.s_title}}</a></td>
-                            <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
+                            <td>@{{item.view_stats}}</td>
                             <td>@{{item.dt_pub_date}}</td>
                             <td>@{{item.s_contact_email}}</td>
                             <td>
@@ -105,9 +105,6 @@
               this.page = response.current_page;
               this.last_page = response.last_page;
           })
-        },
-        count_stats : function(stats){
-          return _.sumBy(stats, 'i_num_views');
         },
         deleteItem: function(item){
           this.$http.delete("{{url('admin/item/delete')}}/" + item.pk_i_id).success(function(){

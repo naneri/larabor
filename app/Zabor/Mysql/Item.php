@@ -9,7 +9,15 @@ class Item extends ZaborModel
 
 	protected $guarded = [];
 
-	protected $appends = ['edit_link', 'show_link', 'js_image'];
+	protected $appends = [
+		'edit_link', 
+		'show_link', 
+		'js_image', 
+		'view_stats', 
+		'show_date', 
+		'show_expiration',
+		'recently_prolonged',
+	];
 	
 	/**
 	*
@@ -219,13 +227,38 @@ class Item extends ZaborModel
 		return route('item.show', [$this->attributes['pk_i_id']]);
 	}
 
-
 	public function getJsImageAttribute()
 	{
-		if(!empty($this->lastImage)){
+		if(!empty($this->lastImage()->first())){
 			return asset($this->lastImage->thumbnailUrl());
 		}else{
 			return asset(Config::get('zabor.item_no_image'));
 		}
+	}
+
+	public function getViewStatsAttribute()
+	{
+		return $this->stats->sum('i_num_views');
+	}
+
+	public function getShowDateAttribute()
+	{
+		$time = new Carbon($this->attributes['dt_pub_date']);
+
+		return $time->toDateString(); 
+	}
+
+	public function getShowExpirationAttribute()
+	{
+		$time = new Carbon($this->attributes['dt_expiration']);
+
+		return $time->toDateString();
+	}
+
+	public function getRecentlyProlongedAttribute()
+	{
+		$date = Carbon::parse($this->attributes['dt_update_date']);
+
+		return $date->diffInDays(Carbon::now()) < 2;
 	}
 }

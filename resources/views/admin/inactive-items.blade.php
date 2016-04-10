@@ -61,7 +61,7 @@
                             </td> 
                            
                             <td>@{{item.description.s_title}}</td>
-                            <td>@{{count_stats(item.stats) == 0 ? '' : count_stats(item.stats) }}</td>
+                            <td>@{{item.view_stats}}</td>
                             <td>@{{item.dt_pub_date}}</td>
                             <td>@{{item.s_contact_email}}</td>
                             <td>

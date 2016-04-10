@@ -13,7 +13,7 @@
           <h5 class="add-title"> <a href='{{url("item/show/{$item->pk_i_id}")}}'> {{$item->description->s_title or ''}}  </a> </h5>
           <span class="info-row"> 
             <span class="date"><i class="fa fa-calendar"> </i> {{$item->showPubDate()}} </span> 
-            <span class="views"><i class="icon-eye"> {{$item->stats->sum('i_num_views')}}</i></span><br>
+            <span class="views"><i class="icon-eye"> {{$item->view_stats}}</i></span><br>
             <span class="category">{{$item->category->description->s_name or null}}</span>
             <br>
           </span> 

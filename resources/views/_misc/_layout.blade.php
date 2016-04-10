@@ -134,6 +134,7 @@
 <script type="text/javascript" src="{{asset('components/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('assets/js/vue.min.js')}}"></script>
 <script src="{{asset('components/vue-resource/dist/vue-resource.min.js')}}"></script>
+<script src="{{asset('components/vue-strap/dist/vue-strap.min.js')}}"></script>
 @yield('scripts')
 
 <!-- Yandex.Metrika counter -->
