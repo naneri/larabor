@@ -35,6 +35,9 @@ Route::group([
 		Route::delete('item/delete/{id}', 'AdminController@deleteItem')->name("admin.item.delete");
 		Route::get('items/non-affiliate', 'AdminController@userItems');
 		Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+		Route::get('article/add', 'AdminArticleController@getAdd')->name('admin.add-article');
+		Route::post('article/add', 'AdminArticleController@postAdd')->name('admin.post-article');
 });
 
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
@@ -69,6 +72,10 @@ Route::group(['prefix' => 'item'], function(){
 	Route::post('contact_owner', 'ItemController@contact')->name('item.contact-owner');
 });
 
+Route::group(['prefix' => 'article'], function(){
+	Route::get('/all', 'ArticleController@index');
+	Route::get('show/{slug}', 'ArticleController@show')->name('article.show');
+});
 Route::get('contacts', 'CustomController@contacts');
 Route::post('contacts', 'CustomController@postMessage');
 Route::get('search', 'SearchController@index')->name('search');
@@ -85,3 +92,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
+Route::get('test/news', function(){
+	return view('news');
+});
+
+Route::get('test/blog/post', function(){
+	return view('post');
+});

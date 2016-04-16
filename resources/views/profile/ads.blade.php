@@ -167,11 +167,11 @@
           })
         },
         getItems: function(page){
+          this.page = page;
           this.$http.get("{{url('api/user/items')}}", {page : page}).success(function(response){
-              this.items = response.data;
-              this.page = response.current_page;
-              this.last_page = response.last_page;
-          })
+                this.items = response.data;
+                this.last_page = response.last_page;
+            });
         },
         prolongItem: function(item, $index){
           this.$http.put("{{url('api/item/prolong')}}/" + item.pk_i_id, item).success(function(response){
