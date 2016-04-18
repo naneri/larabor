@@ -44,6 +44,7 @@ class ArchiveItems extends Command
      */
     public function handle()
     {
+        // only executing in the morning when site load time is not high
         if(Carbon::now()->hour > 0 && Carbon::now()->hour < 7){
 
             $items = $this->itemRepo->getOldItems();
