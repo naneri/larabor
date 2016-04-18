@@ -44,7 +44,7 @@ class ArchiveItems extends Command
      */
     public function handle()
     {
-        if(Carbon::now()->hour > 0 && Carbon::now()->hour < 22){
+        if(Carbon::now()->hour > 0 && Carbon::now()->hour < 7){
 
             $items = $this->itemRepo->getOldItems();
 
