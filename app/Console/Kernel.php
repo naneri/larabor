@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\AddLog::class,
         \App\Console\Commands\ClearTemp::class,
         \App\Console\Commands\UpdateCatStats::class,
+        \App\Console\Commands\ArchiveItems::class,
     ];
 
     /**
@@ -29,5 +30,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('temp:clear')->hourly();
         $schedule->command('cat:update')->hourly();
+        $schedule->command('items:archive')->everyTenMinutes()->withoutOverlapping();
     }
 }
