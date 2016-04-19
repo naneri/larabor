@@ -157,6 +157,7 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -210,7 +211,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Purifier'  => Mews\Purifier\Facades\Purifier::class,
-
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

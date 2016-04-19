@@ -85,3 +85,13 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
+
+Route::get('test/export', function(){
+	$items = App\Zabor\Mysql\Item::take(5)->get();
+	return 	Excel::create('Laravel Excel', function($excel) use ($items){
+			    $excel->sheet('Excel sheet', function($sheet) use ($items){
+			        $sheet->fromArray($items);
+			    });
+			    $cells->setBorder('solid', 'none', 'none', 'solid');
+			})->export('pdf');
+});
