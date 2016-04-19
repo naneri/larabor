@@ -298,4 +298,22 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 			        ->orderBy('dt_pub_date', 'DESC')
 			        ->paginate(30);
 	}
+
+	/**
+	 * [getOldItems description]
+	 * @return [type] [description]
+	 */
+	public static function getOldItems()
+	{
+		return Item::where('dt_expiration', '<', Carbon::now()->subDays(90))
+					->with(['images', 
+							'category.description', 
+							'description', 
+							'currency', 
+							'user',
+							'metas.meta'
+							])
+					->take(10)
+					->get();
+	}
 }
