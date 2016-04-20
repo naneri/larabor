@@ -9,6 +9,7 @@ use Mail;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 use URL;
+use Gate; 
 
 use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
@@ -63,7 +64,6 @@ class ItemController extends Controller
      */
     public function getAdd(Request $request)
     {
-
         $currencies = $this->currency->all();
 
         $categories = $this->category->allWithDescription();
@@ -159,7 +159,6 @@ class ItemController extends Controller
      */
     public function show($id, $code = null)
     {
-
         $item = $this->item->getById($id);
 
         if($item->b_enabled == 0){
@@ -200,15 +199,8 @@ class ItemController extends Controller
 
         $item = $this->item->getById($id, $code);
 
-        $is_owner = $this->ownerIdentifier->checkOwnership(
-                $item->fk_i_user_id, 
-                $item->s_secret, 
-                Auth::user(), 
-                $code
-            );
-
-        if(!$is_owner){
-            throw new NotFoundHttpException('wrong page');
+        if (Gate::denies('manage', $item)) {
+            abort(403);
         }
 
         $cat_list = $this->category->getWithAncestorsArray($item->fk_i_category_id);
@@ -283,7 +275,6 @@ class ItemController extends Controller
         $item_data['description']       = clean($item_data['description']);
 
         if(Auth::check()){
-            $item_data['seller-email'] = Auth::user()->s_email;
             $user = Auth::user();
         }
 
@@ -319,15 +310,8 @@ class ItemController extends Controller
     {
         $item = $this->item->getById($id, $code);
 
-        $is_owner = $this->ownerIdentifier->checkOwnership(
-                $item->fk_i_user_id, 
-                $item->s_secret, 
-                Auth::user(), 
-                $code
-            );
-
-        if(!$is_owner){
-            throw new NotFoundHttpException('wrong page');
+        if (Gate::denies('manage', $item)) {
+            abort(403);
         }
 
         if($item->recentlyProlonged()){
@@ -352,18 +336,10 @@ class ItemController extends Controller
      */
     public function destroy(Request $request, $id, $code = null)
     {
-
         $item = $this->item->getById($id, $code);
 
-        $is_owner = $this->ownerIdentifier->checkOwnership(
-                $item->fk_i_user_id, 
-                $item->s_secret, 
-                Auth::user(), 
-                $code
-            );
-
-        if(!$is_owner){
-            throw new NotFoundHttpException('wrong page');
+        if (Gate::denies('manage', $item)) {
+            abort(403);
         }
 
         if(!$this->item_creator->delete($item)){

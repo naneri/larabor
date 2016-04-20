@@ -101,6 +101,7 @@
       <li>
         <a href="{{url('/')}}"> Главная </a> 
         <a href="{{url('contacts')}}"> Контакты </a> 
+        <a href="{{url('article/all')}}"> Публикации </a> 
       </ul>
       <ul class=" pull-right navbar-link footer-nav">
         <li> &copy; 2013 - {{date("Y")}} Zabor.kg, г.Бишкек - Кыргызстан </li>
