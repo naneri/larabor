@@ -42,10 +42,10 @@
                              <a class="btn btn-fb" target="_blank" href="http://www.facebook.com/sharer.php?u={{urlencode(route('article.show', $article->slug))}}"> 
                               <i class="fa fa-facebook"></i> Facebook
                              </a>
-                             <a class="btn btn-danger" target="_blank" href="https://plus.google.com/share?url={{route('article.show', $article->slug)}}"> 
+                             <a class="btn btn-danger" target="_blank" href="https://plus.google.com/share?url={{urlencode(route('article.show', $article->slug))}}"> 
                               <i class="fa fa-google-plus"></i> Google+
                              </a>
-                             <a class="btn btn-tw" target="_blank" href="http://twitter.com/share?url={{route('article.show', $article->slug)}}"> 
+                             <a class="btn btn-tw" target="_blank" href="http://twitter.com/share?url={{urlencode(route('article.show', $article->slug))}}"> 
                               <i class="fa fa-twitter"></i> Twitter
                              </a>
                           </div>
