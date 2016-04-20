@@ -3,14 +3,22 @@
 use Illuminate\Http\Request;
 use Auth;
 use Image;
+use File;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Zabor\Mysql\Article;
 class AdminArticleController extends Controller
 {
+    public function index()
+    {
+        $articles = Article::paginate(30);
+
+        return view('admin.article.list', compact('articles'));
+    }
+
     public function getAdd()
     {
-        return view('admin.post.add');
+        return view('admin.article.add');
     }
 
     public function postAdd(Request $request)
@@ -30,5 +38,16 @@ class AdminArticleController extends Controller
     		]);
 
     	return redirect('admin/article/add');
+    }
+
+    public function delete($id)
+    {
+        $article = Article::find($id);
+
+        File::delete(public_path($article->image));
+
+        $article->delete();
+
+        return redirect()->back();
     }
 }

@@ -45,7 +45,7 @@
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Articles</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{route('admin.add-article')}}">Add Article</a></li>
-                        <li><a href="form_advanced.html">Article List</a></li>
+                        <li><a href="{{route('admin.article-list')}}">Article List</a></li>
                     </ul>
                 </li>
             </ul>

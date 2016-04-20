@@ -2,6 +2,16 @@
 
 @section('content')
 	<div class="main-container">
+        <div class="container">
+          <ol class="breadcrumb pull-left">
+            <li>
+              <a href="{{url('/')}}"><i class="icon-home fa"></i></a>
+            </li>
+            <li class="active">
+              Все публикации
+            </li>
+          </ol>
+        </div>
 		<div class="container">
 
         <div class="row">
