@@ -73,7 +73,7 @@ Route::group(['prefix' => 'item'], function(){
 });
 
 Route::group(['prefix' => 'article'], function(){
-	Route::get('/all', 'ArticleController@index');
+	Route::get('/all', 'ArticleController@index')->name('article.index');
 	Route::get('show/{slug}', 'ArticleController@show')->name('article.show');
 });
 Route::get('contacts', 'CustomController@contacts');

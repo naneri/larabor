@@ -28,12 +28,16 @@
 
                 <!-- Pager -->
                 <ul class="pager">
-                    <li class="previous">
-                        <a href="#">&larr; Older</a>
-                    </li>
-                    <li class="next">
-                        <a href="{{$articles->nextPageUrl()}}">Newer &rarr;</a>
-                    </li>
+                    @if($articles->currentPage() != 1)
+                        <li class="previous">
+                            <a href="{{$articles->previousPageUrl()}}">&larr; Новые</a>
+                        </li>
+                    @endif
+                    @if($articles->hasMorePages())
+                        <li class="next">
+                            <a href="{{$articles->nextPageUrl()}}">Старые &rarr;</a>
+                        </li>
+                    @endif
                 </ul>
 
             </div>

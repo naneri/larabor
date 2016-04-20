@@ -19,7 +19,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(3);
+        $articles = Article::orderBy('created_at', 'DESC')->paginate(3);
 
         return view('article.list', compact('articles'));
     }
@@ -53,7 +53,9 @@ class ArticleController extends Controller
      */
     public function show($slug)
     {
-        dd($slug);
+        $article = Article::whereSlug($slug)->first();
+
+        return view('post', compact('article'));
     }
 
     /**
