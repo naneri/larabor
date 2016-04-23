@@ -10,6 +10,7 @@
                         <thead>
                         	<tr>
                         		<td>Name</td>
+                                <td>Published</td>
                         		<td>Function</td>
                         	</tr>
                         </thead>
@@ -17,7 +18,15 @@
                         	@foreach($articles as $article)
 	                        	<tr>
 	                    			<td>{{$article->title}}</td>
+                                    <td>
+                                        @if($article->published)
+                                            yes
+                                        @else
+                                            no
+                                        @endif
+                                    </td>    
 	                    			<td>
+                                        <a href="{{route('admin.edit-article', $article->id)}}">Edit</a>
 	                    				<a href="{{route('admin.delete-article', $article->id)}}">Delete</a>
 	                    			</td>
 	                        	</tr>
