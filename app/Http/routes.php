@@ -39,6 +39,8 @@ Route::group([
 		Route::get('article/add', 'AdminArticleController@getAdd')->name('admin.add-article');
 		Route::post('article/add', 'AdminArticleController@postAdd')->name('admin.post-article');
 		Route::get('article/delete/{id}', 'AdminArticleController@delete')->name('admin.delete-article');
+		Route::get('article/edit/{id}', 'AdminArticleController@edit')->name('admin.edit-article');
+		Route::post('article/update/{id}', 'AdminArticleController@update')->name('admin.update-article');
 		Route::get('article/list', 'AdminArticleController@index')->name('admin.article-list');
 });
 
