@@ -6,7 +6,14 @@
 @stop
 
 @section('content')
-    <form enctype="multipart/form-data" action="{{route('admin.post-article')}}" method="POST">
+    <form enctype="multipart/form-data" 
+        @if($page == 'edit')
+            action="{{route('admin.update-article', $article->id)}}" 
+        @else
+            action="{{route('admin.post-article')}}" 
+        @endif
+        method="POST"
+    >
         <div class="row">
             <div class="row">
                 <div class="col-lg-12">
@@ -18,11 +25,23 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail2" class="sr-only">Title</label>
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                <input type="text" name="title" placeholder="Enter title" id="article-title"
+                                <input type="text" name="title" placeholder="Enter title" id="article-title" value="{{$article->title or ''}}"
                                        class="form-control">
                             </div>
-                            <div class="form-group">
-                                <input name="image" type="file">
+                            @if(!$page == 'edit')
+                                <div class="form-group">
+                                    <input name="image" type="file">
+                                </div>
+                            @endif
+                            <div>
+                                <input 
+                                    type="checkbox" 
+                                    name="published" 
+                                    value="true"
+                                    @if( isset($article->published) && $article->published == true)
+                                        checked
+                                    @endif
+                                >
                             </div>
                         </div>
                     </div>
@@ -36,7 +55,9 @@
                         <h5>Add new Article</h5>
                     </div>
                     <div class="ibox-content no-padding">
-                        <textarea name="text" class="summernote"></textarea>
+                        <textarea name="text" class="summernote">
+                            {!!$article->text or ''!!}
+                        </textarea>
                         <div class="panel-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>  
@@ -50,30 +71,10 @@
 @section('scripts')
 	<script src="{{asset('admin/js/plugins/summernote/summernote.min.js')}}"></script>
 	<script>
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-          }
-        });
-
         $(document).ready(function(){
 
             $('.summernote').summernote();
-            $('.savePost').click(function(){
-                $.post('/admin/article/add', {
-                    "title" : $("#article-title").val(),
-                    "text"  : $('.summernote').code()
-                }).success(function(){
-                    console.log(12);
-                })
-            });
+            
        });
-        /*var edit = function() {
-            $('.click2edit').summernote({focus: true});
-        };
-        var save = function() {
-            var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
-            $('.click2edit').destroy();
-        };*/
     </script>
 @stop
