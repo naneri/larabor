@@ -28,7 +28,7 @@
                                 <input type="text" name="title" placeholder="Enter title" id="article-title" value="{{$article->title or ''}}"
                                        class="form-control">
                             </div>
-                            @if(!$page == 'edit')
+                            @if($page !== 'edit')
                                 <div class="form-group">
                                     <input name="image" type="file">
                                 </div>
