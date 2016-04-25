@@ -16,7 +16,7 @@
             <h2 class="title-2"><i class="icon-docs"></i> Мои объявления </h2>
             <div class="table">
 
-              <table id="addManageTable" class="table table-bordered add-manage-table table demo" data-filter="#filter" data-filter-text-only="true" >
+              <table id="addManageTable" class="table table-bordered add-manage-table demo" data-filter="#filter" data-filter-text-only="true" >
                 <thead>
                   <tr>
                     <th> Фотография </th>

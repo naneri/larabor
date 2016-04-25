@@ -1,5 +1,6 @@
 <?php namespace App\Zabor\Repositories;
 
+use Cache;
 use App\Zabor\Mysql\Category;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
 
@@ -11,12 +12,14 @@ class CategoryEloquentRepository implements CategoryInterface
 	 */
 	public function getRootCategories()
 	{
-		return Category::whereNull('fk_i_parent_id')
+		return Cache::remember('root-categories', 10, function(){
+			return Category::whereNull('fk_i_parent_id')
 				->with(['description', 'stats'])
 				->has('description')
 				->where('b_enabled', 1)
 				->orderBy('i_position')
 				->get();
+		}); 
 	}
 
 	/**
@@ -25,11 +28,13 @@ class CategoryEloquentRepository implements CategoryInterface
 	 */
 	public function allWithDescription()
 	{
-		return Category::with(['description'])
+		return Cache::remember('all-categories-with-description', 10, function(){
+			return Category::with(['description'])
 				->has('description')
 				->where('b_enabled', 1)
 				->orderBy('i_position')
 				->get();
+		});
 	}
 
 	/**
@@ -39,10 +44,12 @@ class CategoryEloquentRepository implements CategoryInterface
 	 */
 	public function getById($category_id)
 	{
-		return Category::with(['description', 'stats'])
+		return Cache::remember('category-' . $category_id, 10, function() use ($category_id){
+			return Category::with(['description', 'stats'])
 					->has('description')
 					->where('b_enabled',1)
 					->findOrFail($category_id);
+		});
 	}
 
 	/**
@@ -52,11 +59,12 @@ class CategoryEloquentRepository implements CategoryInterface
 	 */
 	public function getMultipleByIds($category_ids)
 	{
-		return Category::with(['description', 'stats'])
+		Cache::remember('category-multiple-', implode('.', $category_ids), 10, function() use ($category_ids){
+			return Category::with(['description', 'stats'])
 					->has('description')
 					->whereIn('pk_i_id',$category_ids)
 					->get();
-					
+		});
 	}
 
 	/**

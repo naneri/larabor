@@ -1,27 +1,32 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
+use Excel;
 
+use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Auth;
+
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\User\UserValidator;
 use App\Zabor\User\UserManipulator;
+use App\Zabor\Mysql\Item;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
 
-    public function __construct(ItemInterface $item, 
+    public function __construct(
+        ItemInterface $item, 
         UserEloquentRepository $user,
         UserValidator $validator,
         UserManipulator $manipulator
         )
     {
-        $this->item = $item;
-        $this->user = $user;
-        $this->validator = $validator;
+        $this->item             = $item;
+        $this->user             = $user;
+        $this->validator        = $validator;
         $this->user_manipulator = $manipulator;
     }
 
@@ -100,13 +105,46 @@ class ProfileController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * [getAdsExport description]
+     * @return [type] [description]
      */
-    public function destroy($id)
+    public function getAdsExport()
     {
-        //
+        $user = Auth::user();
+
+        return view('profile.ads-export', compact('user'));
+    }
+
+    /**
+     * [generateExcel description]
+     * @return [type] [description]
+     */
+    public function getGenerateExcel()
+    {
+        if(!Auth::user()->canExport()){
+            return redirect()->back()->with([
+                'message' => [
+                    'error' => 'Вы достигли лимита. Вы сможете заново экспортировать объявления завтра'
+                ]]);
+        }
+
+        $items = collect($this->item->getUserAdsForExport(Auth::id()))->groupBy('category')->toArray();
+        
+        $path = Auth::user()->getExportPath() ?: "export/excel/" . str_random(10);
+        
+        $result = Excel::create('price', function($excel) use ($items){
+                $excel->sheet('Excel sheet', function($sheet) use ($items){
+                    $sheet->loadView('profile.excel', compact('items'));
+                });
+            })->store('xlsx', public_path($path));
+
+        if($result){
+            $this->user->updateAdsExportDate(Auth::id(), $path);
+
+            return redirect()->back()->with([
+                'message'   => [
+                    'success' => 'Файл сгенерирован'
+                ]]);
+        }
     }
 }

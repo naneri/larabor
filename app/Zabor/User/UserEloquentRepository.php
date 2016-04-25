@@ -33,4 +33,31 @@ class UserEloquentRepository{
 	{
 		return User::where('s_email', $email)->first();
 	}
+
+	/**
+	 * [updateAdsExportDate description]
+	 * @param  [type] $user_id [description]
+	 * @param  [type] $path    [description]
+	 * @return [type]          [description]
+	 */
+	public function updateAdsExportDate($user_id, $path)
+	{
+		$user = $this->findById($user_id);
+
+		$info = $user->info;
+
+		if(!empty($info['priceListUpdate']) && $info['priceListUpdate']['date'] === Carbon::now()->toDateString()){
+			$info['priceListUpdate']['updates'] += 1;
+		}else{
+			$info['priceListUpdate']['date'] 	= Carbon::now()->toDateString();
+			$info['priceListUpdate']['updates'] = 1;
+			$info['priceListUpdate']['path'] 	= $path;
+		}
+
+		$user->info = $info;
+
+		$user->save();
+	}
+
+
 }

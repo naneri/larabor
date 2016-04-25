@@ -5,7 +5,7 @@ echo "composer dependencies updated"
 php artisan migrate
 echo "migrated"
 bower install --allow-root
-echo "bower dependencies updated"
+echo "bower dependencies installed"
 php artisan route:cache
 php artisan config:cache
 php artisan optimize

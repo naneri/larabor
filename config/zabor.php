@@ -16,4 +16,16 @@ return [
 
 	// default empty image path
 	'item_no_image'	=> 'images/no_photo.gif',
+
+	'user_info_default'	=> [
+		'priceListUpdate'	=> [
+			'date'		=> null,
+			'updates'	=> 0,
+			'path'		=> ''
+		],
+	],
+
+	'export'	=> [
+		'updates'	=> 10
+	],
 ];

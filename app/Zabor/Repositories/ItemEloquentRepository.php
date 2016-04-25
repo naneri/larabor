@@ -79,7 +79,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 	 * @param  [type] $user_id [description]
 	 * @return [type]          [description]
 	 */
-	public function getUserActiveAds($user_id)
+	public function getUserActiveAds($user_id, $limit = null)
 	{
 		return Item::with([
 	            'category.description', 
@@ -315,5 +315,40 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 							])
 					->take(10)
 					->get();
+	}
+
+	/**
+	 * [getUserAdsForExport description]
+	 * @param  integer $user_id [description]
+	 * @return array          [description]
+	 */
+	public function getUserAdsForExport($user_id)
+	{
+		$ads = [];
+
+        Item::with([
+                'category.description', 
+                'description', 
+                'currency', 
+            ])
+                ->where('fk_i_user_id', $user_id)
+                ->where('b_enabled', 1)
+                ->where('b_active', 1)
+                ->where('dt_expiration', '>', Carbon::now())
+                ->orderBy('dt_update_date', 'DESC')
+                ->take(500)
+                ->chunk(100, function($items) use (&$ads){
+                    foreach ($items as $key => $item) {
+                        $ads[] = [
+                        	'id'		=> $item->pk_i_id,
+                            'name'  	=> $item->description->s_title,
+                            'category'	=> $item->category->description->s_name,
+                            'price' 	=> $item->formatedPrice(),
+                            'currency'  => !is_null($item->i_price) ? $item->currency->s_description : ''
+                        ];
+                    }
+                });
+
+        return $ads;
 	}
 }

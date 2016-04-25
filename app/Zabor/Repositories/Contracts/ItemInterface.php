@@ -11,4 +11,8 @@ interface ItemInterface
 	public function searchItems($data, $category_id_list);
 
 	public function countCategoryCustomActiveItems($cat_ids_array);
+
+	public function getUserActiveAds($user_id, $limit = null);
+
+	public function getUserAdsForExport($user_id);
 }
