@@ -3,6 +3,8 @@
 
 Route::get('/', 'MainController@index');
 
+
+// Auth Routes
 Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 
     // login and register standard routes
@@ -21,6 +23,8 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function(){
 	Route::post('password/reset', 'PasswordController@postReset');
 });
 
+
+// Admin Routes
 Route::group([
 	'namespace' => 'Admin', 
 	'middleware' => 'is_admin',
@@ -50,12 +54,17 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function(){
 
 });
 
-Route::group(['middleware' => 'auth'], function(){
-	//profile
-	Route::get('profile/main', 'ProfileController@index')->name('profile.main');
-	Route::get('profile/ads', 'ProfileController@getAds')->name('profile.ads');
-	Route::post('profile/update', 'ProfileController@update')->name('profile.update');
-	Route::post('profile/update-pass', 'ProfileController@updatePass')->name('profile.update-pass');
+// Profile Routes
+Route::group([
+	'middleware' => 'auth',
+	'prefix'	 => 'profile'], function(){
+	
+	Route::get('main', 'ProfileController@index')->name('profile.main');
+	Route::get('ads', 'ProfileController@getAds')->name('profile.ads');
+	Route::get('ads-export', 'ProfileController@getAdsExport')->name('profile.ads-export');
+	Route::get('generate-excel', 'ProfileController@getGenerateExcel')->name('profile.generate-excel');
+	Route::post('update', 'ProfileController@update')->name('profile.update');
+	Route::post('update-pass', 'ProfileController@updatePass')->name('profile.update-pass');
 });
 
 Route::group(['prefix' => 'item'], function(){
@@ -97,12 +106,3 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
 
-Route::get('test/export', function(){
-	$items = App\Zabor\Mysql\Item::take(5)->get();
-	return 	Excel::create('Laravel Excel', function($excel) use ($items){
-			    $excel->sheet('Excel sheet', function($sheet) use ($items){
-			        $sheet->fromArray($items);
-			    });
-			    $cells->setBorder('solid', 'none', 'none', 'solid');
-			})->export('pdf');
-});

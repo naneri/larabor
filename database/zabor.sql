@@ -417,18 +417,6 @@ CREATE TABLE IF NOT EXISTS `zabor_t_item_stats` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `zabor_t_item_youtube`
---
-
-CREATE TABLE IF NOT EXISTS `zabor_t_item_youtube` (
-  `fk_i_item_id` int(10) unsigned NOT NULL,
-  `s_youtube` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`fk_i_item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `zabor_t_keywords`
 --
 

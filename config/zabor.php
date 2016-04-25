@@ -18,6 +18,14 @@ return [
 	'item_no_image'	=> 'images/no_photo.gif',
 
 	'user_info_default'	=> [
-		'priceListUpdateDate'	=> null
-	]
+		'priceListUpdate'	=> [
+			'date'		=> null,
+			'updates'	=> 0,
+			'path'		=> ''
+		],
+	],
+
+	'export'	=> [
+		'updates'	=> 10
+	],
 ];

@@ -22,6 +22,7 @@
           <div id="MyAds" class="panel-collapse collapse in">
             <ul class="acc-list">
               <li class="{{ $page == 'ads' ? 'active' : ''}}"><a href="{{route('profile.ads')}}"><i class="icon-docs"></i> Мои объявления</a></li>
+              <li class="{{ $page == 'ads-export' ? 'active' : ''}}"><a href="{{route('profile.ads-export')}}"><i class="icon-attach-2"></i> Экспорт объявлений</a></li>
             </ul>
           </div>
         </div>
