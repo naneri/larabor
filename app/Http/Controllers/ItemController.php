@@ -18,6 +18,7 @@ use App\Zabor\Repositories\Contracts\MetaInterface;
 use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\Validators\ItemValidator;
 use App\Zabor\Images\ImageCreator;
+use App\Zabor\Images\ImageViewSharer;
 use App\Zabor\Items\ItemManipulator;
 use App\Zabor\Items\ItemOwnerIdentifier;
 
@@ -43,6 +44,7 @@ class ItemController extends Controller
         MetaInterface $meta,
         ItemValidator $validator,
         ImageCreator $image,
+        ImageViewSharer $imageSharer,
         ItemManipulator $item_creator,
         ItemOwnerIdentifier $ownerIdentifier,
         UserEloquentRepository $user)
@@ -53,6 +55,7 @@ class ItemController extends Controller
         $this->validator = $validator;
         $this->meta      = $meta;
         $this->image     = $image;
+        $this->imageSharer      = $imageSharer;
         $this->item_creator     = $item_creator;
         $this->ownerIdentifier  = $ownerIdentifier;
         $this->user      = $user;
@@ -72,29 +75,18 @@ class ItemController extends Controller
 
             $this->getCategoryAndMetaInfo($request->old());
 
-            $image_key = $request->old('image_key');
-           
-            $images = Session::get('item_images.' . $image_key);
-
-            JavaScript::put('dz_images', $images);
-
-            view()->share(compact('images'));
-
-        }else{
-
-            $image_key = str_random(10);
-
-            Session::put('item_images.' . $image_key, []);
         }
+
+        $this->imageSharer->shareItemAddImages($request);
 
         JavaScript::put('categories', $categories);
         
         $item = null;
+
         return view('item.add', compact(
             'item',
             'currencies', 
-            'categories',
-            'image_key'
+            'categories'
         ))->with('route', 'add');
     }
 
@@ -184,7 +176,11 @@ class ItemController extends Controller
             Session::put('item-origin', URL::previous());
         }
 
-        return view('item.show', compact('item', 'is_owner', 'code', 'related_items'));
+        return view('item.show', compact(
+            'item', 
+            'code', 
+            'related_items'
+            ));
     }
 
     /**
@@ -199,7 +195,7 @@ class ItemController extends Controller
 
         $item = $this->item->getById($id, $code);
 
-        if (Gate::denies('manage', $item)) {
+        if (Gate::denies('manage', $item, $code)) {
             abort(403);
         }
 
@@ -211,35 +207,23 @@ class ItemController extends Controller
 
         $categories = $this->category->allWithDescription();
 
+        $this->imageSharer->shareItemAddImages($request, $item->images->toArray());
+
         if(!empty($request->old())){
-
-            $image_key = $request->old('image_key');
-
+          
             $this->getCategoryAndMetaInfo($request->old());
-
-            $images = array_merge(Session::get('item_images.' . $image_key), $item->images->toArray());
-
-            JavaScript::put('dz_images', $images);
-
-            view()->share(compact('images'));
 
             $item = null;
 
         }else{
-
-            $image_key = str_random(10);
-
-            Session::put('item_images.' . $image_key, []);
-
+          
             $metas = $this->meta->getCategoryMeta($item->fk_i_category_id);
 
             $meta_data = $item->metas->keyBy('fk_i_field_id')->map(function ($item, $key) {
                 return $item->s_value;
             })->toArray();
 
-            JavaScript::put('dz_images', $item->images);
-
-            view()->share(compact('metas', 'meta_data', 'images'));
+            view()->share(compact('metas', 'meta_data'));
         }
 
         JavaScript::put('categories', $categories);
@@ -249,7 +233,6 @@ class ItemController extends Controller
             'id',
             'currencies', 
             'categories',
-            'image_key',
             'code'
         ))->with('route', 'edit');
     }
@@ -286,8 +269,7 @@ class ItemController extends Controller
                         ->withInput();
         }
 
-        if($item_id = $this->item_creator->edit($item_data, $user, $id))
-        {
+        if($item_id = $this->item_creator->edit($item_data, $user, $id)){
 
             $key = $request->input('image_key');
 
@@ -310,7 +292,7 @@ class ItemController extends Controller
     {
         $item = $this->item->getById($id, $code);
 
-        if (Gate::denies('manage', $item)) {
+        if (Gate::denies('manage', $item, $code)) {
             abort(403);
         }
 
@@ -338,7 +320,7 @@ class ItemController extends Controller
     {
         $item = $this->item->getById($id, $code);
 
-        if (Gate::denies('manage', $item)) {
+        if (Gate::denies('manage', $item, $code)) {
             abort(403);
         }
 

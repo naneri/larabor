@@ -5,7 +5,7 @@
 @stop
 
 @section('meta')
-<meta name="title" content="Добавить объявления на Zabor.kg" />
+<meta name="title" content="Добавить объявление на Zabor.kg" />
 <meta name="description" content="Страница подачи объявления на Zabor.kg" />
 @stop
 
