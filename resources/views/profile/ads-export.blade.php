@@ -17,14 +17,14 @@
         				<p><b><i class="fa fa-file-excel-o"></i> Excel:</b></p>
         				<div class="col-md-6">
         					@if($user->info['priceListUpdate']['updates'] < Config::get('zabor.export.updates'))
-        					<a href="{{route('profile.generate-excel')}}">Сгенерировать заново</a>
-        					<small>
-        						(Лимит - {{Config::get('zabor.export.updates')}} попыток в день)
-        					</small> 
+	        					<a href="{{route('profile.generate-excel')}}">Сгенерировать</a>
+	        					<small>
+	        						(Лимит - {{Config::get('zabor.export.updates')}} попыток в день)
+	        					</small> 
         					@else
-							<span data-toggle="tooltip" data-placement="top" 
-							title="Вы достигли лимита по генерации прайс листов. Подождите до завтра." 
-							style="color:blue">Невозможно сгенерировать</span>
+								<span data-toggle="tooltip" data-placement="top" 
+								title="Вы достигли лимита по генерации прайс листов. Подождите до завтра." 
+								style="color:blue">Невозможно сгенерировать</span>
         					@endif
         					<br>
     						<span>
