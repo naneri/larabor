@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @yield('meta')
-    <title>INSPINIA | Main view</title>
-
+    <title>Zabor - Admin Panel</title>
+    <link rel="shortcut icon" href="{{asset('images/icons/panel.ico')}}">
     <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-
+    
     <link href="{{asset('admin/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/custom.css')}}" rel="stylesheet" type="text/css" >
@@ -36,12 +36,16 @@
                     <a href="{{url('admin/main')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
                 </li>
                 <li>
-                    <a href="{{url('admin/item/inactive')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Inactive Items</span> </a>
+                    <a href="{{url('admin/logs')}}"><i class="fa fa-book"></i> <span class="nav-label">Logs</span></a>
                 </li>
                 <li>
-                    <a href="{{url('admin/items/non-affiliate')}}"><i class="fa fa-th-large"></i> <span class="nav-label">Custom Items</span> </a>
+                    <a href="#"><i class="fa fa-file-text"></i> <span class="nav-label">Items</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="{{url('admin/item/inactive')}}">Inactive Items</a></li>
+                        <li><a href="{{url('admin/items/non-affiliate')}}">Custom Items </a></li>
+                    </ul>
                 </li>
-                 <li>
+                <li>
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Articles</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{route('admin.add-article')}}">Add Article</a></li>
