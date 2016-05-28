@@ -91,9 +91,8 @@ class ItemController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {

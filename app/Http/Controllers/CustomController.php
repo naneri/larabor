@@ -6,16 +6,13 @@ use Illuminate\Http\Request;
 
 use Validator;
 use Mail;
-use Auth;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class CustomController extends Controller
 {
 
     /**
-     * [contacts description]
-     * @return [type] [description]
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function contacts()
     {
@@ -23,9 +20,9 @@ class CustomController extends Controller
     }
 
     /**
-     * [postMessage description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function postMessage(Request $request)
     {
