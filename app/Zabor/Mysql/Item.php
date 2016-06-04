@@ -30,9 +30,9 @@ class Item extends ZaborModel
 		return $this->hasMany('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
 	}
 
-	/**
-	 * @return [type]
-	 */
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
 	public function lastImage()
 	{
 		return $this->hasOne('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');

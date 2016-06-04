@@ -309,15 +309,18 @@ class ItemController extends Controller
                 'success'   => 'Объявление продлено'
                 ]);
     }
+
     /**
-     * Remove the specified resource from storage.
+     * @param Request $request
+     * @param $id
+     * @param null $code
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id, $code = null)
     {
-        $item = $this->item->getById($id, $code);
+        $item = $this->item->getById($id);
 
         if (Gate::denies('manage', $item, $code)) {
             abort(403);

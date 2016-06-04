@@ -64,12 +64,10 @@ class ImageCreator{
 		}
 	}
 
-	/**
-	 * [delete description]
-	 * 
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
-	 */
+    /**
+     * @param $id
+     * @return bool
+     */
 	public function delete($id)
 	{
 

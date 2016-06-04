@@ -36,13 +36,10 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 		  	->get();
 	}
 
-	/**
-	 * Gives full item info with Metas on given ID
-	 * 
-	 * @param  [int] $id 
-	 * 
-	 * @return [Item]     
-	 */
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
 	public function getById($id)
 	{
 		return Item::with([
@@ -55,11 +52,10 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 			])->findOrFail($id);
 	}
 
-	/**
-	 * [getUserAds description]
-	 * @param  [type] $user_id [description]
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param $user_id
+     * @return mixed
+     */
 	public function getUserAds($user_id)
 	{
 		return Item::with([
@@ -299,10 +295,9 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 			        ->paginate(30);
 	}
 
-	/**
-	 * [getOldItems description]
-	 * @return [type] [description]
-	 */
+    /**
+     * @return mixed
+     */
 	public static function getOldItems()
 	{
 		return Item::where('dt_expiration', '<', Carbon::now()->subDays(90))
@@ -313,7 +308,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 							'user',
 							'metas.meta'
 							])
-					->take(10)
+					->take(100)
 					->get();
 	}
 

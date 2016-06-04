@@ -25,14 +25,12 @@ class ItemManipulator
 		$this->categoryManager 	= $catManager;
 	}
 
-	/**
-	 * Item store logic
-	 * 
-	 * @param  [type] $item_data [description]
-	 * @param  [type] $user      [description]
-	 * @param  [type] $days      [description]
-	 * @return [type]            [description]
-	 */
+    /**
+     * @param $item_data
+     * @param $user
+     * @param $days
+     * @return Item
+     */
 	public function store($item_data, $user, $days)
 	{
 		$item = new Item;
@@ -99,12 +97,11 @@ class ItemManipulator
 		return $item->pk_i_id;
 	}
 
-	/**
-	 * [storeOrUpdateDescription description]
-	 * @param  [int] $item_id   [description]
-	 * @param  [array] $item_data [description]
-	 * @return [type]            [description]
-	 */
+    /**
+     * @param $item_id
+     * @param $item_data
+     * @return bool
+     */
 	public function storeOrUpdateDescription($item_id,	$item_data)
 	{
 		$description = Description::where('fk_i_item_id', $item_id)->first();
@@ -182,10 +179,10 @@ class ItemManipulator
 		return $item;
 	}
 
-	/**
-	 * @param $item
-	 * @return bool
-	 */
+    /**
+     * @param $item
+     * @return bool
+     */
 	public function delete($item)
 	{
 		// ToDo refactor to comply with DDD.
