@@ -13,11 +13,11 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
-        \App\Console\Commands\AddLog::class,
-        \App\Console\Commands\ClearTemp::class,
-        \App\Console\Commands\UpdateCatStats::class,
-        \App\Console\Commands\ArchiveItems::class,
+        Commands\Inspire::class,
+        Commands\AddLog::class,
+        Commands\ClearTemp::class,
+        Commands\UpdateCatStats::class,
+        Commands\ArchiveItems::class,
     ];
 
     /**
@@ -30,6 +30,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('temp:clear')->hourly();
         $schedule->command('cat:update')->hourly();
-        $schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
+        //$schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
     }
 }
