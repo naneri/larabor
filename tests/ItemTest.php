@@ -7,6 +7,7 @@ use App\Zabor\Items\ItemManipulator;
 
 class ItemTest extends TestCase
 {
+    use DatabaseTransactions;
     use WithoutMiddleware;
 
     /**
@@ -35,5 +36,10 @@ class ItemTest extends TestCase
         $item = $manipulator->store($item_data, null, 30);
 
         $this->assertEquals($item_data['seller-email'], $item->s_contact_email);
+    }
+
+    public function it_can_create_items2()
+    {
+        $this->call('POST', '/item/add', ['name' => 'Taylor']);
     }
 }
