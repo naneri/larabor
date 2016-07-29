@@ -34,9 +34,8 @@ class AuthController extends Controller
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
+     * AuthController constructor.
+     * @param UserEloquentRepository $user
      */
     public function __construct(
         UserEloquentRepository $user

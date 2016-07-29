@@ -97,6 +97,7 @@ class AdminController extends Controller
         $item = $this->item_creator->activate($id);
 
         \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item){
+
                 $message->to($item->s_contact_email)->subject('Ваше объявление было активировано!');
         });
         return response()->json(['success' => true]);

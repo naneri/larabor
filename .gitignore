@@ -5,4 +5,5 @@ Homestead.json
 .env
 .idea
 public/oc-content/uploads/*
-.idea
+_ide_helper.php
+.vagrant
