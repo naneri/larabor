@@ -28,18 +28,6 @@
                </div>
               <div style="clear:both"></div>
             </div>
-            <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- zabor.kg -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-2797655075626618"
-                 data-ad-slot="5671692383"
-                 data-ad-format="auto"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-
-            
             <!--/.categories-list--> 
           </aside>
         </div>
