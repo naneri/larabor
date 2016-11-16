@@ -16,14 +16,10 @@ class ImageCreator{
 
 	}
 
-	/**
-	 * [storeAndSaveMultiple description]
-	 * 
-	 * @param  [array] $images  [description]
-	 * @param  [int] $item_id [description]
-	 * 
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param array $image_list
+     * @param $item_id
+     */
 	public function storeAndSaveMultiple($image_list = [], $item_id)
 	{
 		// directory creating logic
@@ -70,7 +66,6 @@ class ImageCreator{
      */
 	public function delete($id)
 	{
-
 		$image = $this->image->find($id);
 
 		$name = $image->pk_i_id;

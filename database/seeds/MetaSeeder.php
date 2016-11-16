@@ -11,6 +11,6 @@ class MetaSeeder extends Seeder
      */
     public function run()
     {
-        \DB::unprepared(File::get(database_path('seeds/meta.sql')));
+        \DB::unprepared(File::get(database_path('dumps/meta.sql')));
     }
 }

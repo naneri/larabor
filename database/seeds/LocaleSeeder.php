@@ -11,6 +11,6 @@ class LocaleSeeder extends Seeder
      */
     public function run()
     {
-        \DB::unprepared(File::get(database_path('seeds/locale.sql')));
+        \DB::unprepared(File::get(database_path('dumps/locale.sql')));
     }
 }

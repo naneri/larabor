@@ -6,10 +6,9 @@ use App\Zabor\Repositories\Contracts\CategoryInterface;
 
 class CategoryEloquentRepository implements CategoryInterface
 {
-	/**
-	 * [getRootCategories description]
-	 * @return [type] [description]
-	 */
+    /**
+     * @return mixed
+     */
 	public function getRootCategories()
 	{
 		return Cache::remember('root-categories', 10, function(){
@@ -22,10 +21,9 @@ class CategoryEloquentRepository implements CategoryInterface
 		}); 
 	}
 
-	/**
-	 * [allWithDescription description]
-	 * @return [type] [description]
-	 */
+    /**
+     * @return mixed
+     */
 	public function allWithDescription()
 	{
 		return Cache::remember('all-categories-with-description', 10, function(){
@@ -37,11 +35,10 @@ class CategoryEloquentRepository implements CategoryInterface
 		});
 	}
 
-	/**
-	 * [getById description]
-	 * @param  [type] $category_id [description]
-	 * @return [type]              [description]
-	 */
+    /**
+     * @param $category_id
+     * @return mixed
+     */
 	public function getById($category_id)
 	{
 		return Cache::remember('category-' . $category_id, 10, function() use ($category_id){
@@ -52,11 +49,9 @@ class CategoryEloquentRepository implements CategoryInterface
 		});
 	}
 
-	/**
-	 * [getMultipleByIds description]
-	 * @param  [type] $category_ids [description]
-	 * @return [type]               [description]
-	 */
+    /**
+     * @param $category_ids
+     */
 	public function getMultipleByIds($category_ids)
 	{
 		Cache::remember('category-multiple-', implode('.', $category_ids), 10, function() use ($category_ids){
@@ -67,11 +62,10 @@ class CategoryEloquentRepository implements CategoryInterface
 		});
 	}
 
-	/**
-	 * [getChildren description]
-	 * @param  [type] $category_id [description]
-	 * @return [type]              [description]
-	 */
+    /**
+     * @param $category_id
+     * @return array
+     */
 	public function getIdWithChildrenIds($category_id)
 	{
 		$cat_ids = [$category_id];
@@ -91,12 +85,10 @@ class CategoryEloquentRepository implements CategoryInterface
 		return $cat_ids;
 	}
 
-	/**
-	 * gets array of ancestors of given Category
-	 * 
-	 * @param  [int] $category_id 
-	 * @return [type]              
-	 */
+    /**
+     * @param $category_id
+     * @return array
+     */
 	public function getAncestors($category_id)
 	{
 

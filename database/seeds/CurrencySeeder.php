@@ -11,6 +11,6 @@ class CurrencySeeder extends Seeder
      */
     public function run()
     {
-        \DB::unprepared(File::get(database_path('seeds/currency.sql')));
+        \DB::unprepared(File::get(database_path('dumps/currency.sql')));
     }
 }

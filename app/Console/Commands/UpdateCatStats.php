@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Zabor\Repositories\CategoryEloquentRepository;
 use Illuminate\Console\Command;
 use App\Zabor\Mysql\Category;
-use App\Zabor\Repositories\CategoryEloquentRepository as CatRepo;
 use App\Zabor\Mysql\Category_stats;
 use App\Zabor\Mysql\Item;
 use Carbon\Carbon;
@@ -26,13 +26,19 @@ class UpdateCatStats extends Command
     protected $description = 'Command description';
 
     /**
+     * @var CategoryEloquentRepository
+     */
+    private $categoryEloquentRepository;
+
+    /**
      * Create a new command instance.
      *
-     * @return void
+     * @param CategoryEloquentRepository $categoryEloquentRepository
      */
-    public function __construct()
+    public function __construct(CategoryEloquentRepository $categoryEloquentRepository)
     {
         parent::__construct();
+        $this->categoryEloquentRepository = $categoryEloquentRepository;
     }
 
     /**
@@ -43,8 +49,8 @@ class UpdateCatStats extends Command
     public function handle()
     {
         // ToDo refactor all this stuff
-        foreach(app(CatRepo::class)->getRootCategories()->lists('pk_i_id') as $id){
-            $ids = app(CatRepo::class)->getIdWithChildrenIds($id);
+        foreach($this->categoryEloquentRepository->getRootCategories()->lists('pk_i_id') as $id){
+            $ids = $this->categoryEloquentRepository->getIdWithChildrenIds($id);
 
             $item_count = Item::whereIn('fk_i_category_id', $ids)
                 ->where('dt_expiration', '>=', Carbon::now())

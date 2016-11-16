@@ -11,6 +11,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        \DB::unprepared(File::get(database_path('seeds/category.sql')));
+        \DB::unprepared(File::get(database_path('dumps/category.sql')));
     }
 }
