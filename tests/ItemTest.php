@@ -8,7 +8,7 @@ use App\Zabor\Items\ItemManipulator;
 
 class ItemTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
     use WithoutMiddleware;
 
     protected $manipulator;
