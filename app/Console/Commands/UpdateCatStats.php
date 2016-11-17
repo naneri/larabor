@@ -49,7 +49,7 @@ class UpdateCatStats extends Command
     public function handle()
     {
         // ToDo refactor all this stuff
-        foreach($this->categoryEloquentRepository->getRootCategories()->lists('pk_i_id') as $id){
+        foreach ($this->categoryEloquentRepository->getRootCategories()->lists('pk_i_id') as $id) {
             $ids = $this->categoryEloquentRepository->getIdWithChildrenIds($id);
 
             $item_count = Item::whereIn('fk_i_category_id', $ids)

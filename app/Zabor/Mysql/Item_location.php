@@ -2,5 +2,5 @@
 
 class Item_location extends ZaborModel
 {
-	protected $table = "item_location";
+    protected $table = "item_location";
 }

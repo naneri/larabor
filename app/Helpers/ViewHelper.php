@@ -1,97 +1,104 @@
-<?php 
+<?php
 
-function zbCheckError($param = null){
-	if($param){
-		return 'has-error';
-	}
+function zbCheckError($param = null)
+{
+    if ($param) {
+        return 'has-error';
+    }
 }
 
-function zbGetMetaVal($meta_id, $meta_data){
-	if(isset($meta_data[$meta_id])){
-		return $meta_data[$meta_id];
-	}
+function zbGetMetaVal($meta_id, $meta_data)
+{
+    if (isset($meta_data[$meta_id])) {
+        return $meta_data[$meta_id];
+    }
 }
 
-function zbGetCheckboxVal($meta_id, $meta_data){
-	if(isset($meta_data[$meta_id])){
-		if($meta_data[$meta_id] == 1){
-			return 'checked';
-		}
-	}
+function zbGetCheckboxVal($meta_id, $meta_data)
+{
+    if (isset($meta_data[$meta_id])) {
+        if ($meta_data[$meta_id] == 1) {
+            return 'checked';
+        }
+    }
 }
 
-function zbGetSelectVal($meta_id, $meta_data, $option){
-	if(isset($meta_data[$meta_id])){
-		if($meta_data[$meta_id] == $option){
-			return 'selected';
-		}
-	}
+function zbGetSelectVal($meta_id, $meta_data, $option)
+{
+    if (isset($meta_data[$meta_id])) {
+        if ($meta_data[$meta_id] == $option) {
+            return 'selected';
+        }
+    }
 }
 
-function zbGetRadioVal($meta_id, $meta_data, $option){
-	if(isset($meta_data[$meta_id])){
-		if($meta_data[$meta_id] == $option){
-			return "checked='checked'";
-		}
-	}
+function zbGetRadioVal($meta_id, $meta_data, $option)
+{
+    if (isset($meta_data[$meta_id])) {
+        if ($meta_data[$meta_id] == $option) {
+            return "checked='checked'";
+        }
+    }
 }
 
-function zbGetTitle($item, $old){
-	if(!empty($old)){
-		return $old;
-	}
+function zbGetTitle($item, $old)
+{
+    if (!empty($old)) {
+        return $old;
+    }
 
-	if(!empty($item)){
-		return $item->description->s_title;
-	}
+    if (!empty($item)) {
+        return $item->description->s_title;
+    }
 
-	return '';
+    return '';
 }
 
-function zbGetDescription($item, $old){
-	if(!empty($old)){
-		return $old;
-	}
+function zbGetDescription($item, $old)
+{
+    if (!empty($old)) {
+        return $old;
+    }
 
-	if(!empty($item)){
-		return $item->description->s_description;
-	}
+    if (!empty($item)) {
+        return $item->description->s_description;
+    }
 
-	return '';
+    return '';
 }
 
-function zbCurrencyCheckbox($item, $old, $code){
-	if(!empty($old)){
-		return $old == $code ? 'checked' : '';
-	}
+function zbCurrencyCheckbox($item, $old, $code)
+{
+    if (!empty($old)) {
+        return $old == $code ? 'checked' : '';
+    }
 
-	if(!empty($item)){
-		return $item->fk_c_currency_code == $code ? 'checked' : '';
-	}
+    if (!empty($item)) {
+        return $item->fk_c_currency_code == $code ? 'checked' : '';
+    }
 
-	if($code == 'KGS'){
-		return $code == 'KGS' ? 'checked' : '';
-	}
+    if ($code == 'KGS') {
+        return $code == 'KGS' ? 'checked' : '';
+    }
 
-	return '';
-
+    return '';
 }
 
-function zbCurrencyClass($item, $old, $code){
-	if(!empty($old)){
-		return $old == $code ? 'active' : '';
-	}
+function zbCurrencyClass($item, $old, $code)
+{
+    if (!empty($old)) {
+        return $old == $code ? 'active' : '';
+    }
 
-	if(!empty($item)){
-		return $item->fk_c_currency_code == $code ? 'active' : '';
-	}
+    if (!empty($item)) {
+        return $item->fk_c_currency_code == $code ? 'active' : '';
+    }
 
-	if($code == 'KGS'){
-		return $code == 'KGS' ? 'active' : '';
-	}
+    if ($code == 'KGS') {
+        return $code == 'KGS' ? 'active' : '';
+    }
 
-	return '';
-
+    return '';
 }
 
 /**
@@ -99,9 +106,10 @@ function zbCurrencyClass($item, $old, $code){
  *
  * @return mixed|string
  */
-function stripForMeta($string){
-	$string = strip_tags($string);
-	$string = str_replace("\r", " ", $string);
-	$string = str_replace("\n", " ", $string);
-	return str_limit($string, 100);
+function stripForMeta($string)
+{
+    $string = strip_tags($string);
+    $string = str_replace("\r", " ", $string);
+    $string = str_replace("\n", " ", $string);
+    return str_limit($string, 100);
 }

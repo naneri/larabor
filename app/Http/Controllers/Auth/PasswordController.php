@@ -10,6 +10,7 @@ use DB;
 use Carbon\Carbon;
 use Mail;
 use Hash;
+
 class PasswordController extends Controller
 {
     /*
@@ -46,7 +47,7 @@ class PasswordController extends Controller
 
         $user = User::where('s_email', $request->input('email'))->first();
 
-        if($user == null){
+        if ($user == null) {
             return redirect()->back()->withErrors(['email' => 'пользователь не найден']);
         }
         
@@ -57,7 +58,7 @@ class PasswordController extends Controller
         $token = str_random(255);
 
         DB::table('password_resets')->insert([
-            'email' => $user->s_email, 
+            'email' => $user->s_email,
             'token' => $token,
             'created_at' => Carbon::now()
             ]);
@@ -71,7 +72,6 @@ class PasswordController extends Controller
         return redirect('/')->with('message', [
             'success' => 'письмо с инструкцией по восстановлению пароля отправлено вам на почту'
             ]);
-        
     }
 
 
@@ -110,7 +110,7 @@ class PasswordController extends Controller
                     ->where('token', $request->input('password'))
                     ->first();
 
-        if($reset == null){
+        if ($reset == null) {
             redirect('/')->with('message', [
                 'Неверный токен'
                 ]);
@@ -127,5 +127,4 @@ class PasswordController extends Controller
             'success'   => 'Ваш пароль успешно обновлён'
             ]);
     }
-
 }

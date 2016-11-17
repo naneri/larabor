@@ -18,12 +18,12 @@ class ProfileController extends Controller
 {
 
     public function __construct(
-        ItemInterface $item, 
+        ItemInterface $item,
         UserEloquentRepository $user,
         UserValidator $validator,
         UserManipulator $manipulator
-        )
-    {
+    ) {
+    
         $this->item             = $item;
         $this->user             = $user;
         $this->validator        = $validator;
@@ -61,16 +61,16 @@ class ProfileController extends Controller
     {
         $validator = $this->validator->validate_user_details($request->all());
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect('profile/main')
                         ->withErrors($validator)
                         ->withInput();
         }
 
         $this->user_manipulator->update_details(
-            Auth::id(), 
+            Auth::id(),
             $request->all()
-            );
+        );
 
         return redirect('profile/main')->with('message', [
                 'success' => 'Ваш профиль успешно обновлён'
@@ -81,17 +81,16 @@ class ProfileController extends Controller
     {
         $validator = $this->validator->validate_change_pass($request->all());
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect('profile/main')
                         ->withErrors($validator)
                         ->withInput();
         }
-        
     }
 
     /**
      * [showAds description]
-     * 
+     *
      * @param  [type] $user_id [description]
      * @return [type]          [description]
      */
@@ -121,7 +120,7 @@ class ProfileController extends Controller
      */
     public function getGenerateExcel()
     {
-        if(!Auth::user()->canExport()){
+        if (!Auth::user()->canExport()) {
             return redirect()->back()->with([
                 'message' => [
                     'error' => 'Вы достигли лимита. Вы сможете заново экспортировать объявления завтра'
@@ -132,13 +131,13 @@ class ProfileController extends Controller
         
         $path = Auth::user()->getExportPath() ?: "export/excel/" . str_random(10);
         
-        $result = Excel::create('price', function($excel) use ($items){
-                $excel->sheet('Excel sheet', function($sheet) use ($items){
+        $result = Excel::create('price', function ($excel) use ($items) {
+                $excel->sheet('Excel sheet', function ($sheet) use ($items) {
                     $sheet->loadView('profile.excel', compact('items'));
                 });
-            })->store('xlsx', public_path($path));
+        })->store('xlsx', public_path($path));
 
-        if($result){
+        if ($result) {
             $this->user->updateAdsExportDate(Auth::id(), $path);
 
             return redirect()->back()->with([

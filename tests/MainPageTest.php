@@ -16,7 +16,7 @@ class MainPageTest extends TestCase
     public function testExample()
     {
         $this->visit('/')
-        	->see('объявление');
+            ->see('объявление');
 
         $this->visit('/')
          ->click('Контакты')
@@ -24,13 +24,11 @@ class MainPageTest extends TestCase
     }
 
     /**
-     * @test 
+     * @test
      */
     public function it_can_login()
     {
         $this->visit('/login')
             ->assertResponseOk();
     }
-
-
 }

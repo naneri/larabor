@@ -14,13 +14,13 @@ class CreateUserDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_data', function(Blueprint $table){
+        Schema::create('user_data', function (Blueprint $table) {
             $table->integer('fk_i_user_id');
             $table->integer('activate_attempts')->default(0);
             $table->text('info')->nullable();
         });
 
-        User::chunk(100, function($users) {
+        User::chunk(100, function ($users) {
             foreach ($users as $user) {
                 UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
             }

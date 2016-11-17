@@ -17,9 +17,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind( ItemInterface::class,     ItemEloquentRepository::class );
-        $this->app->bind( CategoryInterface::class, CategoryEloquentRepository::class );
-        $this->app->bind( MetaInterface::class,     MetaEloquentRepository::class );
+        $this->app->bind(ItemInterface::class, ItemEloquentRepository::class);
+        $this->app->bind(CategoryInterface::class, CategoryEloquentRepository::class);
+        $this->app->bind(MetaInterface::class, MetaEloquentRepository::class);
     }
 
     /**

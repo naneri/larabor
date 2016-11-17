@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Mysql;
 
-use Config; 
+use Config;
 use Carbon\Carbon;
 
 use Illuminate\Auth\Authenticatable;
@@ -10,9 +10,10 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends ZaborModel implements AuthenticatableContract,
-                                        AuthorizableContract,
-                                        CanResetPasswordContract
+class User extends ZaborModel implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
@@ -83,7 +84,7 @@ class User extends ZaborModel implements AuthenticatableContract,
      */
     public function is_admin()
     {
-        if($this->is_admin == 1){
+        if ($this->is_admin == 1) {
             return true;
         }
         return false;
@@ -95,9 +96,8 @@ class User extends ZaborModel implements AuthenticatableContract,
     public function setAttribute($key, $value)
     {
         $isRememberTokenAttribute = $key == $this->getRememberTokenName();
-        if (!$isRememberTokenAttribute)
-        {
-          parent::setAttribute($key, $value);
+        if (!$isRememberTokenAttribute) {
+            parent::setAttribute($key, $value);
         }
     }
 
@@ -107,7 +107,7 @@ class User extends ZaborModel implements AuthenticatableContract,
      */
     public function description()
     {
-        return $this->hasOne('App\Zabor\Mysql\User_description', 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');            
+        return $this->hasOne('App\Zabor\Mysql\User_description', 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
     }
 
     /**
@@ -126,10 +126,10 @@ class User extends ZaborModel implements AuthenticatableContract,
     public function canExport()
     {
         $info = $this->info;
-        if(!empty($this->info['priceListUpdate'])){
-            if( $this->info['priceListUpdate']['updates']  >= Config::get('zabor.export.updates') && 
+        if (!empty($this->info['priceListUpdate'])) {
+            if ($this->info['priceListUpdate']['updates']  >= Config::get('zabor.export.updates') &&
                 $this->info['priceListUpdate']['date']     === Carbon::now()->toDateString()
-            ){
+            ) {
                 return false;
             }
         }
@@ -145,11 +145,10 @@ class User extends ZaborModel implements AuthenticatableContract,
     {
         $info = $this->info;
 
-        if(!empty($this->info['priceListUpdate'])){
+        if (!empty($this->info['priceListUpdate'])) {
             return $this->info['priceListUpdate']['path'];
         }
 
         return null;
     }
-
 }

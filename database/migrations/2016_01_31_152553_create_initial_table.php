@@ -22,7 +22,7 @@ class CreateInitialTable extends Migration
      */
     public function down()
     {
-        foreach(\DB::select('SHOW TABLES') as $table) {
+        foreach (\DB::select('SHOW TABLES') as $table) {
             $table_array = get_object_vars($table);
             DB::raw('DROP ' . $table_array[key($table_array)]);
         }

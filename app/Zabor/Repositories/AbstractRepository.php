@@ -1,6 +1,5 @@
 <?php namespace App\Zabor\Repositories;
 
-
 class AbstractRepository
 {
     protected $model;

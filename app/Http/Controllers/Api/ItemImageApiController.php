@@ -23,7 +23,7 @@ class ItemImageApiController extends Controller
     
     /**
      * [storeImage description]
-     * 
+     *
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -37,12 +37,12 @@ class ItemImageApiController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()){
-            return Response::json([                
-                  'error' => true,                
+        if ($validator->fails()) {
+            return Response::json([
+                  'error' => true,
                   'message' => 'Some problems while saving',
-                  'code' => 400            
-                    ], 400);        
+                  'code' => 400
+                    ], 400);
         }
 
         $file = $request->file('file');
@@ -65,12 +65,11 @@ class ItemImageApiController extends Controller
             'message'   => 'uploaded',
             'code'      => 200
             ], 200);
-
     }
 
     /**
      * [removeImage description]
-     * 
+     *
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -81,30 +80,24 @@ class ItemImageApiController extends Controller
 
         $key = $request->header('imageKey');
 
-        try{
-
+        try {
             // checks if $name is numeric $image->id that is already in database or it is a alphabetic new name
-            if(is_numeric($name)){
-
+            if (is_numeric($name)) {
                 $image_id = (int) $name;
 
                 $this->image->delete($image_id);
-                
-            }else{
-                
+            } else {
                 $array = [];
 
-                foreach(Session::get('item_images.'. $key) as $image){
-                    if($image['name'] != $name){
+                foreach (Session::get('item_images.'. $key) as $image) {
+                    if ($image['name'] != $name) {
                         $array[] = $image;
                     }
                 }
 
                 Session::put('item_images.'. $key, $array);
             }
-          
-        }catch(Exception $e){
-
+        } catch (Exception $e) {
             return Response::json([
             'message'   => 'troubles',
             'code'      => 400
@@ -116,5 +109,4 @@ class ItemImageApiController extends Controller
             'code'      => 200
             ], 200);
     }
-
 }

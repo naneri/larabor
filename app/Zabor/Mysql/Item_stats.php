@@ -2,5 +2,5 @@
 
 class Item_stats extends ZaborModel
 {
-	protected $table = "item_stats";
+    protected $table = "item_stats";
 }

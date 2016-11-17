@@ -4,10 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ZaborModel extends Model
 {
-	protected $primaryKey = 'pk_i_id';
+    protected $primaryKey = 'pk_i_id';
 
-	public $timestamps = false;
+    public $timestamps = false;
 
-	protected $guarded = [];
-	
+    protected $guarded = [];
 }

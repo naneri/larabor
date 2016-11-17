@@ -7,6 +7,7 @@ use App\Zabor\Mysql\Archive;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
 use Carbon\Carbon;
+
 class ArchiveItems extends Command
 {
     /**
@@ -29,9 +30,10 @@ class ArchiveItems extends Command
      * @return void
      */
     public function __construct(
-        ItemInterface $itemRepo, 
-        ItemManipulator $itemManipulator)
-    {
+        ItemInterface $itemRepo,
+        ItemManipulator $itemManipulator
+    ) {
+    
         parent::__construct();
         $this->itemRepo = $itemRepo;
         $this->item_manipulator = $itemManipulator;
@@ -45,12 +47,10 @@ class ArchiveItems extends Command
     public function handle()
     {
         // only executing in the morning when site load time is not high
-        if(Carbon::now()->hour > 0 && Carbon::now()->hour < 7){
-
+        if (Carbon::now()->hour > 0 && Carbon::now()->hour < 7) {
             $items = $this->itemRepo->getOldItems();
 
-            foreach($items as $item){
-
+            foreach ($items as $item) {
                 Archive::create([
                     'entity_id' => $item->pk_i_id,
                     'type'      => 'item',
@@ -61,7 +61,7 @@ class ArchiveItems extends Command
             }
 
             $this->info('Ads deleted');
-        }else{
+        } else {
             $this->info('Wrong time');
         }
     }
