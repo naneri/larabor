@@ -17,7 +17,7 @@ class ItemPolicy
      */
     public function before(User $user)
     {
-        if($user->is_admin()){
+        if ($user->is_admin()) {
             return true;
         }
     }
@@ -31,11 +31,11 @@ class ItemPolicy
      */
     public function manage(User $user, Item $item, $code = null)
     {
-        if($user->pk_i_id === $item->fk_i_user_id){
+        if ($user->pk_i_id === $item->fk_i_user_id) {
             return true;
         }
-        if(!is_null($code)){
-            if($item->s_secret == $code){
+        if (!is_null($code)) {
+            if ($item->s_secret == $code) {
                 return true;
             }
         }

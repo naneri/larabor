@@ -8,6 +8,7 @@ use App\Zabor\Repositories\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
 use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
+
 class AdminController extends Controller
 {
     public $item;
@@ -19,8 +20,8 @@ class AdminController extends Controller
         CategoryInterface $category,
         ItemManipulator $creator,
         UserEloquentRepository $user
-    )
-    {
+    ) {
+    
         $this->item         = $item;
         $this->category     = $category;
         $this->item_creator = $creator;
@@ -49,12 +50,12 @@ class AdminController extends Controller
         $pc_stat = $this->item->countCategoryCustomActiveItems($this->category->getIdWithChildrenIds(17));
     
         return view('admin.main', compact(
-            'items_posted', 
-            'item_active', 
-            'top_sellers', 
-            'phone_stat', 
+            'items_posted',
+            'item_active',
+            'top_sellers',
+            'phone_stat',
             'pc_stat'
-            ));
+        ));
     }
 
     /**
@@ -96,7 +97,7 @@ class AdminController extends Controller
     {
         $item = $this->item_creator->activate($id);
 
-        \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item){
+        \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item) {
 
                 $message->to($item->s_contact_email)->subject('Ваше объявление было активировано!');
         });
@@ -110,8 +111,7 @@ class AdminController extends Controller
      */
     public function blockItem(Request $request, $id)
     {
-        if($this->item_creator->block($id)){
-            
+        if ($this->item_creator->block($id)) {
             $item = $this->item->getById($id);
 
             return response()->json(['success' => true, 'item'  => $item]);

@@ -2,5 +2,5 @@
 
 class Category_description extends ZaborModel
 {
-	protected $table = "category_description";
+    protected $table = "category_description";
 }

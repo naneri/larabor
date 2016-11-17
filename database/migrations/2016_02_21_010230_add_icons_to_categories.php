@@ -43,14 +43,14 @@ class AddIconsToCategories extends Migration
             ->where('category.fk_i_parent_id', null)
             ->get();
 
-        if(!$cats->isEmpty()){
-            foreach($this->cat_icons as $cat_name => $icon){
+        if (!$cats->isEmpty()) {
+            foreach ($this->cat_icons as $cat_name => $icon) {
                 $cat = $cats->where('s_name', $cat_name)->first();
 
-                if(!is_null($cat)){
+                if (!is_null($cat)) {
                     Category::where('pk_i_id', $cat->pk_i_id)->update(['s_icon' => $icon]);
                 }
-            }    
+            }
         }
     }
 
@@ -63,7 +63,7 @@ class AddIconsToCategories extends Migration
     {
         $cats = Category::all();
 
-        foreach($cats as $cat){
+        foreach ($cats as $cat) {
             $cat->update(['s_icon' => null]);
         }
     }

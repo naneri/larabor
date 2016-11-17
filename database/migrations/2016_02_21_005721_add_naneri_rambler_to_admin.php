@@ -18,7 +18,7 @@ class AddNaneriRamblerToAdmin extends Migration
      */
     public function up()
     {
-        if(!is_null($this->user)){
+        if (!is_null($this->user)) {
             User::where('s_email', 'naneri@rambler.ru')->update(['is_admin' => 1]);
         }
     }
@@ -30,7 +30,7 @@ class AddNaneriRamblerToAdmin extends Migration
      */
     public function down()
     {
-        if(!is_null($this->user)){
+        if (!is_null($this->user)) {
             User::where('s_email', 'naneri@rambler.ru')->update(['is_admin' => 0]);
         }
     }

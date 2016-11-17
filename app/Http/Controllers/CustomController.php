@@ -34,13 +34,13 @@ class CustomController extends Controller
 
         $user_email = $request->input('email');
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect('contacts')
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        Mail::send('emails.contact-us', ['data' => $request->all()], function($message) use ($user_email){
+        Mail::send('emails.contact-us', ['data' => $request->all()], function ($message) use ($user_email) {
             $message->to('support@zabor.kg');
             $message->replyTo($user_email);
             $message->subject('Сообщение от пользователя');

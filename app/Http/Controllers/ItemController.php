@@ -9,7 +9,7 @@ use Mail;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 use URL;
-use Gate; 
+use Gate;
 
 use App\Zabor\Mysql\Currency;
 use App\Zabor\Repositories\Contracts\ItemInterface;
@@ -38,7 +38,7 @@ class ItemController extends Controller
     protected $user;
 
     public function __construct(
-        ItemInterface $item, 
+        ItemInterface $item,
         CategoryInterface $category,
         Currency $currency,
         MetaInterface $meta,
@@ -47,8 +47,9 @@ class ItemController extends Controller
         ImageViewSharer $imageSharer,
         ItemManipulator $item_creator,
         ItemOwnerIdentifier $ownerIdentifier,
-        UserEloquentRepository $user)
-    {
+        UserEloquentRepository $user
+    ) {
+    
         $this->item      = $item;
         $this->category  = $category;
         $this->currency  = $currency;
@@ -71,10 +72,8 @@ class ItemController extends Controller
 
         $categories = $this->category->allWithDescription();
 
-        if(!empty($request->old())){
-
+        if (!empty($request->old())) {
             $this->getCategoryAndMetaInfo($request->old());
-
         }
 
         $this->imageSharer->shareItemAddImages($request);
@@ -85,7 +84,7 @@ class ItemController extends Controller
 
         return view('item.add', compact(
             'item',
-            'currencies', 
+            'currencies',
             'categories'
         ))->with('route', 'add');
     }
@@ -107,14 +106,14 @@ class ItemController extends Controller
         $item_data['title']             = clean($item_data['title']);
         $item_data['description']       = clean($item_data['description']);
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $item_data['seller-email'] = Auth::user()->s_email;
             $user = Auth::user();
         }
 
         $validator = $this->validator->validate($item_data, Auth::check());
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect('item/add')
                         ->withErrors($validator)
                         ->withInput();
@@ -122,18 +121,15 @@ class ItemController extends Controller
 
         $days = $this->category->getById($item_data['category'])->i_expiration_days;
 
-        if($item = $this->item_creator->store($item_data, $user, $days))
-        {
-
+        if ($item = $this->item_creator->store($item_data, $user, $days)) {
             $key = $request->input('image_key');
 
             $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item->pk_i_id);
-
         }
 
-        if(empty($item->fk_i_user_id)){
+        if (empty($item->fk_i_user_id)) {
              $message = ['success' => 'Ваше объявление будет опубликовано в течении 12 часов после проверки модератором.'];
-        }else{
+        } else {
             $message = [
                 'success' => 'ваше объявление успешно опубликовано.'
                 ];
@@ -152,7 +148,7 @@ class ItemController extends Controller
     {
         $item = $this->item->getById($id);
 
-        if($item->b_enabled == 0){
+        if ($item->b_enabled == 0) {
             throw new NotFoundHttpException("Item is not enabled");
         }
 
@@ -161,25 +157,25 @@ class ItemController extends Controller
         $agent = new Agent();
 
         $is_owner = $this->ownerIdentifier->checkOwnership(
-            $item->fk_i_user_id, 
-            $item->s_secret, 
-            Auth::user(), 
+            $item->fk_i_user_id,
+            $item->s_secret,
+            Auth::user(),
             $code
         );
 
-        if(!$agent->isRobot() && !$is_owner){
+        if (!$agent->isRobot() && !$is_owner) {
             $this->item_creator->increase_count($id);
         }
 
-        if(!Session::has('item-origin')){
+        if (!Session::has('item-origin')) {
             Session::put('item-origin', URL::previous());
         }
 
         return view('item.show', compact(
-            'item', 
-            'code', 
+            'item',
+            'code',
             'related_items'
-            ));
+        ));
     }
 
     /**
@@ -208,14 +204,11 @@ class ItemController extends Controller
 
         $this->imageSharer->shareItemAddImages($request, $item->images->toArray());
 
-        if(!empty($request->old())){
-          
+        if (!empty($request->old())) {
             $this->getCategoryAndMetaInfo($request->old());
 
             $item = null;
-
-        }else{
-          
+        } else {
             $metas = $this->meta->getCategoryMeta($item->fk_i_category_id);
 
             $meta_data = $item->metas->keyBy('fk_i_field_id')->map(function ($item, $key) {
@@ -230,7 +223,7 @@ class ItemController extends Controller
         return view('item.add', compact(
             'item',
             'id',
-            'currencies', 
+            'currencies',
             'categories',
             'code'
         ))->with('route', 'edit');
@@ -256,24 +249,22 @@ class ItemController extends Controller
         $item_data['title']             = clean($item_data['title']);
         $item_data['description']       = clean($item_data['description']);
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user();
         }
 
         $validator = $this->validator->validate($item_data, Auth::check());
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect(Session::get('edit_url'))
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        if($item_id = $this->item_creator->edit($item_data, $user, $id)){
-
+        if ($item_id = $this->item_creator->edit($item_data, $user, $id)) {
             $key = $request->input('image_key');
 
             $this->image->storeAndSaveMultiple(Session::get('item_images.'. $key), $item_id);
-
         }
 
         return redirect(route('item.show', $item_id));
@@ -293,7 +284,7 @@ class ItemController extends Controller
             abort(403);
         }
 
-        if($item->recentlyProlonged()){
+        if ($item->recentlyProlonged()) {
             return redirect()->back()->with('message', [
                 'error'   => 'Подождите 1 день для возможности продления'
                 ]);
@@ -324,19 +315,19 @@ class ItemController extends Controller
             abort(403);
         }
 
-        if(!$this->item_creator->delete($item)){
+        if (!$this->item_creator->delete($item)) {
             return redirect()->back()->with('message', [
                 'error' => 'Проблемы при удалении объявления'
                 ]);
         }
 
-        if($request->input('redirect') == 'origin'){
-            return redirect('/')->with('message',[
+        if ($request->input('redirect') == 'origin') {
+            return redirect('/')->with('message', [
                 'success' => 'Объявление удалено успешно'
                 ]);
         }
 
-        return redirect()->back()->with('message',[
+        return redirect()->back()->with('message', [
             'success' => 'Объявление удалено успешно'
             ]);
     }
@@ -358,17 +349,15 @@ class ItemController extends Controller
         $phone   = $request->input('phone');
         $item    = $this->item->getById($item_id);
 
-        if(!$item->is_actual()){
-
-            return redirect()->back()->with('message',[
+        if (!$item->is_actual()) {
+            return redirect()->back()->with('message', [
                 'error' => 'объявление не актуально'
                 ]);
         }
 
         $email = $item->s_contact_email;
 
-        if(!empty($item->fk_i_user_id)){
-
+        if (!empty($item->fk_i_user_id)) {
             $user = $this->user->getUserInfo($item->fk_i_user_id);
 
             $email = $user->s_email;
@@ -393,8 +382,8 @@ class ItemController extends Controller
     {
         $output = '';
 
-        foreach($category_list as $key => $category_id){
-            if($key != 0 && is_numeric($category_id)){
+        foreach ($category_list as $key => $category_id) {
+            if ($key != 0 && is_numeric($category_id)) {
                 $output = $category_id;
             }
         }
@@ -409,8 +398,7 @@ class ItemController extends Controller
      */
     protected function getCategoryAndMetaInfo($old)
     {
-        if($old['category'][0] != 0){
-
+        if ($old['category'][0] != 0) {
             $cat_list = $old['category'];
 
             $cat_id = end($cat_list);

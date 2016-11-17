@@ -7,12 +7,13 @@ use Carbon\Carbon;
 
 //ToDo break the tight coupling between CatEloquent repo and this Service
 
-class CategoryStatsManager{
+class CategoryStatsManager
+{
 
-	public function __construct(CategoryInterface $catRepo)
-	{
-		$this->catRepo = $catRepo;
-	}
+    public function __construct(CategoryInterface $catRepo)
+    {
+        $this->catRepo = $catRepo;
+    }
 
     /**
      * @param $cat_id
@@ -21,17 +22,20 @@ class CategoryStatsManager{
      *
      * @return bool
      */
-	public function increaseCategoryStats( $cat_id, $expiration_date = null, $active = 0 )
-	{
-		if($active == 0){ return false; }
+    public function increaseCategoryStats($cat_id, $expiration_date = null, $active = 0)
+    {
+        if ($active == 0) {
+            return false;
+        }
 
-		if(!is_null($expiration_date) && $expiration_date > Carbon::now()){ return false; }
+        if (!is_null($expiration_date) && $expiration_date > Carbon::now()) {
+            return false;
+        }
 
-		$categoryArray = $this->catRepo->getWithAncestorsArray($cat_id);
+        $categoryArray = $this->catRepo->getWithAncestorsArray($cat_id);
 
-		Stats::whereIn('fk_i_category_id',$categoryArray)->increment('i_num_items');
+        Stats::whereIn('fk_i_category_id', $categoryArray)->increment('i_num_items');
 
         return true;
-	}
-
+    }
 }

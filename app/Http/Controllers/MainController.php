@@ -15,10 +15,11 @@ class MainController extends Controller
 {
 
     public function __construct(
-        ItemInterface $item, 
+        ItemInterface $item,
         CategoryInterface $category,
-        RedirectService $redirector)
-    {
+        RedirectService $redirector
+    ) {
+    
         $this->item         = $item;
         $this->category     = $category;
         $this->redirector   = $redirector;
@@ -30,7 +31,7 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
-        if(!empty($request->page)){
+        if (!empty($request->page)) {
             return redirect($this->redirector->redirect($request->all()));
         }
         $items = $this->item->getLast();
@@ -40,10 +41,10 @@ class MainController extends Controller
         $categories = $this->category->getRootCategories();
 
         return view('main', compact(
-            'items', 
+            'items',
             'categories',
             'item_count'
-            ));
+        ));
     }
 
     public function testCrawler()
@@ -62,6 +63,5 @@ class MainController extends Controller
     /*    } catch(\Exception $e) {
             echo 'page does not exist';
         }*/
-
     }
 }

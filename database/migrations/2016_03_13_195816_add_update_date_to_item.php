@@ -14,12 +14,12 @@ class AddUpdateDateToItem extends Migration
      */
     public function up()
     {
-        Schema::table('item', function(Blueprint $table){
+        Schema::table('item', function (Blueprint $table) {
             $table->dateTime('dt_update_date')->after('dt_mod_date');
         });
 
-        Item::where('dt_expiration', '>', Carbon::now())->chunk(100, function($items){
-            foreach($items as $item){
+        Item::where('dt_expiration', '>', Carbon::now())->chunk(100, function ($items) {
+            foreach ($items as $item) {
                 $item->update(['dt_update_date' => $item->dt_pub_date]);
             }
         });
@@ -32,7 +32,7 @@ class AddUpdateDateToItem extends Migration
      */
     public function down()
     {
-        Schema::table('item', function(Blueprint $table){
+        Schema::table('item', function (Blueprint $table) {
             $table->dropColumn('dt_update_date');
         });
     }

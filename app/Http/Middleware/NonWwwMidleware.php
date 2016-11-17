@@ -18,8 +18,8 @@ class NonWwwMidleware
     {
         // redirecting "www." domain to non-www
         if (substr($request->header('host'), 0, 4) === 'www.') {
-          $request->headers->set('host', env('APP_DOMAIN', 'zabor.kg'));
-          return Redirect::to($request->fullUrl());
+            $request->headers->set('host', config('app.app_domain'));
+            return Redirect::to($request->fullUrl());
         }
 
         return $next($request);

@@ -38,8 +38,8 @@ class ClearTemp extends Command
     {
         $files = File::files(public_path('temp'));
 
-        foreach($files as $file){
-            if(File::lastModified($file) + 7200 < time()){
+        foreach ($files as $file) {
+            if (File::lastModified($file) + 7200 < time()) {
                 File::delete($file);
             }
         }

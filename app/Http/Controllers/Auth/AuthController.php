@@ -39,8 +39,8 @@ class AuthController extends Controller
      */
     public function __construct(
         UserEloquentRepository $user
-    )
-    {
+    ) {
+    
         $this->user = $user;
         $this->middleware('guest', ['except' => 'getLogout']);
     }
@@ -81,7 +81,7 @@ class AuthController extends Controller
      */
     public function getLogin()
     {
-        if(URL::previous() != route('login')){
+        if (URL::previous() != route('login')) {
             session(['login-origin' => URL::previous()]);
         }
 
@@ -89,28 +89,29 @@ class AuthController extends Controller
     }
     /**
      * [postLogin description]
-     * 
+     *
      * @param  Request $request [description]
      * @return [type]           [description]
      */
     public function postLogin(Request $request)
     {
         if (Auth::attempt([
-                's_email' => $request->input('email'), 
+                's_email' => $request->input('email'),
                 'password' => $request->input('password')
                 ])
-            ){
-                if(Session::has('login-origin')){
-                    $redirect_url = Session::get('login-origin');
-                    Session::forget('login-origin');
-                }else{
-                    $redirect_url = '/';
-                }
-
-                return redirect()->intended($redirect_url);
+            ) {
+            if (Session::has('login-origin')) {
+                $redirect_url = Session::get('login-origin');
+                Session::forget('login-origin');
+            } else {
+                $redirect_url = '/';
             }
 
-        return redirect('login')->with('message',
+                return redirect()->intended($redirect_url);
+        }
+
+        return redirect('login')->with(
+            'message',
             ['error' => 'Неправильная почта или пароль']
         );
     }
@@ -123,7 +124,8 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->intended('/');;
+        return redirect()->intended('/');
+        ;
     }
 
     /**
@@ -176,7 +178,7 @@ class AuthController extends Controller
 
         UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
 
-        Mail::send('emails.activate', compact('user'), function($message) use ($user){
+        Mail::send('emails.activate', compact('user'), function ($message) use ($user) {
             $message->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
@@ -196,13 +198,13 @@ class AuthController extends Controller
     {
         $user = $this->user->findByEmail($email);
 
-        if($user->b_active == 1){
+        if ($user->b_active == 1) {
             return redirect('/')->with('message', [
                 'info' => 'учётная запись уже активирована'
             ]);
         }
 
-        if($user->data->activate_attempts > 2){
+        if ($user->data->activate_attempts > 2) {
             return redirect('/')->with('message', [
                 'error' => 'слишком много попыток активаций, обратитесь к администрации для активации в ручную'
             ]);
@@ -210,7 +212,7 @@ class AuthController extends Controller
 
         $user->data->increment('activate_attempts');
 
-        Mail::send('emails.activate', compact('user'), function($message) use ($user){
+        Mail::send('emails.activate', compact('user'), function ($message) use ($user) {
             $message->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
             $message->to($user->s_email);
             $message->subject('Регистрация на Zabor.kg');
@@ -233,13 +235,13 @@ class AuthController extends Controller
 
         $check = ($token == $user->s_secret);
 
-        if(!$check){
+        if (!$check) {
             return redirect('/')->with('message', [
                 'danger' => 'Неверный токен'
                 ]);
         }
 
-        if($check && $user->b_active == 1){
+        if ($check && $user->b_active == 1) {
             return redirect('/login')->with('message', [
                 'info' => 'Пользователь уже активирован'
                 ]);
@@ -252,6 +254,5 @@ class AuthController extends Controller
         return redirect('/')->with('message', [
                 'success' => 'Активация прошла успешно'
                 ]);
-
     }
 }

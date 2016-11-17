@@ -38,7 +38,6 @@ class AddLog extends Command
      */
     public function handle()
     {
-       Log::info('cron added succesffully');
-
+        Log::info('cron added succesffully');
     }
 }

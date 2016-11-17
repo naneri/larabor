@@ -1,31 +1,31 @@
 <?php
 
 return [
-	
-	// the number by which the ads are increased on the main page
-	'ad_increase_number' => 1813,
+    
+    // the number by which the ads are increased on the main page
+    'ad_increase_number' => 1813,
 
-	// IDs of the users affiliated with the website
-	'affiliates'	=> [2, 25], 
+    // IDs of the users affiliated with the website
+    'affiliates'    => [2, 25],
 
-	// The validation rules for item description
-	'item'	=> [
-		'desc_min'	=> 5,
-		'desc_max'	=> 5000
-	],
+    // The validation rules for item description
+    'item'  => [
+        'desc_min'  => 5,
+        'desc_max'  => 5000
+    ],
 
-	// default empty image path
-	'item_no_image'	=> 'images/no_photo.gif',
+    // default empty image path
+    'item_no_image'     => 'images/no_photo.gif',
 
-	'user_info_default'	=> [
-		'priceListUpdate'	=> [
-			'date'		=> null,
-			'updates'	=> 0,
-			'path'		=> ''
-		],
-	],
+    'user_info_default'     => [
+        'priceListUpdate'   => [
+            'date'      => null,
+            'updates'   => 0,
+            'path'      => ''
+        ],
+    ],
 
-	'export'	=> [
-		'updates'	=> 10
-	],
+    'export'    => [
+        'updates'   => 10
+    ],
 ];
