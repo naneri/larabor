@@ -52,6 +52,7 @@ class ItemTest extends TestCase
      */
     public function it_can_delete_items()
     {
+        $this->seed();
         $item = factory(App\Zabor\Mysql\Item::class)->create();
 
         $this->manipulator->delete($item);
