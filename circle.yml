@@ -1,6 +1,4 @@
 dependencies:
   post:
       - chmod -R 777 ~/larabor/storage
-      - php artisan migrate
-      - php artisan migrate:refresh
       - php artisan env
