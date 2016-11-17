@@ -15,33 +15,32 @@ return [
     |
     */
 
-    'driver' => 'eloquent',
+    'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Model
-    |--------------------------------------------------------------------------
-    |
-    | When using the "Eloquent" authentication driver, we need to know which
-    | Eloquent model should be used to retrieve your users. Of course, it
-    | is often just the "User" model but you may use whatever you like.
-    |
-    */
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+        ],
+    ],
 
-    'model' => App\Zabor\Mysql\User::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Table
-    |--------------------------------------------------------------------------
-    |
-    | When using the "Database" authentication driver, we need to know which
-    | table should be used to retrieve your users. We have chosen a basic
-    | default value but you may easily change it to any table you like.
-    |
-    */
-
-    'table' => 'users',
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => \App\Zabor\Mysql\User::class,
+        ],
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -57,11 +56,14 @@ return [
     | they have less time to be guessed. You may change this as needed.
     |
     */
-
-    'password' => [
-        'email' => 'emails.password',
-        'table' => 'password_resets',
-        'expire' => 60,
+    'passwords' => [
+        'users' => [
+            'provider' => 'users',
+            'email' => 'emails.password',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
     ],
+
 
 ];

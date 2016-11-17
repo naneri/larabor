@@ -4,7 +4,7 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-
+    'app_domain'    => env('APP_DOMAIN', 'zabor.kg'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

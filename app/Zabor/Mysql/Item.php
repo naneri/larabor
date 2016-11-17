@@ -63,7 +63,7 @@ class Item extends ZaborModel
     }
 
     /**
-     * @return [type]
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()
     {
@@ -71,15 +71,15 @@ class Item extends ZaborModel
     }
 
     /**
-     * @return [type]
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function currency()
     {
-        return $this->belongsTo('App\Zabor\Mysql\Currency', 'fk_c_currency_code', 'pk_c_code');
+        return $this->belongsTo(Currency::class, 'fk_c_currency_code', 'pk_c_code');
     }
 
     /**
-     * @return [type]
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
