@@ -1,5 +1,6 @@
 <?php
 
+use App\Zabor\Repositories\ItemEloquentRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -9,6 +10,16 @@ class ItemTest extends TestCase
 {
     use DatabaseTransactions;
     use WithoutMiddleware;
+
+    protected $manipulator;
+    protected $repository;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->manipulator  = App::make(ItemManipulator::class);
+        $this->repository   = App::make(ItemEloquentRepository::class);
+    }
 
     /**
      * @test
@@ -31,9 +42,7 @@ class ItemTest extends TestCase
             'category'  => '99'
         ];
 
-        $manipulator = App::make(ItemManipulator::class);
-
-        $item = $manipulator->store($item_data, null, 30);
+        $item = $this->manipulator->store($item_data, null, 30);
 
         $this->assertEquals($item_data['seller-email'], $item->s_contact_email);
     }

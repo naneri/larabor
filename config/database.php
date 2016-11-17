@@ -58,6 +58,7 @@ return [
             'prefix'   => 'zabor_t_',
         ],
 
+
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
