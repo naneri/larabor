@@ -3,6 +3,7 @@ machine:
     DB_HOST: 127.0.0.1
     DB_DATABASE: circle_test
     DB_USERNAME: ubuntu
+    APP_KEY:     QvPm0ND3kPbIq3psVNTsja0rpNoX4spR
 
 dependencies:
   post:
