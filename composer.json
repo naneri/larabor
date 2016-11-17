@@ -19,7 +19,8 @@
         "mews/purifier": "^2.0",
         "rap2hpoutre/laravel-log-viewer": "^0.6.0",
         "maatwebsite/excel": "~2.1.0",
-        "dompdf/dompdf": "~0.6.1"
+        "dompdf/dompdf": "~0.6.1",
+        "bugsnag/bugsnag-laravel": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

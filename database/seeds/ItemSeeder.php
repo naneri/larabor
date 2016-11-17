@@ -14,6 +14,5 @@ class ItemSeeder extends Seeder
         factory(App\Zabor\Mysql\Item::class, 50)->create()->each(function ($item) {
             $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
         });
-        ;
     }
 }

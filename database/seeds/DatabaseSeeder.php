@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LocaleSeeder::class);
         $this->call(CurrencySeeder::class);
         $this->call(MetaSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(ItemSeeder::class);
         Artisan::call('cat:update');
         Model::reguard();

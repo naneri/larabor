@@ -161,6 +161,7 @@ return [
         Mews\Purifier\PurifierServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
     ],
 
     /*
@@ -213,6 +214,7 @@ return [
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Purifier'  => Mews\Purifier\Facades\Purifier::class,
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
+        'Bugsnag'   => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
     ],
 
 ];
