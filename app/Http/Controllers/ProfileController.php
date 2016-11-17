@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use Auth;
 use Excel;
 
@@ -54,7 +55,7 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -77,22 +78,22 @@ class ProfileController extends Controller
             ]);
     }
 
-    public function updatePass(Request $request)
+    /**
+     * @param ChangePasswordRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePass(ChangePasswordRequest $request)
     {
-        $validator = $this->validator->validate_change_pass($request->all());
+        $this->user_manipulator->updatePassword($request->user(), $request->get('new-pass'));
 
-        if ($validator->fails()) {
-            return redirect('profile/main')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
+        return redirect(url('profile/main'))->with('message', [
+            'success'   => 'Пароль успешно изменён'
+        ]);
     }
 
     /**
-     * [showAds description]
-     *
-     * @param  [type] $user_id [description]
-     * @return [type]          [description]
+     * @param $user_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showAds($user_id)
     {

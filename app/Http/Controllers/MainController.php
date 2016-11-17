@@ -24,9 +24,11 @@ class MainController extends Controller
         $this->category     = $category;
         $this->redirector   = $redirector;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)

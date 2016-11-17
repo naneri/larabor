@@ -76,27 +76,27 @@
                       <div class="form-group {{zbCheckError($errors->first('old-pass'))}}">
                         <label  class="col-sm-3 control-label">Старый пароль</label>
                         <div class="col-sm-9">
-                          <input name="old-pass" type="password" class="form-control"  placeholder="">
-                          @include('_partials._input-errors', ['error_name' => 'old-pass'])
+                          <input name="password" type="password" class="form-control"  placeholder="">
+                          @include('_partials._input-errors', ['error_name' => 'password'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('new-pass'))}}">
                         <label  class="col-sm-3 control-label">Новый пароль</label>
                         <div class="col-sm-9">
-                          <input name="new-pass" type="password" class="form-control"  placeholder="">
-                          @include('_partials._input-errors', ['error_name' => 'new-pass'])
+                          <input name="new_password" type="password" class="form-control"  placeholder="">
+                          @include('_partials._input-errors', ['error_name' => 'new_password'])
                         </div>
                       </div>
                       <div class="form-group {{zbCheckError($errors->first('new-pass-repeat'))}}">
                         <label  class="col-sm-3 control-label">Повторите новый пароль</label>
                         <div class="col-sm-9">
-                          <input name="new-pass-repeat" type="password" class="form-control"  placeholder="">
-                          @include('_partials._input-errors', ['error_name' => 'new-pass-repeat'])
+                          <input name="new_password_confirmation" type="password" class="form-control"  placeholder="">
+                          @include('_partials._input-errors', ['error_name' => 'new_password_confirmation'])
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-9">
-                          <button type="submit" class="btn btn-success">Сохранить</button>
+                          <button type="submit" class="btn btn-success">Обновить</button>
                         </div>
                       </div>
                     </form>

@@ -19,9 +19,8 @@ class UserValidator
     ];
 
     /**
-     * [validate description]
-     * @param  [type] $user_data [description]
-     * @return [type]            [description]
+     * @param $user_data
+     * @return \Illuminate\Validation\Validator
      */
     public function validate_user_details($user_data)
     {
@@ -31,10 +30,8 @@ class UserValidator
     }
 
     /**
-     * [validate_change_pass description]
-     *
-     * @param  [type] $pass_data [description]
-     * @return [type]            [description]
+     * @param $pass_data
+     * @return \Illuminate\Validation\Validator
      */
     public function validate_change_pass($pass_data)
     {

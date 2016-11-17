@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\PostRegisterRequest;
 use Auth;
 use Validator;
 use Carbon\Carbon;
@@ -138,26 +139,11 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PostRegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postRegister(Request $request)
+    public function postRegister(PostRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username'  => 'required|alpha_num|min:3|max:30',
-            'email'     => 'required|email|unique:user,s_email',
-            'password'  => 'required|min:8',
-        ]);
-
-        if ($validator->fails()) {
-            $user = User::where('s_email', $request->input('email'))->first();
-
-            return redirect('register')
-                        ->withErrors($validator)
-                        ->withInput()
-                        ->with('user', $user);
-        }
-
         $user = User::create([
             'dt_reg_date'   => Carbon::now(),
             's_name'        => $request->input('username'),

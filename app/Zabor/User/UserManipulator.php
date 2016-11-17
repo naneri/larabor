@@ -29,4 +29,15 @@ class UserManipulator
 
         $description->save();
     }
+
+    /**
+     * @param $user
+     * @param $password
+     */
+    public function updatePassword($user, $password)
+    {
+        $user->update([
+            's_password'    => bcrypt($password),
+        ]);
+    }
 }

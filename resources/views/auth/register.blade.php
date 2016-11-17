@@ -76,16 +76,22 @@
                         has-error
                       @endif
                     ">
-                      <label for="inputPassword3" class="col-md-4 control-label">Пароль </label>
+                      <label for="inputPassword3" class="col-md-4 control-label">
+                        Пароль
+                        <p class="text-muted"><small>(минимум 8 символов)</small></p>
+                      </label>
+
                       <div class="col-md-6">
                         <input name="password" type="password" class="form-control" id="inputPassword3">
-                        <p class="help-block">Минимум 8 символов</p>
+                        @foreach ($errors->get('password') as $error)
+                          <p class="help-block">{{$error}}</p>
+                        @endforeach
                       </div>
                     </div>
                     <div class="form-group ">
                       <label for="inputPassword3" class="col-md-4 control-label">Подтвердите пароль </label>
                       <div class="col-md-6">
-                        <input name="pass2" type="password" class="form-control" id="inputPassword3" >
+                        <input name="password_confirmation" type="password" class="form-control" id="inputPassword3" >
                       
                       </div>
                     </div>

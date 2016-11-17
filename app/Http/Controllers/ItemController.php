@@ -181,7 +181,9 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
+     * @param null $code
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $id, $code = null)
@@ -374,9 +376,8 @@ class ItemController extends Controller
     }
 
     /**
-     * [getCategory description]
-     * @param  [type] $category_list [description]
-     * @return [type]                [description]
+     * @param $category_list
+     * @return int|string
      */
     protected function getCategory($category_list)
     {
@@ -392,9 +393,7 @@ class ItemController extends Controller
     }
 
     /**
-     * [getCategoryAndMetaInfo description]
-     * @param  [type] $old [description]
-     * @return [type]      [description]
+     * @param $old
      */
     protected function getCategoryAndMetaInfo($old)
     {

@@ -104,12 +104,4 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
-Route::get('test/item', function(){
-   $item = App\Zabor\Mysql\Currency::get()->pluck('pk_c_code')->all();
-    dd($item);
-});
 
-Route::get('test/cat', function(){
-    $cats = app(\App\Zabor\Repositories\CategoryEloquentRepository::class)->getIdWithChildrenIds(17);
-    dd($cats);
-});

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+php artisan config:clear
+php artisan route:clear
 composer install
 echo "composer dependencies updated"
 php artisan migrate

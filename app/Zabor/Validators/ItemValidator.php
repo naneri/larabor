@@ -23,9 +23,10 @@ class ItemValidator
      * [validate description]
      *
      * @param  array $item_data [description]
-     * @param  array $meta_data [description]
+     * @param bool $authorized
      *
      * @return Validator
+     *
      */
     public function validate($item_data, $authorized = false)
     {

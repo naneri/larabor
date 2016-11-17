@@ -42,4 +42,22 @@ $factory->define(App\Zabor\Mysql\Item_description::class, function (Faker\Genera
 });
 
 $factory->define(App\Zabor\Mysql\User::class, function (Faker\Generator $faker) {
+    return [
+        'dt_reg_date'   => Carbon::now(),
+        's_name'        => str_random(8),
+        's_password'    => bcrypt(str_random(8)),
+        's_secret'      => str_random(8),
+        's_email'       => $faker->unique()->safeEmail,
+        'b_enabled'     => 1,
+        'b_active'      => 0,
+        'i_items'       => 0,
+        'i_comments'    => 0,
+        'dt_access_date'=> Carbon::now()
+    ];
+});
+
+$factory->define(\App\Zabor\Mysql\User_description::class, function(Faker\Generator $faker){
+    return [
+        'fk_c_locale_code' => 'ru_RU'
+    ];
 });

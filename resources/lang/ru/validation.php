@@ -135,6 +135,7 @@ return [
         'address'       => 'адрес',
         'category'      => 'категория',
         'price'         => 'цена',
+        'password'      => 'пароль',
     ],
 
 ];

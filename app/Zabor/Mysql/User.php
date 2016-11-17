@@ -43,8 +43,7 @@ class User extends ZaborModel implements
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * [getAuthPassword description]
-     * @return [type] [description]
+     * @return mixed
      */
     public function getAuthPassword()
     {
@@ -52,8 +51,7 @@ class User extends ZaborModel implements
     }
 
     /**
-     * [getRememberToken description]
-     * @return [type] [description]
+     * @return null
      */
     public function getRememberToken()
     {
@@ -61,8 +59,7 @@ class User extends ZaborModel implements
     }
 
     /**
-     * [setRememberToken description]
-     * @param [type] $value [description]
+     * @param string $value
      */
     public function setRememberToken($value)
     {
@@ -70,8 +67,7 @@ class User extends ZaborModel implements
     }
 
     /**
-     * [getRememberTokenName description]
-     * @return [type] [description]
+     * @return null
      */
     public function getRememberTokenName()
     {
@@ -102,17 +98,15 @@ class User extends ZaborModel implements
     }
 
     /**
-     * [description description]
-     * @return [type] [description]
+     * @return mixed
      */
     public function description()
     {
-        return $this->hasOne('App\Zabor\Mysql\User_description', 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
+        return $this->hasOne(User_description::class, 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
     }
 
     /**
-     * [data description]
-     * @return [type] [description]
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function data()
     {
@@ -120,8 +114,7 @@ class User extends ZaborModel implements
     }
 
     /**
-     * [canExport description]
-     * @return [type] [description]
+     * @return bool
      */
     public function canExport()
     {
@@ -136,10 +129,9 @@ class User extends ZaborModel implements
 
         return true;
     }
-    
+
     /**
-     * [getExportPath description]
-     * @return [type] [description]
+     * @return null
      */
     public function getExportPath()
     {
