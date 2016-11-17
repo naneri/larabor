@@ -27,7 +27,6 @@ class DeleteUnusedTables extends Migration
         Schema::dropIfExists('cron');
         Schema::dropIfExists('facebook_connect');
         Schema::dropIfExists('latest_searches');
-        Schema::dropIfExists('locale');
         Schema::dropIfExists('locations_tmp');
         Schema::dropIfExists('log');
         Schema::dropIfExists('multicurrency');

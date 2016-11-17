@@ -1,5 +1,11 @@
 <?php namespace App\Providers;
 
+use App\Zabor\Repositories\CategoryEloquentRepository;
+use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Repositories\Contracts\MetaInterface;
+use App\Zabor\Repositories\ItemEloquentRepository;
+use App\Zabor\Repositories\MetaEloquentRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -11,20 +17,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(
-            'App\Zabor\Repositories\Contracts\ItemInterface',
-            'App\Zabor\Repositories\ItemEloquentRepository'
-        );
-
-        $this->app->bind(
-            'App\Zabor\Repositories\Contracts\CategoryInterface',
-            'App\Zabor\Repositories\CategoryEloquentRepository'
-        );
-
-        $this->app->bind(
-            'App\Zabor\Repositories\Contracts\MetaInterface',
-            'App\Zabor\Repositories\MetaEloquentRepository'
-        );
+        $this->app->bind( ItemInterface::class,     ItemEloquentRepository::class );
+        $this->app->bind( CategoryInterface::class, CategoryEloquentRepository::class );
+        $this->app->bind( MetaInterface::class,     MetaEloquentRepository::class );
     }
 
     /**

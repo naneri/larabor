@@ -136,10 +136,8 @@ class AuthController extends Controller
     }
 
     /**
-     * [postRegister description]
-     * 
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postRegister(Request $request)
     {
@@ -174,7 +172,7 @@ class AuthController extends Controller
         User_description::create([
             'fk_i_user_id' => $user->pk_i_id,
             'fk_c_locale_code' => 'ru_RU'
-            ]);
+        ]);
 
         UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
 

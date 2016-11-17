@@ -71,6 +71,18 @@ return [
             'strict'    => false,
         ],
 
+        'mysql_testing' => [
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'larabor_testing',
+            'username'  => 'root',
+            'password'  => '',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => 'zabor_t_',
+            'strict'    => false,
+        ],
+
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),

@@ -6,6 +6,11 @@ use App\Zabor\Mysql\User;
 
 class AddNaneriRamblerToAdmin extends Migration
 {
+
+    public function __construct()
+    {
+        $this->user = User::where('s_email', 'naneri@rambler.ru')->first();
+    }
     /**
      * Run the migrations.
      *
@@ -13,9 +18,7 @@ class AddNaneriRamblerToAdmin extends Migration
      */
     public function up()
     {
-        $user = User::where('s_email', 'naneri@rambler.ru')->first();
-
-        if(!is_null($user)){
+        if(!is_null($this->user)){
             User::where('s_email', 'naneri@rambler.ru')->update(['is_admin' => 1]);
         }
     }
@@ -27,6 +30,8 @@ class AddNaneriRamblerToAdmin extends Migration
      */
     public function down()
     {
-        //
+        if(!is_null($this->user)){
+            User::where('s_email', 'naneri@rambler.ru')->update(['is_admin' => 0]);
+        }
     }
 }

@@ -21,7 +21,6 @@ class MainPageTest extends TestCase
         $this->visit('/')
          ->click('Контакты')
          ->seePageIs('/contacts');
-
     }
 
     /**

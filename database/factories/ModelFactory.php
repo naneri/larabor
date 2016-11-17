@@ -35,7 +35,6 @@ $factory->define(App\Zabor\Mysql\Item::class, function (Faker\Generator $faker){
 });
 
 $factory->define(App\Zabor\Mysql\Item_description::class, function(Faker\Generator $faker){
-
 	return [
 		'fk_c_locale_code'	=> 'ru_Ru',
 		's_title'		=> $faker->sentence(3),

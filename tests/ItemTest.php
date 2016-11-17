@@ -47,8 +47,19 @@ class ItemTest extends TestCase
         $this->assertEquals($item_data['seller-email'], $item->s_contact_email);
     }
 
-    public function it_can_create_items2()
+    /**
+     * @test
+     */
+    public function it_can_delete_items()
     {
-        $this->call('POST', '/item/add', ['name' => 'Taylor']);
+        $item = factory(App\Zabor\Mysql\Item::class)->create();
+
+        $this->manipulator->delete($item);
+
+        $item = \App\Zabor\Mysql\Item::find($item->pk_i_id);
+
+        $this->assertNull($item);
     }
+
+
 }

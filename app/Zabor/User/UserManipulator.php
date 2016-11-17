@@ -5,15 +5,19 @@ use App\Zabor\Mysql\User_description;
 
 class UserManipulator{
 
+    /**
+     * @param $user_id
+     * @param $user_details
+     */
 	public function update_details($user_id, $user_details)
 	{
 		$user = User::findOrFail($user_id);
 
-		$user->s_name = $user_details['name'];
+		$user->s_name       = $user_details['name'];
 		$user->s_phone_land = $user_details['phone'];
-		$user->s_address = $user_details['address'];
+		$user->s_address    = $user_details['address'];
 
-		$result = $user->save();
+		$user->save();
 
 		$description = User_description::firstOrCreate([
 				'fk_i_user_id' => $user_id,
