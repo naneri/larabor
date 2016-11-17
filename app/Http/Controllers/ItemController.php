@@ -277,15 +277,13 @@ class ItemController extends Controller
         }
 
         return redirect(route('item.show', $item_id));
-
     }
 
     /**
-     * prolong the item 
-     * 
-     * @param  [type] $id   [description]
-     * @param  [type] $code [description]
-     * @return [type]       [description]
+     * @param $id
+     * @param null $code
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function prolong($id, $code = null)
     {
@@ -344,10 +342,8 @@ class ItemController extends Controller
     }
 
     /**
-     * Contacting the owner of the ad
-     * 
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function contact(Request $request)
     {

@@ -29,6 +29,7 @@ class ItemManipulator
      * @param $item_data
      * @param $user
      * @param $days
+     *
      * @return Item
      */
 	public function store($item_data, $user, $days)
@@ -42,9 +43,10 @@ class ItemManipulator
 		$item->fk_c_currency_code 	= $item_data['currency'];
 		$item->s_contact_name		= isset($user->s_name) ? $user->s_name : null;
 		$item->s_contact_email		= $item_data['seller-email'];
-		$item->s_secret 					= str_random(8);
-		$item->b_active 					= !is_null($user) ? 1 : 0 ;
-		$item->b_enabled					= 1;
+        $item->s_secret 			= str_random(8);
+		$item->b_active 			= !is_null($user) ? 1 : 0 ;
+		$item->b_enabled			= 1;
+
 		if(
 			isset($user->pk_i_id) && 
 			in_array($user->pk_i_id, Config::get('zabor.affiliates'))
@@ -65,17 +67,19 @@ class ItemManipulator
 		$this->storeMetas($item, $item_data['meta']);
 
 		$this->categoryManager->increaseCategoryStats(
-			$item->fk_i_category_id, null, $item->b_active);
+			$item->fk_i_category_id, null, $item->b_active
+        );
 
 		return $item;
 	}
 
-	/**
-	 * edit item
-	 * @param  [type] $item_data [description]
-	 * @param  [type] $user      [description]
-	 * @return [type]            [description]
-	 */
+    /**
+     * @param $item_data
+     * @param $user
+     * @param $id
+     *
+     * @return mixed
+     */
 	public function edit($item_data, $user, $id)
 	{
 		// Retrieving the item record
@@ -157,14 +161,12 @@ class ItemManipulator
 		// ToDo refactor to comply with DDD.
 	}
 
-	/**
-	 * [prolong description]
-	 * 
-	 * @param  [type] $item_id [description]
-	 * @param  [type] $days    [description]
-	 * 
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param $item
+     * @param $days
+     *
+     * @return mixed
+     */
 	public function prolong($item, $days)
 	{
 		$old_date = $item->dt_expiration;
@@ -218,11 +220,10 @@ class ItemManipulator
 		return Item::find($item_id);
 	}
 
-	/**
-	 * [block description]
-	 * @param  [type] $item_id [description]
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param $item_id
+     * @return bool
+     */
 	public function block($item_id)
 	{
 		Item::where('pk_i_id', $item_id)->update([
@@ -232,12 +233,9 @@ class ItemManipulator
 		return true;
 	}
 
-	/**
-	 * [increase_count description]
-	 * 
-	 * @param  [type] $item_id [description]
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param $item_id
+     */
 	public function increase_count($item_id)
 	{
 		$stats = Stats::firstOrCreate([
@@ -251,6 +249,12 @@ class ItemManipulator
 			])->increment('i_num_views');
 	}
 
+    /**
+     * @param $item_id
+     * @param $price
+     *
+     * @return mixed
+     */
 	public function updatePrice($item_id, $price)
 	{
 		$item = Item::find($item_id);
@@ -258,6 +262,5 @@ class ItemManipulator
 		$item->i_price = $price;
 
 		return $item->save();
-
 	}
 }

@@ -14,15 +14,24 @@ class CategoryStatsManager{
 		$this->catRepo = $catRepo;
 	}
 
-	public function increaseCategoryStats(
-		$cat_id, $expiration_date = null, $active = 0)
+    /**
+     * @param $cat_id
+     * @param null $expiration_date
+     * @param int $active
+     *
+     * @return bool
+     */
+	public function increaseCategoryStats( $cat_id, $expiration_date = null, $active = 0 )
 	{
 		if($active == 0){ return false; }
+
 		if(!is_null($expiration_date) && $expiration_date > Carbon::now()){ return false; }
 
 		$categoryArray = $this->catRepo->getWithAncestorsArray($cat_id);
 
 		Stats::whereIn('fk_i_category_id',$categoryArray)->increment('i_num_items');
+
+        return true;
 	}
 
 }

@@ -92,11 +92,9 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 			  	->paginate(8);
 	}
 
-	/**
-	 * Gives number of currently active items
-	 *  
-	 * @return [int] number of Active items
-	 */
+    /**
+     * @return mixed
+     */
 	public function countActive()
 	{
 		return  Cache::remember('count_main_items', 1 ,function(){
@@ -107,14 +105,13 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 		});
 	}
 
-	
 
-	/**
-	 * searches items by given constraints
-	 * 
-	 * @param  [array] $data 
-	 * @return [type]       
-	 */
+    /**
+     * @param $data
+     * @param null $category_id_list
+     *
+     * @return mixed
+     */
 	public function searchItems($data, $category_id_list = null)
 	{
 		$orderBy 	= isset($data['orderBy'])  ? $data['orderBy']  : 'dt_update_date';
@@ -178,11 +175,11 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 		return $query->paginate(10);
 	}
 
-	/**
-	 * [countCategoryActiveItems description]
-	 * @param  [array] $id_list [description]
-	 * @return [type]          [description]
-	 */
+    /**
+     * @param $id_list
+     *
+     * @return mixed
+     */
 	public function countCategoryCustomActiveItems($id_list)
 	{
 		return $this->model
@@ -198,11 +195,10 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 					->count();
 	}
 
-	/**
-     * gets number of ads posted by non affiliates in last days
-     *  
-     * @param  [type] $day_limit [limit of days to count the ads]
-     * @return [type]            [description]
+    /**
+     * @param $day_limit
+     *
+     * @return mixed
      */
     public static function customLastAdsCount($day_limit)
     {
@@ -218,8 +214,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
     }
 
     /**
-     * [activeCustomAds description]
-     * @return [type] [description]
+     * @return mixed
      */
     static function activeCustomAdsCount()
     {
@@ -274,7 +269,9 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 					->get();
 	}
 
-
+    /**
+     * @return mixed
+     */
 	public function getCustomItems()
 	{
 		return Item::where('b_enabled', 1)
