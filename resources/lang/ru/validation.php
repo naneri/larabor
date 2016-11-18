@@ -136,6 +136,7 @@ return [
         'category'      => 'категория',
         'price'         => 'цена',
         'password'      => 'пароль',
+        'message'       => 'сообщение',
     ],
 
 ];

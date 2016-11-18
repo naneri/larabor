@@ -30,14 +30,14 @@
                             <div class="col-sm-6">
 	                            <div class="form-group">
                                 <div class="col-md-12">
-                                    <input id="name" name="name" type="text" placeholder="Ваше имя" class="form-control" value="{{@Auth::user()->s_name ?: ''}}">
+                                    <input id="name" name="name" type="text" placeholder="Ваше имя" class="form-control" value="{{old('name', @Auth::user()->s_name)}}">
                                 </div>
 	                            </div>
 		                        </div>
                             <div class="col-sm-6">
 	                            <div class="form-group">
 		                            <div class="col-md-12">
-		                                <input id="email" name="email" type="text" placeholder="Электронная почта" class="form-control" value="{{@Auth::user()->s_email ?: ''}}">
+		                                <input id="email" name="email" type="text" placeholder="Электронная почта" class="form-control" value="{{old('email', @Auth::user()->s_email)}}">
 		                            </div>
 			                        </div>
                             </div>
@@ -53,7 +53,7 @@
 	                            
 	                          <div class="form-group pull-right">
 	                            <div class="col-md-12 ">
-	                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+	                                <button type="submit" class="btn btn-primary btn-lg">Отправить</button>
 	                            </div>
 	                        </div>
                         </div>

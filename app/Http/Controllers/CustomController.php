@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 
 use Validator;
@@ -20,25 +21,13 @@ class CustomController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param ContactRequest $request
      *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function postMessage(Request $request)
+    public function postMessage(ContactRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-                'name'  => 'required|min:3|max:20',
-                'email' => 'required|email',
-                'message' => 'required|min:10'
-            ]);
-
         $user_email = $request->input('email');
-
-        if ($validator->fails()) {
-            return redirect('contacts')
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         Mail::send('emails.contact-us', ['data' => $request->all()], function ($message) use ($user_email) {
             $message->to('support@zabor.kg');
