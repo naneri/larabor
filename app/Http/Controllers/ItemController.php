@@ -279,7 +279,7 @@ class ItemController extends Controller
      */
     public function prolong(ItemManageRequest $request, $id, $code = null)
     {
-        $item = $this->item->getById($id, $code);
+        $item = $this->item->getById($id);
 
         if ($item->recentlyProlonged()) {
             return redirect()->back()->with('message', [

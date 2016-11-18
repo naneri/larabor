@@ -64,7 +64,7 @@ class ItemTest extends TestCase
     /**
      * @test
      */
-    function it_cannot_visit_unactivated_ads()
+    function it_can_manage_ads_with_code()
     {
         $this->seed();
         $item = factory(App\Zabor\Mysql\Item::class)->create();
@@ -90,6 +90,7 @@ class ItemTest extends TestCase
             'dt_update_date'    => \Carbon\Carbon::now()->subDays(3),
         ]);
 
+        // ot sees the control buttons with code and can use them
         $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
 
         $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
@@ -98,6 +99,13 @@ class ItemTest extends TestCase
             ->click('Продлить')
             ->seePageIs($itemUrl)
             ->see("toastr.success");
+
+
+        // it does not see control buttons without code and cant use them
+        $itemUrl = route('item.show', [$item->pk_i_id]);
+
+        $this->visit($itemUrl)
+            ->dontSee('Редактировать');
     }
 
 }

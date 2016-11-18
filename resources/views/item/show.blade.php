@@ -44,7 +44,7 @@
           <div class="inner inner-box ads-details-wrapper">
             <h2> 
               {{$item->description->s_title}} 
-              @if($is_owner || Auth::user()->is_admin)
+              @if($is_owner || (Auth::user() and Auth::user()->is_admin))
                 <span class="pull-right">
                   <a href="{{route('item.edit', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i> Редактировать</button></a>
                   <a href="{{route('item.prolong', ['id' => $item->pk_i_id, 'code' => $code])}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-clock-o"></i> Продлить</button></a>
