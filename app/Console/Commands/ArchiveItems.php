@@ -25,15 +25,15 @@ class ArchiveItems extends Command
     protected $description = 'Command description';
 
     /**
-     * Create a new command instance.
+     * ArchiveItems constructor.
      *
-     * @return void
+     * @param ItemInterface $itemRepo
+     * @param ItemManipulator $itemManipulator
      */
     public function __construct(
         ItemInterface $itemRepo,
         ItemManipulator $itemManipulator
     ) {
-    
         parent::__construct();
         $this->itemRepo = $itemRepo;
         $this->item_manipulator = $itemManipulator;

@@ -107,5 +107,4 @@ class ItemTest extends TestCase
         $this->visit($itemUrl)
             ->dontSee('Редактировать');
     }
-
 }

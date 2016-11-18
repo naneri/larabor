@@ -7,11 +7,11 @@ use Validator;
 class ItemValidator
 {
     protected $item_rules = [
-        'category'      => 'required|exists:category,pk_i_id',
+        'category'          => 'required|exists:category,pk_i_id',
         'title'             => 'required|max:100',
-        'description'   => 'required|min:5|max:5000',
+        'description'       => 'required|min:5|max:5000',
         'price'             => 'numeric',
-        'currency'      => 'required',
+        'currency'          => 'required',
         'image_key'         => 'required'
     ];
 
