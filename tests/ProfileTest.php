@@ -9,7 +9,10 @@ class ProfileTest extends TestCase
 {
     use DatabaseMigrations, UserTrait;
 
-    public function test_it_can_change_password()
+    /**
+     * @test
+     */
+    public function it_can_change_password()
     {
         $this->seed();
         $pass       = str_random(8);

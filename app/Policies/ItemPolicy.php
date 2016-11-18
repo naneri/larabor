@@ -11,9 +11,8 @@ class ItemPolicy
     use HandlesAuthorization;
 
     /**
-     * [before description]
-     * @param  User   $user [description]
-     * @return [type]       [description]
+     * @param User $user
+     * @return bool
      */
     public function before(User $user)
     {
@@ -23,11 +22,10 @@ class ItemPolicy
     }
 
     /**
-     * [manage description]
-     * @param  User   $user [description]
-     * @param  Item   $item [description]
-     * @param  [type] $code [description]
-     * @return [type]       [description]
+     * @param User $user
+     * @param Item $item
+     * @param null $code
+     * @return bool
      */
     public function manage(User $user, Item $item, $code = null)
     {

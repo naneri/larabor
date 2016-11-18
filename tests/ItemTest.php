@@ -9,7 +9,6 @@ use App\Zabor\Items\ItemManipulator;
 class ItemTest extends TestCase
 {
     use DatabaseMigrations;
-    use WithoutMiddleware;
 
     protected $manipulator;
     protected $repository;
@@ -61,4 +60,44 @@ class ItemTest extends TestCase
 
         $this->assertNull($item);
     }
+
+    /**
+     * @test
+     */
+    function it_cannot_visit_unactivated_ads()
+    {
+        $this->seed();
+        $item = factory(App\Zabor\Mysql\Item::class)->create();
+
+        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+
+        $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
+        $this->visit($itemUrl)
+                ->see('Редактировать')
+                ->click('Продлить')
+                ->seePageIs($itemUrl)
+                ->see("toastr.error");
+    }
+
+    /**
+     * @test
+     */
+    function it_can_prolong_items()
+    {
+        $this->seed();
+        $item = factory(App\Zabor\Mysql\Item::class)->create([
+            'dt_pub_date'       => \Carbon\Carbon::now()->subDays(3),
+            'dt_update_date'    => \Carbon\Carbon::now()->subDays(3),
+        ]);
+
+        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+
+        $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
+        $this->visit($itemUrl)
+            ->see('Редактировать')
+            ->click('Продлить')
+            ->seePageIs($itemUrl)
+            ->see("toastr.success");
+    }
+
 }

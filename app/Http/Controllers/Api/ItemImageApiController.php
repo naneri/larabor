@@ -15,17 +15,18 @@ use App\Zabor\Images\ImageCreator;
 
 class ItemImageApiController extends Controller
 {
-    
+
+    protected $image;
+
     public function __construct(ImageCreator $image)
     {
         $this->image     = $image;
     }
-    
+
     /**
-     * [storeImage description]
+     * @param Request $request
      *
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function storeImage(Request $request)
     {
@@ -68,10 +69,9 @@ class ItemImageApiController extends Controller
     }
 
     /**
-     * [removeImage description]
+     * @param Request $request
      *
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return \Illuminate\Http\JsonResponse
      */
     public function removeImage(Request $request)
     {

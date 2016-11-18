@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
 
         $user = factory(\App\Zabor\Mysql\User::class)->create([
             's_email'       => 'naneri@rambler.ru',
-            's_password'    => bcrypt(104430)
+            's_password'    => bcrypt(104430),
+            'is_admin'      => true
         ]);
 
         $user->description()->create(['fk_c_locale_code' => 'ru_RU']);

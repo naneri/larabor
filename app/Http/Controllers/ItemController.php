@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemManageRequest;
 use JavaScript;
 use Auth;
 use Session;
@@ -141,7 +142,8 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param null $code
      * @return \Illuminate\Http\Response
      */
     public function show($id, $code = null)
@@ -174,27 +176,24 @@ class ItemController extends Controller
         return view('item.show', compact(
             'item',
             'code',
-            'related_items'
+            'related_items',
+            'is_owner'
         ));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Request $request
+     * @param ItemManageRequest $request
      * @param  int $id
      * @param null $code
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id, $code = null)
+    public function edit(ItemManageRequest $request, $id, $code = null)
     {
         Session::put('edit_url', $request->url());
 
-        $item = $this->item->getById($id, $code);
-
-        if (Gate::denies('manage', $item, $code)) {
-            abort(403);
-        }
+        $item = $this->item->getById($id);
 
         $cat_list = $this->category->getWithAncestorsArray($item->fk_i_category_id);
 
@@ -234,11 +233,11 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ItemManageRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ItemManageRequest $request, $id)
     {
         $user = null;
 
@@ -273,18 +272,14 @@ class ItemController extends Controller
     }
 
     /**
+     * @param ItemManageRequest $request
      * @param $id
      * @param null $code
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function prolong($id, $code = null)
+    public function prolong(ItemManageRequest $request, $id, $code = null)
     {
         $item = $this->item->getById($id, $code);
-
-        if (Gate::denies('manage', $item, $code)) {
-            abort(403);
-        }
 
         if ($item->recentlyProlonged()) {
             return redirect()->back()->with('message', [
@@ -302,20 +297,16 @@ class ItemController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param ItemManageRequest $request
      * @param $id
      * @param null $code
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id, $code = null)
+    public function destroy(ItemManageRequest $request, $id, $code = null)
     {
         $item = $this->item->getById($id);
-
-        if (Gate::denies('manage', $item, $code)) {
-            abort(403);
-        }
 
         if (!$this->item_creator->delete($item)) {
             return redirect()->back()->with('message', [

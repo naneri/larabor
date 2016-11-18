@@ -9,11 +9,9 @@ class MainPageTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * A basic test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function main_page()
     {
         $this->visit('/')
             ->see('объявление');

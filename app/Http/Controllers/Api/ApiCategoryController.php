@@ -17,14 +17,12 @@ class ApiCategoryController extends Controller
     }
 
     /**
-     * [getCategoryMetaHtml description]
-     *
-     * @param  [type] $category_id [description]
-     * @return [type]              [description]
+     * @param $category_id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getCategoryMetaHtml($category_id, Request $request)
     {
-
         $metas = $this->meta->getCategoryMeta($category_id);
 
         $meta_data = $request->get('meta');

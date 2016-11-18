@@ -14,6 +14,7 @@ class AdminController extends Controller
     public $item;
     protected $item_creator;
     protected $user;
+    protected $category;
 
     public function __construct(
         ItemInterface $item,
@@ -21,7 +22,6 @@ class AdminController extends Controller
         ItemManipulator $creator,
         UserEloquentRepository $user
     ) {
-    
         $this->item         = $item;
         $this->category     = $category;
         $this->item_creator = $creator;
@@ -44,7 +44,6 @@ class AdminController extends Controller
         // top sellers info with number of ads posted
         $top_sellers = $this->user->getTopSellers();
 
-
         $phone_stat = $this->item->countCategoryCustomActiveItems($this->category->getIdWithChildrenIds(15));
 
         $pc_stat = $this->item->countCategoryCustomActiveItems($this->category->getIdWithChildrenIds(17));
@@ -59,23 +58,26 @@ class AdminController extends Controller
     }
 
     /**
-     * [inactiveItems description]
-     * @return [type] [description]
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function inactiveItems(Request $request)
     {
         return view('admin.inactive-items');
     }
 
+    /**
+     * @return mixed
+     */
     public function getInactiveItems()
     {
         return $this->item->getCustomInactiveItems();
     }
 
     /**
-     * [deleteItem description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteItem(Request $request, $id)
     {
@@ -89,9 +91,9 @@ class AdminController extends Controller
     }
 
     /**
-     * [activateItem description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function activateItem(Request $request, $id)
     {
@@ -105,9 +107,9 @@ class AdminController extends Controller
     }
 
     /**
-     * [blockItem description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function blockItem(Request $request, $id)
     {
@@ -122,8 +124,7 @@ class AdminController extends Controller
 
 
     /**
-     * [userItems description]
-     * @return [type] [description]
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function userItems()
     {
@@ -131,8 +132,7 @@ class AdminController extends Controller
     }
 
     /**
-     * [getUserItems description]
-     * @return [type] [description]
+     * @return mixed
      */
     public function getUserItems()
     {

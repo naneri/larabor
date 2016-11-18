@@ -9,7 +9,10 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations, UserTrait;
 
-    public function test_it_creates_user()
+    /**
+     * @test
+     */
+    public function it_creates_user()
     {
         $this->seed();
 
@@ -26,7 +29,10 @@ class UserTest extends TestCase
         $this->assertEquals('kanakana', $user->s_name);
     }
 
-    public function test_it_cant_create_user_with_same_name()
+    /**
+     * @test
+     */
+    public function it_cant_create_user_with_same_name()
     {
         $this->seed();
 
@@ -41,4 +47,6 @@ class UserTest extends TestCase
             ->seePageIs('register')
             ->see('Такое значение поля email уже существует');
     }
+
+
 }

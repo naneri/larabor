@@ -24,16 +24,20 @@ class ItemApiController extends Controller
         $this->category         = $category;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function getUserItems(Request $request)
     {
          return $this->item->getUserAds(Auth::id());
     }
 
     /**
-     * [destroy description]
-     * @param  Request $request [description]
-     * @param  [type]  $id      [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $id)
     {
@@ -52,6 +56,12 @@ class ItemApiController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updatePrice(Request $request, $id)
     {
         $item = $this->item->getById($id);
@@ -68,10 +78,10 @@ class ItemApiController extends Controller
     }
 
     /**
-     * [prolong description]
-     * @param  Request $request [description]
-     * @param  [type]  $id      [description]
-     * @return [type]           [description]
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function prolong(Request $request, $id)
     {
