@@ -100,7 +100,9 @@
       <ul class=" pull-left navbar-link footer-nav">
       <li>
         <a href="{{url('/')}}"> Главная </a> 
-        <a href="{{url('contacts')}}"> Контакты </a> 
+        @if(!Route::is('item.show'))
+          <a href="{{url('contacts')}}"> Контакты </a>
+        @endif
         <a href="{{url('article/all')}}"> Публикации </a> 
       </ul>
       <ul class=" pull-right navbar-link footer-nav">

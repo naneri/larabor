@@ -46,7 +46,7 @@
                             <div class="col-lg-12">
 	                            <div class="form-group">
 		                            <div class="col-md-12">
-		                                <textarea class="form-control" id="message" name="message" placeholder="Введите ваше сообщение, мы постараемся ответить в течении двух дней" rows="7"></textarea>
+		                                <textarea class="form-control" id="message" name="message" placeholder="Введите ваше сообщение, мы постараемся ответить в течении двух дней" rows="7">{{old('message')}}</textarea>
 		                            </div>
 		                        </div>
 	                            

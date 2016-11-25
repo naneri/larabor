@@ -18,6 +18,11 @@ class Item extends ZaborModel
         'show_expiration',
         'recently_prolonged',
     ];
+
+    protected $casts = [
+        'b_active'  => 'boolean',
+        'b_enabled' => 'boolean'
+    ];
     
     /**
     *
@@ -27,7 +32,7 @@ class Item extends ZaborModel
 
     public function images()
     {
-        return $this->hasMany('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(Item_resource::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -35,7 +40,7 @@ class Item extends ZaborModel
      */
     public function lastImage()
     {
-        return $this->hasOne('App\Zabor\Mysql\Item_resource', 'fk_i_item_id', 'pk_i_id');
+        return $this->hasOne(Item_resource::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -43,7 +48,7 @@ class Item extends ZaborModel
      */
     public function description()
     {
-        return $this->hasOne('App\Zabor\Mysql\Item_description', 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
+        return $this->hasOne(Item_description::class, 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
     }
 
     /**
@@ -51,7 +56,7 @@ class Item extends ZaborModel
      */
     public function location()
     {
-        return $this->hasOne('App\Zabor\Mysql\Item_location', 'fk_i_item_id', 'pk_i_id');
+        return $this->hasOne(Item_location::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -59,7 +64,7 @@ class Item extends ZaborModel
      */
     public function stats()
     {
-        return $this->hasMany('App\Zabor\Mysql\Item_stats', 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(Item_stats::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -67,7 +72,7 @@ class Item extends ZaborModel
      */
     public function category()
     {
-        return $this->belongsTo('App\Zabor\Mysql\Category', 'fk_i_category_id', 'pk_i_id');
+        return $this->belongsTo(Category::class, 'fk_i_category_id', 'pk_i_id');
     }
 
     /**
@@ -83,12 +88,12 @@ class Item extends ZaborModel
      */
     public function user()
     {
-        return $this->belongsTo('App\Zabor\Mysql\User', 'fk_i_user_id', 'pk_i_id');
+        return $this->belongsTo(User::class, 'fk_i_user_id', 'pk_i_id');
     }
 
     public function metas()
     {
-        return $this->hasMany('App\Zabor\Mysql\Item_meta', 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(Item_meta::class, 'fk_i_item_id', 'pk_i_id');
     }
 
 
@@ -218,8 +223,7 @@ class Item extends ZaborModel
     }
 
     /**
-     * get Item "Show" link
-     * @return [type] [description]
+     * @return string
      */
     public function getShowLinkAttribute()
     {

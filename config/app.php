@@ -162,6 +162,7 @@ return [
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
     ],
 
     /*
@@ -215,6 +216,7 @@ return [
         'Purifier'  => Mews\Purifier\Facades\Purifier::class,
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
         'Bugsnag'   => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
     ],
 
 ];
