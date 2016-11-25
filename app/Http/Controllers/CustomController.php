@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
+use App\Zabor\Notifier;
 use Illuminate\Http\Request;
 
 use Validator;
@@ -11,7 +12,19 @@ use App\Http\Requests;
 
 class CustomController extends Controller
 {
+    /**
+     * @var Notifier
+     */
+    private $notifier;
 
+    /**
+     * CustomController constructor.
+     * @param Notifier $notifier
+     */
+    public function __construct(Notifier $notifier)
+    {
+        $this->notifier = $notifier;
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -34,6 +47,10 @@ class CustomController extends Controller
             $message->replyTo($user_email);
             $message->subject('Сообщение от пользователя');
         });
+
+        $message = sprintf('<b>New message from %s, text:</b> <i>%s</i>', $request->get('email'), htmlentities($request->get('message')));
+
+        $this->notifier->notify($message);
 
         return redirect('/')->with('message', [
             'success' => 'Ваше сообщение отправлено, постараемся ответить как можно быстрее'

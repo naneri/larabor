@@ -7,6 +7,7 @@
 namespace App\Zabor\Items;
 
 
+use App\Zabor\Mysql\Item;
 use App\Zabor\Notifier;
 use Telegram\Bot\Api;
 
@@ -30,15 +31,17 @@ class ItemNotifier
      * @param $item
      * @param $description
      */
-    public function notifyNewItem($item, $description)
+    public function notifyNewItem(Item $item, $description)
     {
         $active = $item->b_active ? 'active' : 'inactive';
 
         $message = sprintf(
-            'New %s ad: <a href="%s">%s</a>',
+            'New %s ad: <a href="%s">%s</a> for %s %s',
             $active,
             $item->show_link,
-            $description->s_title
+            htmlentities($description->s_title),
+            $item->formatedPrice(),
+            $item->fk_c_currency_code
         );
 
         $this->notifier->notify($message);
