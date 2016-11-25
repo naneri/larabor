@@ -12,17 +12,30 @@ use App\Zabor\Mysql\Item_stats       as Stats;
 use App\Zabor\Mysql\Item_meta        as Meta;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Services\CategoryStatsManager;
+use Telegram\Bot\Api;
 
 class ItemManipulator
 {
+    /**
+     * @var ItemNotifier
+     */
+    private $itemNotifier;
 
+    /**
+     * ItemManipulator constructor.
+     * @param ImageCreator $imageCreator
+     * @param CategoryStatsManager $catManager
+     * @param ItemNotifier $itemNotifier
+     * @internal param Api $api
+     */
     public function __construct(
         ImageCreator $imageCreator,
-        CategoryStatsManager $catManager
+        CategoryStatsManager $catManager,
+        ItemNotifier $itemNotifier
     ) {
-    
         $this->imageCreator     = $imageCreator;
         $this->categoryManager  = $catManager;
+        $this->itemNotifier = $itemNotifier;
     }
 
     /**
@@ -36,7 +49,7 @@ class ItemManipulator
     {
         $item = new Item;
         $item->fk_i_user_id         = !is_null($user) ? intval($user->pk_i_id) : null;
-        $item->fk_i_category_id         = $item_data['category'];
+        $item->fk_i_category_id     = $item_data['category'];
         $item->dt_pub_date          = Carbon::now()->toDateTimeString();
         $item->dt_update_date       = Carbon::now()->toDateTimeString();
         $item->i_price              = isset($item_data['price']) ? $item_data['price'] : null;
@@ -44,8 +57,8 @@ class ItemManipulator
         $item->s_contact_name       = isset($user->s_name) ? $user->s_name : null;
         $item->s_contact_email      = $item_data['seller-email'];
         $item->s_secret             = str_random(8);
-        $item->b_active             = !is_null($user) ? 1 : 0 ;
-        $item->b_enabled            = 1;
+        $item->b_active             = !is_null($user) ? true : false;
+        $item->b_enabled            = true;
 
         if (isset($user->pk_i_id) &&
             in_array($user->pk_i_id, Config::get('zabor.affiliates'))
@@ -61,7 +74,7 @@ class ItemManipulator
         
         $item->save();
 
-        $this->storeOrUpdateDescription($item->pk_i_id, $item_data);
+        $description = $this->storeOrUpdateDescription($item->pk_i_id, $item_data);
                 
         $this->storeMetas($item, $item_data['meta']);
 
@@ -70,6 +83,8 @@ class ItemManipulator
             null,
             $item->b_active
         );
+
+        $this->itemNotifier->notifyNewItem($item, $description);
 
         return $item;
     }
@@ -86,7 +101,7 @@ class ItemManipulator
         // Retrieving the item record
         $item =  Item::findOrFail($id);
 
-        $item->fk_i_category_id         = $item_data['category'];
+        $item->fk_i_category_id     = $item_data['category'];
         $item->dt_mod_date          = Carbon::now()->toDateTimeString();
         $item->i_price              = isset($item_data['price']) ? $item_data['price']  : null;
         $item->fk_c_currency_code   = $item_data['currency'];
@@ -109,21 +124,17 @@ class ItemManipulator
      */
     public function storeOrUpdateDescription($item_id, $item_data)
     {
-        $description = Description::where('fk_i_item_id', $item_id)->first();
-
-        if (empty($description)) {
-            $description = new Description;
-
-            $description->fk_i_item_id = $item_id;
-            $description->fk_c_locale_code = 'ru_Ru';
-        }
+        $description = Description::where('fk_i_item_id', $item_id)->firstOrNew([
+            'fk_i_item_id'      => $item_id,
+            'fk_c_locale_code'  => 'ru_Ru'
+        ]);
 
         $description->s_title       = $item_data['title'];
         $description->s_description     = $item_data['description'];
 
         $description->save();
 
-        return true;
+        return $description;
     }
 
     /**

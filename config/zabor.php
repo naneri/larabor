@@ -28,4 +28,9 @@ return [
     'export'    => [
         'updates'   => 10
     ],
+
+    'telegram'  => [
+        'api-key'   => '',
+        'bot-name'  => ''
+    ]
 ];
