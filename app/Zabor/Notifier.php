@@ -30,7 +30,7 @@ class Notifier
      */
     public function notify($message)
     {
-        if(env('APP_ENV') == 'local'){
+        if(env('APP_ENV') == 'production'){
             $this->api->sendMessage([
                 'chat_id'       => config('telegram.chat_id'),
                 'text'          => $message,
