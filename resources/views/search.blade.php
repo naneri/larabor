@@ -28,7 +28,19 @@
                </div>
               <div style="clear:both"></div>
             </div>
-            <!--/.categories-list--> 
+            <!--/.categories-list-->
+                <!-- Google ads-->
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- formoney -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-2797655075626618"
+                     data-ad-slot="8760357985"
+                     data-ad-format="auto"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                <!-- Google ads-->
           </aside>
         </div>
         <!--/.page-side-bar-->
