@@ -82,18 +82,6 @@
                       </div>
                     </div>
 
-                    @if(Auth::check())
-                    <div class="form-group {{zbCheckError($errors->first('description'))}}">
-                      <label class="col-md-3 control-label" for="textarea">Срок активности (дней) </label>
-                      <div class="col-md-4">
-                        <select class="form-control" name="activity" id="activity">
-
-                        </select>
-                        @include('_partials._input-errors', ['error_name' => 'description'])
-                      </div>
-                    </div>
-                    @endif
-
                     <!-- Prepended text-->
                     <div class="form-group {{zbCheckError($errors->first('price'))}}">
                       <label class="col-md-3 control-label" for="price">Цена</label>
