@@ -54,8 +54,9 @@
             </h2>
             <span class="info-row"> 
             	<span class="date">
-            		<i class=" icon-clock"> </i> {{$item->showPubDate()}} 
-            	</span>  
+            		<i class=" icon-clock"> </i> {{$item->showPubDate()}}
+                <i class=" icon-eye"> </i> {{$item->stats->sum('i_num_views')}}
+            	</span>
             </span>
             <div class="ads-image">
               <h1 class="pricetag">

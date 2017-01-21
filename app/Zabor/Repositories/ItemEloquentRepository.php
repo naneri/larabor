@@ -48,7 +48,8 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
             'description',
             'currency',
             'user',
-            'metas.meta'
+            'metas.meta',
+            'stats'
             ])->findOrFail($id);
     }
 
