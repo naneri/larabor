@@ -29,7 +29,7 @@ class ItemPolicy
      */
     public function manage(User $user, Item $item, $code = null)
     {
-        if ($user->pk_i_id === $item->fk_i_user_id) {
+        if ($user->pk_i_id == $item->fk_i_user_id) {
             return true;
         }
 
