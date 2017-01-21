@@ -23,7 +23,8 @@ class Item extends ZaborModel
         'b_active'  => 'boolean',
         'b_enabled' => 'boolean'
     ];
-    
+
+    protected $dates = ['dt_pub_date', 'dt_mod_date', 'dt_update_date', 'dt_expiration'];
     /**
     *
     *   Query functions
@@ -190,9 +191,7 @@ class Item extends ZaborModel
      */
     public function recentlyProlonged()
     {
-        $date = Carbon::parse($this->dt_update_date);
-
-        return $date->diffInDays(Carbon::now()) < 2;
+        return $this->dt_update_date->diffInDays(Carbon::now()) < 2;
     }
 
     /**

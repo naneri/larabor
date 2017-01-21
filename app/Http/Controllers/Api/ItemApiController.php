@@ -87,7 +87,7 @@ class ItemApiController extends Controller
     {
         $item = $this->item->getById($id);
 
-        if (Gate::denies('manage', $item)) {
+        if (Gate::forUser(Auth::user())->denies('manage', $item)) {
             abort(403);
         }
 

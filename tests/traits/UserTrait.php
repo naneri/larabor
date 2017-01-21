@@ -16,7 +16,7 @@ trait UserTrait
 
         $user->description()->create(['fk_c_locale_code' => 'ru_RU']);
 
-        $user->data()->create([]);
+        $user->data()->create(['is_admin' => false]);
 
         return $user;
     }

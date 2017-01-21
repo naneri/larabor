@@ -104,3 +104,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
+
+Route::get('test/gate', function(){
+    dd(Gate::forUser(\App\Zabor\Mysql\User::skip(3)->first())->denies('manage', \App\Zabor\Mysql\Item::first()));
+});

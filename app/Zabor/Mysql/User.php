@@ -25,7 +25,8 @@ class User extends ZaborModel implements
     protected $table = 'user';
 
     protected $casts = [
-        'info' => 'array',
+        'info'      => 'array',
+        'is_admin'  => 'boolean'
     ];
 
     /**
@@ -80,10 +81,7 @@ class User extends ZaborModel implements
      */
     public function is_admin()
     {
-        if ($this->is_admin == 1) {
-            return true;
-        }
-        return false;
+        return $this->is_admin;
     }
     
     /**
