@@ -3,7 +3,7 @@
 return [
     
     // the number by which the ads are increased on the main page
-    'ad_increase_number' => 1300,
+    'ad_increase_number' => 1000,
 
     // IDs of the users affiliated with the website
     'affiliates'    => [2, 25],

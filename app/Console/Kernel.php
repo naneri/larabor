@@ -30,6 +30,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('temp:clear')->hourly();
         $schedule->command('cat:update')->hourly();
-        //$schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
     }
 }
