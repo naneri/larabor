@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use DB;
+use File;
 use Illuminate\Console\Command;
 use App\Zabor\Mysql\Archive;
 use App\Zabor\Repositories\Contracts\ItemInterface;
@@ -24,6 +26,10 @@ class ArchiveItems extends Command
      */
     protected $description = 'Command description';
 
+    protected $itemRepo;
+
+    protected $item_manipulator;
+
     /**
      * ArchiveItems constructor.
      *
@@ -41,8 +47,6 @@ class ArchiveItems extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -51,13 +55,22 @@ class ArchiveItems extends Command
             $items = $this->itemRepo->getOldItems();
 
             foreach ($items as $item) {
-                Archive::create([
-                    'entity_id' => $item->pk_i_id,
-                    'type'      => 'item',
-                    'content'   => $item->toJson()
+                if(!$item->images->isEmpty()){
+                    $image_path = public_path($item->images->first()->image_url);
+                }
+                DB::beginTransaction();
+                    Archive::create([
+                        'entity_id' => $item->pk_i_id,
+                        'type'      => 'item',
+                        'content'   => $item->toJson()
                     ]);
 
-                $this->item_manipulator->delete($item);
+                    $this->item_manipulator->delete($item);
+                if(isset($image_path) and File::exists($image_path)){
+                    DB::rollBack();
+                }else{
+                    DB::commit();
+                }
             }
 
             $this->info('Ads deleted');

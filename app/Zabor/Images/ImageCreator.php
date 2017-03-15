@@ -70,9 +70,9 @@ class ImageCreator
 
         $name = $image->pk_i_id;
 
-        File::delete("{$image->s_path}{$name}_thumbnail.{$image->s_extension}");
-        File::delete("{$image->s_path}{$name}_preview.{$image->s_extension}");
-        File::delete("{$image->s_path}{$name}.{$image->s_extension}");
+        File::delete(public_path("{$image->s_path}{$name}_thumbnail.{$image->s_extension}"));
+        File::delete(public_path("{$image->s_path}{$name}_preview.{$image->s_extension}"));
+        File::delete(public_path("{$image->s_path}{$name}.{$image->s_extension}"));
 
         $image->delete();
         
