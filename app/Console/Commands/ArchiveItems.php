@@ -50,32 +50,27 @@ class ArchiveItems extends Command
      */
     public function handle()
     {
-        // only executing in the morning when site load time is not high
-        if (Carbon::now()->hour > 0 && Carbon::now()->hour < 7) {
-            $items = $this->itemRepo->getOldItems();
+        $items = $this->itemRepo->getOldItems();
 
-            foreach ($items as $item) {
-                if(!$item->images->isEmpty()){
-                    $image_path = public_path($item->images->first()->image_url);
-                }
-                DB::beginTransaction();
-                    Archive::create([
-                        'entity_id' => $item->pk_i_id,
-                        'type'      => 'item',
-                        'content'   => $item->toJson()
-                    ]);
-
-                    $this->item_manipulator->delete($item);
-                if(isset($image_path) and File::exists($image_path)){
-                    DB::rollBack();
-                }else{
-                    DB::commit();
-                }
+        foreach ($items as $item) {
+            if(!$item->images->isEmpty()){
+                $image_path = public_path($item->images->first()->image_url);
             }
+            DB::beginTransaction();
+                Archive::create([
+                    'entity_id' => $item->pk_i_id,
+                    'type'      => 'item',
+                    'content'   => $item->toJson()
+                ]);
 
-            $this->info('Ads deleted');
-        } else {
-            $this->info('Wrong time');
+                $this->item_manipulator->delete($item);
+            if(isset($image_path) and File::exists($image_path)){
+                DB::rollBack();
+            }else{
+                DB::commit();
+            }
         }
+
+        $this->info('Ads deleted');
     }
 }
