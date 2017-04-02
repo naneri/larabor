@@ -32,5 +32,7 @@ return [
     'telegram'  => [
         'api-key'   => '',
         'bot-name'  => ''
-    ]
+    ],
+
+    'archivate' => env('ARCHIVATE', false),
 ];

@@ -32,7 +32,7 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
             ->where('b_enabled', 1)
             ->where('b_active', 1)
             ->where('dt_expiration', '>', Carbon::now())
-            ->orderBy('dt_update_date', 'DESC')
+            ->orderBy('dt_pub_date', 'DESC')
             ->get();
     }
 

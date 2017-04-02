@@ -50,6 +50,10 @@ class ArchiveItems extends Command
      */
     public function handle()
     {
+        if(!config('zabor.archivate')){
+            return;
+        }
+
         $items = $this->itemRepo->getOldItems();
 
         foreach ($items as $item) {
