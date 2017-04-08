@@ -5,6 +5,8 @@ machine:
     DB_DATABASE: circle_test
     DB_USERNAME: ubuntu
     APP_KEY:     QvPm0ND3kPbIq3psVNTsja0rpNoX4spR
+  php:
+      version: 7.0.4
 
 dependencies:
   post:
