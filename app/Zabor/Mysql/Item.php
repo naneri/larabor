@@ -25,6 +25,12 @@ class Item extends ZaborModel
     ];
 
     protected $dates = ['dt_pub_date', 'dt_mod_date', 'dt_update_date', 'dt_expiration'];
+
+    /**
+     * @var Carbon
+     */
+    protected $dt_expiration;
+
     /**
     *
     *   Query functions
@@ -211,7 +217,6 @@ class Item extends ZaborModel
     {
         return $this->dt_expiration < Carbon::now();
     }
-
     /**
      * get Item "Edit" link
      * @return [type] [description]
@@ -262,5 +267,15 @@ class Item extends ZaborModel
         $date = Carbon::parse($this->attributes['dt_update_date']);
 
         return $date->diffInDays(Carbon::now()) < 2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpireSearchLinkAttribute()
+    {
+        $time = new Carbon($this->attributes['dt_expiration']);
+
+        return $time->addDays(90)->toDateTimeString();
     }
 }
