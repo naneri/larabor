@@ -26,10 +26,6 @@ class Item extends ZaborModel
 
     protected $dates = ['dt_pub_date', 'dt_mod_date', 'dt_update_date', 'dt_expiration'];
 
-    /**
-     * @var Carbon
-     */
-    protected $dt_expiration;
 
     /**
     *
