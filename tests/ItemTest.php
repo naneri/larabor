@@ -1,5 +1,6 @@
 <?php
 
+use App\Zabor\Mysql\Archive;
 use App\Zabor\Repositories\ItemEloquentRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -106,5 +107,36 @@ class ItemTest extends TestCase
 
         $this->visit($itemUrl)
             ->dontSee('Редактировать');
+    }
+
+    /**
+     * @test
+     */
+    public function itExpiresItem()
+    {
+        $this->seed();
+        $item = factory(App\Zabor\Mysql\Item::class)->create([
+            'dt_pub_date'       => \Carbon\Carbon::now()->subDays(3),
+            'dt_update_date'    => \Carbon\Carbon::now()->subDays(3),
+        ]);
+
+        // ot sees the control buttons with code and can use them
+        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+
+        $this->visit(route('item.show', [$item->pk_i_id]))
+           ->see($item->description->s_title);
+
+        $item->update(['dt_expiration' => \Carbon\Carbon::now()->subDays(200)]);
+
+        Archive::create([
+            'entity_id' => $item->pk_i_id,
+            'type'      => 'item',
+            'content'   => $item->toJson()
+        ]);
+
+        $this->manipulator->delete($item);
+
+        $this->get(route('item.show', [$item->pk_i_id]))
+                ->assertResponseStatus(410);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Zabor\Items\ExpirationException;
 use App\Http\Requests\ItemManageRequest;
 use JavaScript;
 use Auth;
@@ -148,7 +149,11 @@ class ItemController extends Controller
      */
     public function show($id, $code = null)
     {
-        $item = $this->item->getById($id);
+        try{
+            $item = $this->item->getById($id);
+        }catch (ExpirationException $e){
+            return response()->view('404', [], 410);
+        }
 
         if ($item->b_enabled == 0) {
             throw new NotFoundHttpException("Item is not enabled");
