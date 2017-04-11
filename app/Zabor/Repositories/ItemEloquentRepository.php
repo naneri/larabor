@@ -1,11 +1,14 @@
 <?php namespace App\Zabor\Repositories;
 
+use App\Zabor\Items\ExpirationException;
+use App\Zabor\Mysql\Archive;
 use Carbon\Carbon;
 use Config;
 
 use App\Zabor\Mysql\Item;
 use App\Zabor\Repositories\Contracts\ItemInterface;
 use Cache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 {
@@ -39,9 +42,16 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
     /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @throws ExpirationException
      */
     public function getById($id)
     {
+        $item = Archive::where('type', 'item')->where('entity_id', $id)->first();
+
+        if(!is_null($item)){
+            throw new ExpirationException('item archived');
+        }
+
         return Item::with([
             'images',
             'category.description',
