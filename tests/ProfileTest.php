@@ -28,4 +28,39 @@ class ProfileTest extends TestCase
                 ->seePageIs('profile/main')
                 ->see('toastr.success');
     }
+
+    /**
+     * @test
+     */
+    public function it_can_change_notification_settings()
+    {
+        $this->seed();
+
+        $user = $this->createActivatedUser();
+
+        /**
+         * testing unchecking
+         */
+        $this->actingAs($user)
+            ->visit('profile/notifications')
+            ->see('checked')
+            ->uncheck('comment')
+            ->press('Сохранить');
+
+        $userData = \App\Zabor\Mysql\UserData::where('fk_i_user_id', $user->pk_i_id)->first();
+
+        $this->assertEquals(false, $userData->comment_notification);
+
+        /**
+         * testing checking
+         */
+        $this->actingAs($user)
+            ->visit('profile/notifications')
+            ->check('comment')
+            ->press('Сохранить');
+
+        $userData = \App\Zabor\Mysql\UserData::where('fk_i_user_id', $user->pk_i_id)->first();
+
+        $this->assertEquals(true, $userData->comment_notification);
+    }
 }

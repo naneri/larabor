@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\PostRegisterRequest;
+use App\Zabor\User\UserManipulator;
 use Auth;
 use Validator;
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 
 use App\Zabor\Mysql\UserData;
 use App\Zabor\Mysql\User;
-use App\Zabor\Mysql\User_description;
+use App\Zabor\Mysql\UserDescription;
 use App\Zabor\User\UserEloquentRepository;
 
 class AuthController extends Controller
@@ -34,15 +35,25 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    protected $userRepository;
+
+    /**
+     * @var UserManipulator
+     */
+    private $manipulator;
+
     /**
      * AuthController constructor.
-     * @param UserEloquentRepository $user
+     * @param UserEloquentRepository $userRepository
+     * @param UserManipulator $manipulator
      */
     public function __construct(
-        UserEloquentRepository $user
+        UserEloquentRepository $userRepository,
+        UserManipulator $manipulator
     ) {
-    
-        $this->user = $user;
+        $this->userRepository = $userRepository;
+        $this->manipulator = $manipulator;
+
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
@@ -77,8 +88,7 @@ class AuthController extends Controller
     }
 
     /**
-     * [getLogin description]
-     * @return [type] [description]
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getLogin()
     {
@@ -88,11 +98,11 @@ class AuthController extends Controller
 
         return view('auth.login');
     }
+
     /**
-     * [postLogin description]
+     * @param Request $request
      *
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postLogin(Request $request)
     {
@@ -118,20 +128,17 @@ class AuthController extends Controller
     }
 
     /**
-     * Logs out the user
-     * @return [type] [description]
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getLogout()
     {
         Auth::logout();
 
         return redirect()->intended('/');
-        ;
     }
 
     /**
-     * [getRegister description]
-     * @return [type] [description]
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getRegister()
     {
@@ -144,25 +151,7 @@ class AuthController extends Controller
      */
     public function postRegister(PostRegisterRequest $request)
     {
-        $user = User::create([
-            'dt_reg_date'   => Carbon::now(),
-            's_name'        => $request->input('username'),
-            's_password'    => bcrypt($request->input('password')),
-            's_secret'      => str_random(8),
-            's_email'       => $request->input('email'),
-            'b_enabled'     => 1,
-            'b_active'      => 0,
-            'i_items'       => 0,
-            'i_comments'    => 0,
-            'dt_access_date'=> Carbon::now()
-            ]);
-
-        User_description::create([
-            'fk_i_user_id' => $user->pk_i_id,
-            'fk_c_locale_code' => 'ru_RU'
-        ]);
-
-        UserData::create(['fk_i_user_id'    => $user->pk_i_id]);
+        $user = $this->manipulator->createUser($request->all());
 
         Mail::send('emails.activate', compact('user'), function ($message) use ($user) {
             $message->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
@@ -182,7 +171,7 @@ class AuthController extends Controller
      */
     public function reActivate($email)
     {
-        $user = $this->user->findByEmail($email);
+        $user = $this->userRepository->findByEmail($email);
 
         if ($user->b_active == 1) {
             return redirect('/')->with('message', [
@@ -217,7 +206,7 @@ class AuthController extends Controller
      */
     public function activateAccount($user_id, $token)
     {
-        $user = $this->user->findById($user_id);
+        $user = $this->userRepository->findById($user_id);
 
         $check = ($token == $user->s_secret);
 

@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Mysql;
 
-class Item_location extends ZaborModel
+class ItemLocation extends ZaborModel
 {
     protected $table = "item_location";
 }

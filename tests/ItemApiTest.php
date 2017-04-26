@@ -25,4 +25,13 @@ class ItemApiTest extends TestCase
         $this->user         = $this->createActivatedUser();
     }
 
+    /**
+     * @test
+     */
+    public function mainPageTest()
+    {
+        $this->visit('/')
+            ->assertResponseOk();
+    }
+
 }

@@ -4,9 +4,9 @@ class RedirectService
 {
 
     /**
-     * [redirect description]
-     * @param  [type] $params [description]
-     * @return [type]         [description]
+     * @param $params
+     *
+     * @return mixed|string
      */
     public function redirect($params)
     {
@@ -14,7 +14,6 @@ class RedirectService
             return str_replace('/index.php', '', route('item.show', $params['id']));
         }
 
-    
         return '/';
     }
 }

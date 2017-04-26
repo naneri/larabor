@@ -17,6 +17,7 @@ class User extends ZaborModel implements
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
+
     /**
      * The database table used by the model.
      *
@@ -100,7 +101,7 @@ class User extends ZaborModel implements
      */
     public function description()
     {
-        return $this->hasOne(User_description::class, 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
+        return $this->hasOne(UserDescription::class, 'fk_i_user_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
     }
 
     /**
@@ -133,8 +134,6 @@ class User extends ZaborModel implements
      */
     public function getExportPath()
     {
-        $info = $this->info;
-
         if (!empty($this->info['priceListUpdate'])) {
             return $this->info['priceListUpdate']['path'];
         }

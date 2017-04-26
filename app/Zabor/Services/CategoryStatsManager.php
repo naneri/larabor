@@ -10,7 +10,9 @@ use Carbon\Carbon;
 class CategoryStatsManager
 {
 
-    public function __construct(CategoryInterface $catRepo)
+    public function __construct(
+        CategoryInterface $catRepo
+    )
     {
         $this->catRepo = $catRepo;
     }

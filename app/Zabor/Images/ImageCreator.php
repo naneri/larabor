@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Images;
 
-use App\Zabor\Mysql\Item_resource;
+use App\Zabor\Mysql\ItemResource;
 use Image;
 use File;
 use Log;
@@ -8,7 +8,7 @@ use Log;
 class ImageCreator
 {
 
-    public function __construct(Item_resource $image)
+    public function __construct(ItemResource $image)
     {
         $this->image = $image;
     }

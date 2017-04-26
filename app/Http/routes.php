@@ -59,6 +59,8 @@ Route::group([
     'prefix'     => 'profile'], function () {
     
         Route::get('main', 'ProfileController@index')->name('profile.main');
+        Route::get('notifications', 'ProfileController@notifications')->name('profile.notifications');
+        Route::put('notifications/update', 'ProfileController@updateNotifications')->name('profile.notifications.update');
         Route::get('ads', 'ProfileController@getAds')->name('profile.ads');
         Route::get('ads-export', 'ProfileController@getAdsExport')->name('profile.ads-export');
         Route::get('generate-excel', 'ProfileController@getGenerateExcel')->name('profile.generate-excel');
@@ -100,6 +102,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::put('item/updatePrice/{id}', 'ItemApiController@updatePrice');
     Route::put('item/prolong/{id}', 'ItemApiController@prolong');
     Route::delete('item/delete/{id}', 'ItemApiController@destroy');
+
+    Route::get('item/{item_id}/comments', 'ItemCommentApiController@getComments');
 });
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');

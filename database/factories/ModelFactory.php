@@ -33,7 +33,7 @@ $factory->define(App\Zabor\Mysql\Item::class, function (Faker\Generator $faker) 
     ];
 });
 
-$factory->define(App\Zabor\Mysql\Item_description::class, function (Faker\Generator $faker) {
+$factory->define(App\Zabor\Mysql\ItemDescription::class, function (Faker\Generator $faker) {
     return [
         'fk_c_locale_code'  => 'ru_Ru',
         's_title'       => $faker->sentence(3),
@@ -52,12 +52,21 @@ $factory->define(App\Zabor\Mysql\User::class, function (Faker\Generator $faker) 
         'b_active'      => 0,
         'i_items'       => 0,
         'i_comments'    => 0,
-        'dt_access_date'=> Carbon::now()
+        'dt_access_date'=> Carbon::now(),
+        'is_admin'      => false
     ];
 });
 
-$factory->define(\App\Zabor\Mysql\User_description::class, function(Faker\Generator $faker){
+$factory->define(\App\Zabor\Mysql\UserDescription::class, function(Faker\Generator $faker){
     return [
         'fk_c_locale_code' => 'ru_RU'
     ];
+});
+
+$factory->define(\App\Zabor\Mysql\ItemComment::class, function (\Faker\Generator $faker){
+   return [
+       'title'  => $faker->sentence(),
+       'text'   => $faker->text(),
+       'created_at' => Carbon::now(),
+   ];
 });

@@ -6,7 +6,7 @@ class Category extends ZaborModel
 
     public function description()
     {
-        return $this->hasOne('App\Zabor\Mysql\Category_description', 'fk_i_category_id', 'pk_i_id');
+        return $this->hasOne('App\Zabor\Mysql\CategoryDescription', 'fk_i_category_id', 'pk_i_id');
     }
 
     public function stats()

@@ -86,40 +86,64 @@
             <!--ads-image-->
             
             <div class="Ads-Details">
-              <h5 class="list-title"><strong>Описание</strong></h5>
               <div class="row">
-                <div class="ads-details-info col-md-8">
-                	{!!nl2br(e($item->showDescription()))!!}
-                </div>
-                <div class="col-md-4">
-                  @if($item->is_active())
-                    <aside class="panel panel-body panel-details">
-                      <ul>
-                       @foreach($item->metas as $meta)
-                        @if(!($meta->meta->e_type == 'URL' &&$meta->s_value == ''))
-                        <li>
-                          <p class=" no-margin "><strong>{{$meta->meta->s_name}}:</strong>
+                <ul class="nav nav-tabs">
+                  <li role="presentation" class="active">
+                    <a href="#main" aria-controls="main" role="tab" data-toggle="tab">Информация</a>
+                  </li>
+                  <li role="presentation">
+                    <a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Комментарии</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="row">
+                <div class="tab-content">
+                  <div role="tabpanel" id="main" class="fade in tab-pane active ads-details-info">
+                    <div class="col-md-8">
+                      {!!nl2br(e($item->showDescription()))!!}
+                    </div>
+                    <div class="col-md-4">
+                      @if($item->is_active())
+                        <aside class="panel panel-body panel-details">
+                          <ul>
+                            @foreach($item->metas as $meta)
+                              @if(!($meta->meta->e_type == 'URL' &&$meta->s_value == ''))
+                                <li>
+                                  <p class=" no-margin "><strong>{{$meta->meta->s_name}}:</strong>
 
-                              @if($meta->meta->e_type == 'CHECKBOX')
-                                @if($meta->s_value == 1)
-                                  <i style="color:green" class="fa fa-check"></i>
-                                @else
-                                  <i style="color:red" class="fa fa-close"></i>
-                                @endif 
-                              @elseif($meta->meta->e_type == 'URL')
-                                <a rel="nofollow" href="{{$meta->s_value}}">{{$meta->s_value}}</a>
-                              @else
-                                {{$meta->s_value}}
+                                    @if($meta->meta->e_type == 'CHECKBOX')
+                                      @if($meta->s_value == 1)
+                                        <i style="color:green" class="fa fa-check"></i>
+                                      @else
+                                        <i style="color:red" class="fa fa-close"></i>
+                                      @endif
+                                    @elseif($meta->meta->e_type == 'URL')
+                                      <a rel="nofollow" href="{{$meta->s_value}}">{{$meta->s_value}}</a>
+                                    @else
+                                      {{$meta->s_value}}
+                                    @endif
+                                  </p>
+                                </li>
                               @endif
-                          </p>
-                        </li>
-                        @endif
-                       @endforeach()
-                        
-                      </ul>
-                    </aside>
-                   
-                  @endif
+                            @endforeach()
+
+                          </ul>
+                        </aside>
+                      @endif
+                    </div>
+                  </div>
+                  <div role="tabpanel" id="comments" class="fade in tab-pane ads-details-info">
+                    <div v-for="comment in comments" class="panel panel-default">
+                      <div class="panel-heading">
+                        @{{comment.title}} <br>
+                        <small class="text-muted">@{{ comment.user.s_name }}</small> <br>
+                        <small class="text-muted">@{{ comment.publication_date }}</small>
+                      </div>
+                      <div class="panel-body">
+                        @{{comment.text}}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
                 <div class="content-footer text-left"> 
@@ -296,5 +320,21 @@
        pagerCustom: '#bx-pager'
      });
    });
-	</script> 
+	</script>
+
+  <script>
+    Vue.http.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
+
+    var app = new Vue({
+        el: '#comments',
+        data : {
+            comments: []
+        },
+        ready: function(){
+            this.$http.get("{{url('api/item/'.$item->pk_i_id.'/comments')}}").success(function(response){
+                app.comments = response;
+            });
+        }
+    });
+  </script>
 @stop

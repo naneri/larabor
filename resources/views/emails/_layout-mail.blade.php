@@ -203,8 +203,6 @@ ol li {
               <h2 style="color:green">@yield('title')</h2>
               <br>
               @yield('content')
-            
-              
             </td>
           </tr>
         </table>

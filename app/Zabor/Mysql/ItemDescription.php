@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Mysql;
 
-class Item_description extends ZaborModel
+class ItemDescription extends ZaborModel
 {
     public $primaryKey = 'fk_i_item_id';
 

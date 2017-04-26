@@ -8,5 +8,9 @@ class UserData extends ZaborModel
 
     protected $table = "user_data";
 
-    protected $fillable = ['fk_i_user_id', 'activate_attempts', 'info'];
+    protected $guarded = [];
+
+    protected $casts = [
+        'comment_notification' => 'boolean'
+    ];
 }

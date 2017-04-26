@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MetaSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(ItemSeeder::class);
+        $this->call(CommentSeeder::class);
         Artisan::call('cat:update');
         Model::reguard();
     }

@@ -70,7 +70,7 @@ class ItemTest extends TestCase
         $this->seed();
         $item = factory(App\Zabor\Mysql\Item::class)->create();
 
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(App\Zabor\Mysql\ItemDescription::class)->make());
 
         $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
         $this->visit($itemUrl)
@@ -92,7 +92,7 @@ class ItemTest extends TestCase
         ]);
 
         // ot sees the control buttons with code and can use them
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(App\Zabor\Mysql\ItemDescription::class)->make());
 
         $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
         $this->visit($itemUrl)
@@ -121,7 +121,7 @@ class ItemTest extends TestCase
         ]);
 
         // ot sees the control buttons with code and can use them
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(App\Zabor\Mysql\ItemDescription::class)->make());
 
         $this->visit(route('item.show', [$item->pk_i_id]))
            ->see($item->description->s_title);

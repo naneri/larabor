@@ -8,9 +8,11 @@
             <ul class="acc-list">
               <li class="{{ $page == 'main' ? 'active' : ''}}"><a href="{{route('profile.main')}}"><i class="icon-home"></i> Мои данные </a></li>
               <li>
-                <a target="_blank" href="{{route('user.ads', Auth::id())}}">
-                  <i class="icon-eye"></i> Публичный профиль 
-                </a>
+              <li class="{{ $page == 'notfications' ? 'active' : ''}}"><a href="{{route('profile.notifications')}}"><i class="icon-bell"></i> Уведомления </a></li>
+              <li>
+              <a target="_blank" href="{{route('user.ads', Auth::id())}}">
+                <i class="icon-eye"></i> Публичный профиль
+              </a>
               </li>
               
             </ul>
