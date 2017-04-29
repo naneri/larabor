@@ -129,10 +129,4 @@ Route::group(['prefix' => 'text'], function (){
         });
     });
 
-    Route::get('item', function(){
-        $item = \App\Zabor\Mysql\Item::first();
-        \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item) {
-            $message->to('ktnaneri@gmail.com')->subject('Ваше объявление было активировано!');
-        });
-    });
 });

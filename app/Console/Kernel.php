@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\ClearTemp::class,
         Commands\UpdateCatStats::class,
         Commands\ArchiveItems::class,
+        Commands\RemindItemExpires::class,
     ];
 
     /**
@@ -30,6 +31,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('temp:clear')->hourly();
         $schedule->command('cat:update')->hourly();
-        $schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
+       // $schedule->command('items:archive')->everyFiveMinutes()->withoutOverlapping();
     }
 }
