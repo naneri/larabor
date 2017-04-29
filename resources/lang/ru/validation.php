@@ -137,6 +137,7 @@ return [
         'price'         => 'цена',
         'password'      => 'пароль',
         'message'       => 'сообщение',
+        'username'      => 'логин'
     ],
 
 ];

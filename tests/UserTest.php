@@ -32,7 +32,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_cant_create_user_with_same_name()
+    public function it_cant_create_user_with_same_email()
     {
         $this->seed();
 
@@ -41,6 +41,25 @@ class UserTest extends TestCase
         $this->visit(url('register'))
             ->type('kanakana', 'username')
             ->type($user->s_email, 'email')
+            ->type('Thegosu88', 'password')
+            ->type('Thegosu88', 'password_confirmation')
+            ->press('Зарегистрироваться')
+            ->seePageIs('register')
+            ->see('Такое значение поля email уже существует');
+    }
+
+    /**
+     * @test
+     */
+    public function it_cant_create_user_with_same_username()
+    {
+        $this->seed();
+
+        $user = $this->createActivatedUser();
+
+        $this->visit(url('register'))
+            ->type('kanakana', 'username')
+            ->type($this->faker->email, 'email')
             ->type('Thegosu88', 'password')
             ->type('Thegosu88', 'password_confirmation')
             ->press('Зарегистрироваться')

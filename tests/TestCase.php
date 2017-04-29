@@ -1,5 +1,7 @@
 <?php
 
+use Faker\Factory;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -8,6 +10,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+
+    /**
+     * @var \Faker\Generator
+     */
+    protected $faker;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->faker = Factory::create();
+    }
 
     /**
      * Creates the application.

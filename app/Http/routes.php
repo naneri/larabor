@@ -110,24 +110,29 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
 Route::get('test/crawler', 'MainController@testCrawler');
 
-Route::get('test/gate', function(){
-    dd(Gate::forUser(\App\Zabor\Mysql\User::skip(3)->first())->denies('manage', \App\Zabor\Mysql\Item::first()));
-});
 
-Route::get('test/comment', function (){
-    $comment = \App\Zabor\Mysql\ItemComment::first();
-    $user = \App\Zabor\Mysql\User::first();
 
-    Mail::queue('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
-        $m->from('hello@app.com', 'Your Application');
-        $m->to('ktnaneri@gmail.com', $user->name)->subject('Your Reminder!');
+
+Route::group(['prefix' => 'text'], function (){
+
+    Route::get('gate', function(){
+        dd(Gate::forUser(\App\Zabor\Mysql\User::skip(3)->first())->denies('manage', \App\Zabor\Mysql\Item::first()));
     });
 
-});
+    Route::get('comment', function (){
+        $comment = \App\Zabor\Mysql\ItemComment::first();
+        $user = \App\Zabor\Mysql\User::first();
 
-Route::get('test/item', function(){
-    $item = \App\Zabor\Mysql\Item::first();
-    \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item) {
-        $message->to('ktnaneri@gmail.com')->subject('Ваше объявление было активировано!');
+        Mail::queue('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
+            $m->from('hello@app.com', 'Your Application');
+            $m->to('ktnaneri@gmail.com', $user->name)->subject('Your Reminder!');
+        });
+    });
+
+    Route::get('item', function(){
+        $item = \App\Zabor\Mysql\Item::first();
+        \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item) {
+            $message->to('ktnaneri@gmail.com')->subject('Ваше объявление было активировано!');
+        });
     });
 });

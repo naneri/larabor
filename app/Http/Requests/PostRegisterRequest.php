@@ -24,7 +24,7 @@ class PostRegisterRequest extends Request
     public function rules()
     {
         return [
-            'username'  => 'required|alpha_num|min:3|max:30',
+            'username'  => 'required|alpha_num|min:3|max:30|unique:user,s_name',
             'email'     => 'required|email|unique:user,s_email',
             'password'  => 'required|min:8|confirmed',
         ];

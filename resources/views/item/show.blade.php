@@ -102,7 +102,17 @@
                 <div class="tab-content">
                   <div role="tabpanel" id="main" class="active fade in tab-pane ads-details-info">
                     <div class="col-md-8">
-                      {!!nl2br(e($item->showDescription()))!!}
+                      <p>
+                        <b>Владелец обьявления:</b>
+                        @if(!$item->user)
+                          <span class="text-muted">Не указан</span>
+                        @else
+                          <a href="{{ route('user.ads', $item->user->pk_i_id)}}">{{$item->user->s_name}}</a>
+                        @endif
+                      </p>
+                      <p>
+                        {!!nl2br(e($item->showDescription()))!!}
+                      </p>
                     </div>
                     <div class="col-md-4">
                       @if($item->is_active())
