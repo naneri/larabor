@@ -22,6 +22,7 @@ class CommentSeeder extends Seeder
                 'item_id' => $item->pk_i_id,
                 'user_id' => $users->random()->pk_i_id
             ]);
+
             factory(ItemComment::class)->create([
                 'item_id' => $item->pk_i_id,
                 'user_id' => $users->random()->pk_i_id

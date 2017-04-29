@@ -1,12 +1,11 @@
 <?php namespace App\Zabor\Mysql;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
-class ItemComment extends ZaborModel
+class ItemComment extends Model
 {
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    protected $appends = ['publication_date'];
 
     public function item()
     {
@@ -16,12 +15,5 @@ class ItemComment extends ZaborModel
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'pk_i_id');
-    }
-
-    public function getPublicationDateAttribute()
-    {
-        $time = new Carbon($this->created_at);
-
-        return $time->toDateString();
     }
 }

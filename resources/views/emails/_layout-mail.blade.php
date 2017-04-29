@@ -231,6 +231,14 @@ ol li {
               </p>
             </td>
           </tr>
+          <tr>
+            @if(isset($user))
+              <td align="center">
+                <p>Если вы хотите отписаться от уведомлений - <a href="{{route('profile.notifications')}}">пройдите по ссылке</a>
+                </p>
+              </td>
+            @endif
+          </tr>
         </table>
       </div>
       <!-- /content -->

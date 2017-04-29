@@ -5,6 +5,8 @@
 @stop
 
 @section('meta')
+  <meta name="item-url" content="{{url('api/item/'.$item->pk_i_id.'/comments')}}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="title" content="{!! stripForMeta($item->description->s_title)!!} - Zabor.kg"/>
 <meta name="description" content="{{$item->category->description->s_name}} : {!! stripForMeta($item->description->s_description) !!}, - купить в Бишкеке и других городах Кыргызстана." />
 
@@ -98,7 +100,7 @@
               </div>
               <div class="row">
                 <div class="tab-content">
-                  <div role="tabpanel" id="main" class="fade in tab-pane active ads-details-info">
+                  <div role="tabpanel" id="main" class="active fade in tab-pane ads-details-info">
                     <div class="col-md-8">
                       {!!nl2br(e($item->showDescription()))!!}
                     </div>
@@ -110,7 +112,6 @@
                               @if(!($meta->meta->e_type == 'URL' &&$meta->s_value == ''))
                                 <li>
                                   <p class=" no-margin "><strong>{{$meta->meta->s_name}}:</strong>
-
                                     @if($meta->meta->e_type == 'CHECKBOX')
                                       @if($meta->s_value == 1)
                                         <i style="color:green" class="fa fa-check"></i>
@@ -126,23 +127,66 @@
                                 </li>
                               @endif
                             @endforeach()
-
                           </ul>
                         </aside>
                       @endif
                     </div>
                   </div>
                   <div role="tabpanel" id="comments" class="fade in tab-pane ads-details-info">
-                    <div v-for="comment in comments" class="panel panel-default">
-                      <div class="panel-heading">
-                        @{{comment.title}} <br>
-                        <small class="text-muted">@{{ comment.user.s_name }}</small> <br>
-                        <small class="text-muted">@{{ comment.publication_date }}</small>
+                    @if($item->has_user)
+                      <div v-for="comment in comments">
+                        <div class="panel panel-default">
+                          <div class="panel-heading" v-bind:id="'comment-' + comment.id">
+                            <small class="text-muted">@{{ comment.created_at }}</small>
+                          </div>
+                          <div class="panel-body">
+                            @{{comment.text}} <br>
+                            <span>
+                          <a href="{{url('user/ads')}}/@{{ comment.user.pk_i_id }}">
+                            <small>@{{ comment.user.s_name }}</small>
+                          </a>
+                        </span>
+                          </div>
+                        </div>
                       </div>
-                      <div class="panel-body">
-                        @{{comment.text}}
+                      <div class="text-center">
+                        <v-paginator :resource.sync="comments"  v-ref:vpaginator resource_url="{{route('api.item.comments', $item->pk_i_id)}}"></v-paginator>
                       </div>
-                    </div>
+                      <br>
+                      @if(Auth::user())
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+                            <div class="form-group">
+                              <label for="text">Текст</label>
+                              <textarea v-model="newComment.text" name="text" class="form-control" id="text" cols="30" rows="5"></textarea>
+                            </div>
+                            <button v-on:click.prevent="addComment(newComment)" class="btn btn-primary">
+                              Отправить
+                            </button>
+                          </div>
+                        </div>
+                      @else
+                        <div class="panel panel-default  panel-contact-seller">
+                          <div class="panel-heading">
+                            <p class="text-center">Написать владельцу:</p>
+                          </div>
+                          <div class="panel-body">
+                            <div class="seller-info">
+                              <h3 class="no-margin"><a href="{{route('login')}}">Авторизуйтесь</a> чтобы написать пользователю</h3>
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+                    @else
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          Обьявление оставлено анонимным пользователем.
+                        </div>
+                        <div class="panel-body">
+                          Комментарии не доступны для обьявлений оставленных анонимными пользователями.
+                        </div>
+                      </div>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -168,52 +212,6 @@
 
 
         <div class="col-md-3  page-sidebar-right">
-        @if($item->is_actual())
-          <aside>
-            <div class="panel sidebar-panel panel-contact-seller">
-              <div class="panel-heading">
-                <p class="text-center">Написать владельцу:</p>
-              </div>
-              <div class="panel-content user-info">
-                @if(!Auth::user())
-                  <div class="panel-body text-center">
-                    <div class="seller-info">
-                      <h3 class="no-margin"><a href="{{route('login')}}">Авторизуйтесь</a> чтобы написать пользователю</h3>
-                    </div>
-                  </div>
-                @elseif(Auth::user()->pk_i_id == $item->fk_i_user_id)
-                  <div class="panel-body text-center">
-                    <div class="seller-info">
-                      <h3 class="no-margin">Это ваше собственное объявление</h3>
-                    </div>
-                  </div>
-                @else
-                  <div class="panel-body text-center">
-                    <div class="seller-info">
-                      <h3 class="no-margin">
-                        Владелец объявления:
-                        @if(isset($item->user->pk_i_id))
-                          <a href="{{ route('user.ads', $item->user->pk_i_id)}}">{{$item->user->s_name}}</a>
-                        @else
-                          нет данных
-                        @endif
-                      </h3>
-                    </div>
-                    <div class="user-ads-action"> 
-                      <a href="#contactAdvertiser" data-toggle="modal" class="btn btn-success btn-block">
-                        <i class=" icon-mail-2"></i> Отправить сообщение 
-                      </a> 
-                    </div>
-                  </div>
-                @endif
-              </div>
-            </div>
-            <!--/.categories-list--> 
-          </aside>
-          @endif
-
-
-
           @if(!$related_items->isEmpty())
             <aside>
               <div class="panel sidebar-panel panel-contact-seller">
@@ -322,19 +320,6 @@
    });
 	</script>
 
-  <script>
-    Vue.http.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
-
-    var app = new Vue({
-        el: '#comments',
-        data : {
-            comments: []
-        },
-        ready: function(){
-            this.$http.get("{{url('api/item/'.$item->pk_i_id.'/comments')}}").success(function(response){
-                app.comments = response;
-            });
-        }
-    });
-  </script>
+<script src="{{asset('assets/js/vuejs-paginator.min.js')}}"></script>
+<script src="{{asset('app/show-item.js')}}"></script>
 @stop

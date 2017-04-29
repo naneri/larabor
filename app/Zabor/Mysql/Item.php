@@ -108,8 +108,9 @@ class Item extends ZaborModel
     */
 
     /**
-     * getting image to display - if item has no images default empty photo URL is returned
-     * @return [type] [description]
+     *  getting image to display - if item has no images default empty photo URL is returned
+     *
+     * @return mixed
      */
     public function demo_image()
     {
@@ -273,5 +274,10 @@ class Item extends ZaborModel
         $time = new Carbon($this->attributes['dt_expiration']);
 
         return $time->addDays(90)->toDateTimeString();
+    }
+
+    public function getHasUserAttribute()
+    {
+        return !is_null($this->fk_i_user_id);
     }
 }

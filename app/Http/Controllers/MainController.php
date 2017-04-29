@@ -14,6 +14,12 @@ use GuzzleHttp\Client;
 class MainController extends Controller
 {
 
+    protected $item;
+
+    protected $category;
+
+    protected $redirector;
+
     public function __construct(
         ItemInterface $item,
         CategoryInterface $category,

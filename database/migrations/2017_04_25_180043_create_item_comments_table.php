@@ -18,12 +18,14 @@ class CreateItemCommentsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('item_id');
             $table->unsignedInteger('user_id');
-            $table->string('title');
+            $table->unsignedInteger('reply_to_id')->nullable();
+            $table->string('title')->nullable();
             $table->text('text');
             $table->timestamps();
 
             $table->foreign('item_id')->references('pk_i_id')->on('item');
             $table->foreign('user_id')->references('pk_i_id')->on('user');
+            $table->foreign('reply_to_id')->references('id')->on('item_comments');
         });
 
 
