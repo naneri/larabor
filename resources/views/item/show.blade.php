@@ -17,8 +17,6 @@
     asset($item->images[0]->imageUrl()) :
     asset(Config::get('zabor.item_no_image'))
      }}" />
-<meta name="GOOGLEBOT" content="unavailable_after: {{$item->expire_search_link}} EST">
-<meta name="X-Robots-Tag" content="unavailable_after: {{$item->expire_search_link}} EST">
 @stop 
 
 
