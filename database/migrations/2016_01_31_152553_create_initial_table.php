@@ -23,12 +23,17 @@ class CreateInitialTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         foreach (\DB::select('SHOW TABLES') as $table) {
+
             $table_array = get_object_vars($table);
+
             if(!strpos($table_array[key($table_array)], 'migrations')){
                 DB::statement('DROP TABLE ' . $table_array[key($table_array)]);
             }
+
         }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

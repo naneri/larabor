@@ -1,7 +1,7 @@
 <?php namespace App\Zabor\Services;
 
 use App\Zabor\Mysql\Category;
-use App\Zabor\Mysql\Category_stats as Stats;
+use App\Zabor\Mysql\CategoryStats as Stats;
 use App\Zabor\Repositories\Contracts\CategoryInterface;
 use Carbon\Carbon;
 
@@ -10,7 +10,9 @@ use Carbon\Carbon;
 class CategoryStatsManager
 {
 
-    public function __construct(CategoryInterface $catRepo)
+    public function __construct(
+        CategoryInterface $catRepo
+    )
     {
         $this->catRepo = $catRepo;
     }

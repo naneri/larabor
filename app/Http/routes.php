@@ -59,6 +59,8 @@ Route::group([
     'prefix'     => 'profile'], function () {
     
         Route::get('main', 'ProfileController@index')->name('profile.main');
+        Route::get('notifications', 'ProfileController@notifications')->name('profile.notifications');
+        Route::put('notifications/update', 'ProfileController@updateNotifications')->name('profile.notifications.update');
         Route::get('ads', 'ProfileController@getAds')->name('profile.ads');
         Route::get('ads-export', 'ProfileController@getAdsExport')->name('profile.ads-export');
         Route::get('generate-excel', 'ProfileController@getGenerateExcel')->name('profile.generate-excel');
@@ -100,6 +102,9 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     Route::put('item/updatePrice/{id}', 'ItemApiController@updatePrice');
     Route::put('item/prolong/{id}', 'ItemApiController@prolong');
     Route::delete('item/delete/{id}', 'ItemApiController@destroy');
+
+    Route::get('item/{item_id}/comments', 'ItemCommentApiController@getComments')->name('api.item.comments');
+    Route::post('item/{item_id}/comments', 'ItemCommentApiController@postComment')->name('api.item.comments.post');
 });
 
 Route::get('user/ads/{id}', 'ProfileController@showAds')->name('user.ads');
@@ -107,4 +112,22 @@ Route::get('test/crawler', 'MainController@testCrawler');
 
 Route::get('test/gate', function(){
     dd(Gate::forUser(\App\Zabor\Mysql\User::skip(3)->first())->denies('manage', \App\Zabor\Mysql\Item::first()));
+});
+
+Route::get('test/comment', function (){
+    $comment = \App\Zabor\Mysql\ItemComment::first();
+    $user = \App\Zabor\Mysql\User::first();
+
+    Mail::queue('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
+        $m->from('hello@app.com', 'Your Application');
+        $m->to('ktnaneri@gmail.com', $user->name)->subject('Your Reminder!');
+    });
+
+});
+
+Route::get('test/item', function(){
+    $item = \App\Zabor\Mysql\Item::first();
+    \Mail::send('emails.item.activated', compact('item'), function ($message) use ($item) {
+        $message->to('ktnaneri@gmail.com')->subject('Ваше объявление было активировано!');
+    });
 });

@@ -31,11 +31,15 @@ class Notifier
     public function notify($message)
     {
         if(env('APP_ENV') == 'production'){
-            $this->api->sendMessage([
-                'chat_id'       => config('telegram.chat_id'),
-                'text'          => $message,
-                'parse_mode'    => 'HTML'
-            ]);
+            try{
+                $this->api->sendMessage([
+                    'chat_id'       => config('telegram.chat_id'),
+                    'text'          => $message,
+                    'parse_mode'    => 'HTML'
+                ]);
+            }catch (\Exception $e){
+
+            }
         }
     }
 }

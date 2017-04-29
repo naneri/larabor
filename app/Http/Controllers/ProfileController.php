@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\NotificationRequest;
+use App\Zabor\Mysql\User;
+use App\Zabor\Mysql\UserData;
 use Auth;
 use Excel;
 
@@ -17,6 +20,11 @@ use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
+
+    protected $item;
+    protected $user;
+    protected $validator;
+    protected $user_manipulator;
 
     public function __construct(
         ItemInterface $item,
@@ -116,8 +124,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * [generateExcel description]
-     * @return [type] [description]
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getGenerateExcel()
     {
@@ -132,19 +139,46 @@ class ProfileController extends Controller
         
         $path = Auth::user()->getExportPath() ?: "export/excel/" . str_random(10);
         
-        $result = Excel::create('price', function ($excel) use ($items) {
+        Excel::create('price', function ($excel) use ($items) {
                 $excel->sheet('Excel sheet', function ($sheet) use ($items) {
                     $sheet->loadView('profile.excel', compact('items'));
                 });
         })->store('xlsx', public_path($path));
 
-        if ($result) {
-            $this->user->updateAdsExportDate(Auth::id(), $path);
+        $this->user->updateAdsExportDate(Auth::id(), $path);
 
-            return redirect()->back()->with([
-                'message'   => [
-                    'success' => 'Файл сгенерирован'
-                ]]);
-        }
+        return redirect()->back()->with([
+            'message'   => [
+                'success' => 'Файл сгенерирован'
+            ]]);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function notifications()
+    {
+        $user = User::with('data')->find(Auth::id());
+
+        return view('profile.notifications', compact('user'));
+    }
+
+    /**
+     * @param NotificationRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateNotifications(NotificationRequest $request)
+    {
+        $userData =  UserData::firstOrCreate(['fk_i_user_id'    => Auth::id()]);
+
+        $userData->update([
+            'comment_notification' => boolval($request->input('comment'))
+        ]);
+
+        return redirect()->back()->with([
+            'message'   => [
+                'success' => 'Настройки уведомлений обновлены'
+            ]]);
     }
 }

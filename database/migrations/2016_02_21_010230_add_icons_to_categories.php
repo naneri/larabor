@@ -1,6 +1,6 @@
 <?php
 
-use App\Zabor\Mysql\Category_description;
+use App\Zabor\Mysql\CategoryDescription;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Zabor\Mysql\Category;

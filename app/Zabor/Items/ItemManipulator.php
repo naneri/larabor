@@ -5,11 +5,11 @@ use Carbon\Carbon;
 
 use Config;
 use App\Zabor\Mysql\Item;
-use App\Zabor\Mysql\Item_description as Description;
-use App\Zabor\Mysql\Item_location    as Location;
-use App\Zabor\Mysql\Item_comment     as Comment;
-use App\Zabor\Mysql\Item_stats       as Stats;
-use App\Zabor\Mysql\Item_meta        as Meta;
+use App\Zabor\Mysql\ItemDescription as Description;
+use App\Zabor\Mysql\ItemLocation    as Location;
+use App\Zabor\Mysql\ItemComment     as Comment;
+use App\Zabor\Mysql\ItemStats       as Stats;
+use App\Zabor\Mysql\ItemMeta        as Meta;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Services\CategoryStatsManager;
 use Telegram\Bot\Api;
@@ -209,7 +209,7 @@ class ItemManipulator
         Description::where('fk_i_item_id', $item_id)->delete();
         Location::where('fk_i_item_id', $item_id)->delete();
         Stats::where('fk_i_item_id', $item_id)->delete();
-        Comment::where('fk_i_item_id', $item_id)->delete();
+        Comment::where('item_id', $item_id)->delete();
         Meta::where('fk_i_item_id', $item_id)->delete();
 
         Item::where('pk_i_id', $item_id)->delete();

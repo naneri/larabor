@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Mysql;
 
-class Item_stats extends ZaborModel
+class ItemStats extends ZaborModel
 {
     protected $table = "item_stats";
 }

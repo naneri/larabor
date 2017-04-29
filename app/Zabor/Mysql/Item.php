@@ -35,7 +35,7 @@ class Item extends ZaborModel
 
     public function images()
     {
-        return $this->hasMany(Item_resource::class, 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(ItemResource::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -43,7 +43,7 @@ class Item extends ZaborModel
      */
     public function lastImage()
     {
-        return $this->hasOne(Item_resource::class, 'fk_i_item_id', 'pk_i_id');
+        return $this->hasOne(ItemResource::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -51,7 +51,7 @@ class Item extends ZaborModel
      */
     public function description()
     {
-        return $this->hasOne(Item_description::class, 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
+        return $this->hasOne(ItemDescription::class, 'fk_i_item_id', 'pk_i_id')->where('fk_c_locale_code', 'ru_Ru');
     }
 
     /**
@@ -59,7 +59,7 @@ class Item extends ZaborModel
      */
     public function location()
     {
-        return $this->hasOne(Item_location::class, 'fk_i_item_id', 'pk_i_id');
+        return $this->hasOne(ItemLocation::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -67,7 +67,7 @@ class Item extends ZaborModel
      */
     public function stats()
     {
-        return $this->hasMany(Item_stats::class, 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(ItemStats::class, 'fk_i_item_id', 'pk_i_id');
     }
 
     /**
@@ -96,7 +96,7 @@ class Item extends ZaborModel
 
     public function metas()
     {
-        return $this->hasMany(Item_meta::class, 'fk_i_item_id', 'pk_i_id');
+        return $this->hasMany(ItemMeta::class, 'fk_i_item_id', 'pk_i_id');
     }
 
 
@@ -108,8 +108,9 @@ class Item extends ZaborModel
     */
 
     /**
-     * getting image to display - if item has no images default empty photo URL is returned
-     * @return [type] [description]
+     *  getting image to display - if item has no images default empty photo URL is returned
+     *
+     * @return mixed
      */
     public function demo_image()
     {
@@ -273,5 +274,10 @@ class Item extends ZaborModel
         $time = new Carbon($this->attributes['dt_expiration']);
 
         return $time->addDays(90)->toDateTimeString();
+    }
+
+    public function getHasUserAttribute()
+    {
+        return !is_null($this->fk_i_user_id);
     }
 }

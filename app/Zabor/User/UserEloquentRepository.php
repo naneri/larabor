@@ -8,11 +8,19 @@ use DB;
 class UserEloquentRepository
 {
 
+    /**
+     * @param $user_id
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
     public function getUserInfo($user_id)
     {
         return User::with('description')->findOrFail($user_id);
     }
 
+    /**
+     * @return mixed
+     */
     public function getTopSellers()
     {
         return Item::select(DB::raw('count(*) as item_count, fk_i_user_id'))
@@ -25,21 +33,27 @@ class UserEloquentRepository
             ->get();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findById($id)
     {
         return User::find($id);
     }
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function findByEmail($email)
     {
         return User::where('s_email', $email)->first();
     }
 
     /**
-     * [updateAdsExportDate description]
-     * @param  [type] $user_id [description]
-     * @param  [type] $path    [description]
-     * @return [type]          [description]
+     * @param $user_id
+     * @param $path
      */
     public function updateAdsExportDate($user_id, $path)
     {

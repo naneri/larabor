@@ -6,12 +6,12 @@ class Category extends ZaborModel
 
     public function description()
     {
-        return $this->hasOne('App\Zabor\Mysql\Category_description', 'fk_i_category_id', 'pk_i_id');
+        return $this->hasOne(CategoryDescription::class, 'fk_i_category_id', 'pk_i_id');
     }
 
     public function stats()
     {
-        return $this->hasOne('App\Zabor\Mysql\Category_stats', 'fk_i_category_id', 'pk_i_id');
+        return $this->hasOne(CategoryStats::class, 'fk_i_category_id', 'pk_i_id');
     }
 
     public function metas()

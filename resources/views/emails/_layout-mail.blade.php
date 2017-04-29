@@ -203,8 +203,6 @@ ol li {
               <h2 style="color:green">@yield('title')</h2>
               <br>
               @yield('content')
-            
-              
             </td>
           </tr>
         </table>
@@ -232,6 +230,14 @@ ol li {
               <p>© 2013 - {{date("Y")}} Zabor.KG - Доска бесплатных объявлений.
               </p>
             </td>
+          </tr>
+          <tr>
+            @if(isset($user))
+              <td align="center">
+                <p>Если вы хотите отписаться от уведомлений - <a href="{{route('profile.notifications')}}">пройдите по ссылке</a>
+                </p>
+              </td>
+            @endif
           </tr>
         </table>
       </div>

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Zabor\Repositories\CategoryEloquentRepository;
 use Illuminate\Console\Command;
 use App\Zabor\Mysql\Category;
-use App\Zabor\Mysql\Category_stats;
+use App\Zabor\Mysql\CategoryStats;
 use App\Zabor\Mysql\Item;
 use Carbon\Carbon;
 
@@ -58,7 +58,7 @@ class UpdateCatStats extends Command
                 ->where('b_active', 1)
                 ->count();
 
-            Category_stats::where('fk_i_category_id', $id)->update(['i_num_items' => $item_count]);
+            CategoryStats::where('fk_i_category_id', $id)->update(['i_num_items' => $item_count]);
         }
         $this->comment('categories updated');
     }

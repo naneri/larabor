@@ -1,7 +1,10 @@
 <?php
 
 use App\Zabor\Mysql\Archive;
+use App\Zabor\Mysql\Item;
+use App\Zabor\Mysql\ItemDescription;
 use App\Zabor\Repositories\ItemEloquentRepository;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -53,11 +56,11 @@ class ItemTest extends TestCase
     public function it_can_delete_items()
     {
         $this->seed();
-        $item = factory(App\Zabor\Mysql\Item::class)->create();
+        $item = factory(Item::class)->create();
 
         $this->manipulator->delete($item);
 
-        $item = \App\Zabor\Mysql\Item::find($item->pk_i_id);
+        $item = Item::find($item->pk_i_id);
 
         $this->assertNull($item);
     }
@@ -68,9 +71,9 @@ class ItemTest extends TestCase
     function it_can_manage_ads_with_code()
     {
         $this->seed();
-        $item = factory(App\Zabor\Mysql\Item::class)->create();
+        $item = factory(Item::class)->create();
 
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(ItemDescription::class)->make());
 
         $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
         $this->visit($itemUrl)
@@ -86,13 +89,13 @@ class ItemTest extends TestCase
     function it_can_prolong_items()
     {
         $this->seed();
-        $item = factory(App\Zabor\Mysql\Item::class)->create([
-            'dt_pub_date'       => \Carbon\Carbon::now()->subDays(3),
-            'dt_update_date'    => \Carbon\Carbon::now()->subDays(3),
+        $item = factory(Item::class)->create([
+            'dt_pub_date'       => Carbon::now()->subDays(3),
+            'dt_update_date'    => Carbon::now()->subDays(3),
         ]);
 
         // ot sees the control buttons with code and can use them
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(ItemDescription::class)->make());
 
         $itemUrl = route('item.show', [$item->pk_i_id, $item->s_secret]);
         $this->visit($itemUrl)
@@ -115,18 +118,18 @@ class ItemTest extends TestCase
     public function itExpiresItem()
     {
         $this->seed();
-        $item = factory(App\Zabor\Mysql\Item::class)->create([
-            'dt_pub_date'       => \Carbon\Carbon::now()->subDays(3),
-            'dt_update_date'    => \Carbon\Carbon::now()->subDays(3),
+        $item = factory(Item::class)->create([
+            'dt_pub_date'       => Carbon::now()->subDays(3),
+            'dt_update_date'    => Carbon::now()->subDays(3),
         ]);
 
         // ot sees the control buttons with code and can use them
-        $item->description()->save(factory(App\Zabor\Mysql\Item_description::class)->make());
+        $item->description()->save(factory(ItemDescription::class)->make());
 
         $this->visit(route('item.show', [$item->pk_i_id]))
            ->see($item->description->s_title);
 
-        $item->update(['dt_expiration' => \Carbon\Carbon::now()->subDays(200)]);
+        $item->update(['dt_expiration' => Carbon::now()->subDays(200)]);
 
         Archive::create([
             'entity_id' => $item->pk_i_id,

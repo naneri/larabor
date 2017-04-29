@@ -32,8 +32,8 @@ class MoveUserDataToUserTable extends Migration
             $table->dropColumn('info');
          });
 
-            Schema::table('user_data', function (Blueprint $table) {
-                $table->text('info')->nullable();
-            });
+         Schema::table('user_data', function (Blueprint $table) {
+            $table->text('info')->nullable();
+         });
     }
 }
