@@ -6,7 +6,7 @@ class UserValidator
 {
 
     protected $user_details = [
-        'name'  => 'required|min:3|max:30|alpha_num|unique:user,s_name',
+        'name'  => 'required|min:3|max:30|alpha_num',
         'phone' => 'min:9|max:45',
         'address'=> 'min:10|max:100',
         'description'=> 'min:10',
