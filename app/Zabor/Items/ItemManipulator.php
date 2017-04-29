@@ -209,7 +209,7 @@ class ItemManipulator
         Description::where('fk_i_item_id', $item_id)->delete();
         Location::where('fk_i_item_id', $item_id)->delete();
         Stats::where('fk_i_item_id', $item_id)->delete();
-        Comment::where('fk_i_item_id', $item_id)->delete();
+        Comment::where('item_id', $item_id)->delete();
         Meta::where('fk_i_item_id', $item_id)->delete();
 
         Item::where('pk_i_id', $item_id)->delete();
