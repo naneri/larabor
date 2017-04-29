@@ -33,15 +33,6 @@ class ItemApiTest extends TestCase
     /**
      * @test
      */
-    public function mainPageTest()
-    {
-        $this->visit('/')
-            ->assertResponseOk();
-    }
-
-    /**
-     * @test
-     */
     public function itemCommentTest()
     {
         $user = User::first();
