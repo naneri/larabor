@@ -58,13 +58,13 @@ class UserTest extends TestCase
         $user = $this->createActivatedUser();
 
         $this->visit(url('register'))
-            ->type('kanakana', 'username')
+            ->type($user->s_name, 'username')
             ->type($this->faker->email, 'email')
             ->type('Thegosu88', 'password')
             ->type('Thegosu88', 'password_confirmation')
             ->press('Зарегистрироваться')
             ->seePageIs('register')
-            ->see('Такое значение поля email уже существует');
+            ->see('Такое значение поля логин уже существует');
     }
 
 
