@@ -43,6 +43,7 @@
                     <ul class="nav nav-second-level collapse">
                         <li><a href="{{url('admin/item/inactive')}}">Inactive Items</a></li>
                         <li><a href="{{url('admin/items/non-affiliate')}}">Custom Items </a></li>
+                        <li><a href="{{url('admin/items/comments')}}">Item Comments </a></li>
                     </ul>
                 </li>
                 <li>

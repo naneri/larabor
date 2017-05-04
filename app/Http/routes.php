@@ -31,13 +31,14 @@ Route::group([
     'prefix'    => 'admin'], function () {
         
         Route::get('main', 'AdminController@index');
-        Route::get('item/get-inactive-items', 'AdminController@getInactiveItems');
-        Route::get('item/user-items', 'AdminController@getUserItems');
-        Route::get('item/inactive', 'AdminController@inactiveItems');
-        Route::post('item/activate/{id}', 'AdminController@activateItem');
-        Route::post('item/block/{id}', 'AdminController@blockItem');
-        Route::delete('item/delete/{id}', 'AdminController@deleteItem')->name("admin.item.delete");
-        Route::get('items/non-affiliate', 'AdminController@userItems');
+        Route::get('item/get-inactive-items', 'AdminItemController@getInactiveItems');
+        Route::get('item/user-items', 'AdminItemController@getUserItems');
+        Route::get('item/inactive', 'AdminItemController@inactiveItems');
+        Route::post('item/activate/{id}', 'AdminItemController@activateItem');
+        Route::post('item/block/{id}', 'AdminItemController@blockItem');
+        Route::delete('item/delete/{id}', 'AdminItemController@deleteItem')->name("admin.item.delete");
+        Route::get('items/non-affiliate', 'AdminItemController@userItems');
+        Route::get('items/comments', 'AdminItemController@comments');
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
         Route::get('article/add', 'AdminArticleController@getAdd')->name('admin.add-article');
