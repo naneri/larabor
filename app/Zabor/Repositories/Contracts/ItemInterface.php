@@ -17,4 +17,8 @@ interface ItemInterface
     public function getUserAdsForExport($user_id);
 
     public static function getOldItems();
+
+    public function getCustomInactiveItems();
+
+    public function getCustomItems();
 }
