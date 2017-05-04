@@ -7,6 +7,7 @@
 namespace App\Zabor;
 
 
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Telegram\Bot\Api;
 
 class Notifier
@@ -38,7 +39,7 @@ class Notifier
                     'parse_mode'    => 'HTML'
                 ]);
             }catch (\Exception $e){
-
+                Bugsnag::notifyException($e);
             }
         }
     }

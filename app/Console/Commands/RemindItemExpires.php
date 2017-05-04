@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Zabor\Mysql\Item;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -52,7 +53,9 @@ class RemindItemExpires extends Command
                         Mail::send('emails.item.remind', compact('item'), function($message) use ($item){
                             $message->to($item->s_contact_email)->subject('Ваше обьявление скоро устареет!');
                         });
-                    }catch (\Exception $e){}
+                    }catch (\Exception $e){
+                        Bugsnag::notifyException($e);
+                    }
                 }
             });
     }

@@ -8,6 +8,7 @@ namespace App\Zabor\Items;
 
 
 use App\Zabor\Mysql\UserData;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Mail;
 
 class CommentService
@@ -22,7 +23,9 @@ class CommentService
     public function checkAndNotify($comment, $user)
     {
         if($comment->user_id != $user->pk_i_id){
+
             $userData = UserData::find($user->pk_i_id);
+
             if($userData->comment_notification){
                 try{
                     Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
@@ -30,7 +33,7 @@ class CommentService
                         $m->to($user->email, $user->name)->subject("К вашему обьявлению оставлен комментарий ");
                     });
                 }catch (\Exception $e){
-
+                    Bugsnag::notifyException($e);
                 }
                 return true;
             }
