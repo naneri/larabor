@@ -65,7 +65,7 @@ class ItemCommentApiController extends Controller
             'text'    => $request->input('text')
         ]);
 
-        $this->commentService->checkAndNotify($comment, Auth::user());
+        $this->commentService->checkAndNotify($item, $comment, Auth::user());
 
         return response()->json(['result' => 'Ваш комментарий успешно опубликован']);
     }

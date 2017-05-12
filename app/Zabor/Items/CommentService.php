@@ -7,6 +7,7 @@
 namespace App\Zabor\Items;
 
 
+use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\UserData;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Mail;
@@ -15,27 +16,31 @@ class CommentService
 {
 
     /**
+     * @param $item
      * @param $comment
      * @param $user
-     *
      * @return bool
      */
-    public function checkAndNotify($comment, $user)
+    public function checkAndNotify($item, $comment, $user)
     {
-        if($comment->user_id != $user->pk_i_id){
+        if($item->fk_i_user_id != $user->pk_i_id){
 
             $userData = UserData::find($user->pk_i_id);
 
-            if($userData->comment_notification){
-                try{
-                    Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
-                        $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
-                        $m->to($user->email, $user->name)->subject("К вашему обьявлению оставлен комментарий ");
-                    });
-                }catch (\Exception $e){
-                    Bugsnag::notifyException($e);
+            if($userData != null){
+                if(!$userData->comment_notification){
+
+                }else{
+                    try{
+                        Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
+                            $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
+                            $m->to($user->s_email, $user->s_name)->subject("К вашему обьявлению оставлен комментарий ");
+                        });
+                    }catch (\Exception $e){
+                        Bugsnag::notifyException($e);
+                    }
+                    return true;
                 }
-                return true;
             }
         }
 
