@@ -57,15 +57,13 @@ class ItemCommentApiController extends Controller
      */
     public function postComment(CommentRequest $request, $item_id)
     {
-        $item = $this->itemRepository->getById($item_id);
-
         $comment = ItemComment::create([
             'item_id' => $item_id,
             'user_id' => Auth::id(),
             'text'    => $request->input('text')
         ]);
 
-        $this->commentService->checkAndNotify($item, $comment, Auth::user());
+        $this->commentService->checkAndNotify($comment, Auth::user());
 
         return response()->json(['result' => 'Ваш комментарий успешно опубликован']);
     }

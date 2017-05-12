@@ -46,12 +46,6 @@ class ItemEloquentRepository extends AbstractRepository implements ItemInterface
      */
     public function getById($id)
     {
-        $item = Archive::where('type', 'item')->where('entity_id', $id)->first();
-
-        if(!is_null($item)){
-            throw new ExpirationException('item archived');
-        }
-
         return Item::with([
             'images',
             'category.description',

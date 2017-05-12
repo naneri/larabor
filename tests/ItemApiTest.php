@@ -43,7 +43,7 @@ class ItemApiTest extends TestCase
 
         $commentService = app(CommentService::class);
 
-        $this->assertTrue($commentService->checkAndNotify($comment, $user));
+        $this->assertTrue($commentService->checkAndNotify($comment, $user2));
         $this->assertFalse($commentService->checkAndNotify($comment2, $user));
 
         $userData =  UserData::firstOrCreate(['fk_i_user_id'  => $user->pk_i_id]);
