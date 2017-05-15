@@ -43,9 +43,9 @@ class CommentService
 
             if($userData->comment_notification){
                 try{
-                    Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user) {
+                    Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user, $item) {
                         $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
-                        $m->to($user->s_email, $user->s_name)->subject("К вашему обьявлению оставлен комментарий ");
+                        $m->to($item->user->s_email, $user->s_name)->subject("К вашему обьявлению оставлен комментарий ");
                     });
                 }catch (\Exception $e){
                     Bugsnag::notifyException($e);
