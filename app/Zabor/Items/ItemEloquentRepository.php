@@ -1,6 +1,6 @@
 <?php namespace App\Zabor\Items;
 
-use App\Zabor\Repositories\AbstractRepository;
+use App\Zabor\Services\AbstractRepository;
 use App\Zabor\Items\ExpirationException;
 use App\Zabor\Mysql\Archive;
 use Carbon\Carbon;

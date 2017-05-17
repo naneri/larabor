@@ -1,4 +1,4 @@
-<?php namespace App\Zabor\Services;
+<?php namespace App\Zabor\Categories;
 
 use App\Zabor\Mysql\Category;
 use App\Zabor\Mysql\CategoryStats as Stats;

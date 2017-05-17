@@ -11,7 +11,7 @@ use App\Zabor\Mysql\ItemComment     as Comment;
 use App\Zabor\Mysql\ItemStats       as Stats;
 use App\Zabor\Mysql\ItemMeta        as Meta;
 use App\Zabor\Images\ImageCreator;
-use App\Zabor\Services\CategoryStatsManager;
+use App\Zabor\Categories\CategoryStatsManager;
 use Telegram\Bot\Api;
 
 class ItemManipulator
