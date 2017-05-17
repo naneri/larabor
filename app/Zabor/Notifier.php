@@ -6,7 +6,6 @@
 
 namespace App\Zabor;
 
-
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Telegram\Bot\Api;
 

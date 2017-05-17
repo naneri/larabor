@@ -9,7 +9,7 @@ namespace App\Zabor\Items;
 
 use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\UserData;
-use App\Zabor\Repositories\ItemEloquentRepository;
+use App\Zabor\Items\ItemEloquentRepository;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Mail;
 
@@ -28,6 +28,7 @@ class CommentService
     {
         $this->itemEloquentRepository = $itemEloquentRepository;
     }
+
     /**
      * @param $comment
      * @param $user

@@ -2,7 +2,7 @@
 
 use App\Zabor\Mysql\Category;
 use App\Zabor\Mysql\CategoryStats as Stats;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
 use Carbon\Carbon;
 
 //ToDo break the tight coupling between CatEloquent repo and this Service
@@ -10,6 +10,12 @@ use Carbon\Carbon;
 class CategoryStatsManager
 {
 
+    protected $catRepo;
+
+    /**
+     * CategoryStatsManager constructor.
+     * @param CategoryInterface $catRepo
+     */
     public function __construct(
         CategoryInterface $catRepo
     )

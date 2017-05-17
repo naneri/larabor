@@ -6,7 +6,7 @@ use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\ItemComment;
 use App\Zabor\Mysql\User;
 use App\Zabor\Mysql\UserData;
-use App\Zabor\Repositories\ItemEloquentRepository;
+use App\Zabor\Items\ItemEloquentRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

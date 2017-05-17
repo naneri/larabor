@@ -15,9 +15,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 
-use App\Zabor\Mysql\UserData;
 use App\Zabor\Mysql\User;
-use App\Zabor\Mysql\UserDescription;
 use App\Zabor\User\UserEloquentRepository;
 
 class AuthController extends Controller

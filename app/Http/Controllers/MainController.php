@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
 use App\Zabor\Services\RedirectService;
 
 use Symfony\Component\DomCrawler\Crawler;

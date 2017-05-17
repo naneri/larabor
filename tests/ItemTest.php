@@ -3,7 +3,7 @@
 use App\Zabor\Mysql\Archive;
 use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\ItemDescription;
-use App\Zabor\Repositories\ItemEloquentRepository;
+use App\Zabor\Items\ItemEloquentRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

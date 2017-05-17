@@ -9,7 +9,6 @@ use App\Zabor\Mysql\User;
 use DB;
 use Carbon\Carbon;
 use Mail;
-use Hash;
 
 class PasswordController extends Controller
 {

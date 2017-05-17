@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
 use App\Zabor\Notifier;
-use Illuminate\Http\Request;
-
-use Validator;
 use Mail;
-use App\Http\Requests;
 
 class CustomController extends Controller
 {

@@ -1,13 +1,11 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
 use App\Zabor\User\UserEloquentRepository;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
 
 class AdminController extends Controller
 {

@@ -1,8 +1,8 @@
-<?php namespace App\Zabor\Repositories;
+<?php namespace App\Zabor\Metas;
 
 use App\Zabor\Mysql\Category;
 use App\Zabor\Mysql\Meta;
-use App\Zabor\Repositories\Contracts\MetaInterface;
+use App\Zabor\Metas\Contracts\MetaInterface;
 
 class MetaEloquentRepository implements MetaInterface
 {

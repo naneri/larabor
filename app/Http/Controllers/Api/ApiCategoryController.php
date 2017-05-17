@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
-use App\Zabor\Repositories\Contracts\MetaInterface;
+use App\Zabor\Metas\Contracts\MetaInterface;
 
 class ApiCategoryController extends Controller
 {
+
+    protected $meta;
 
     public function __construct(MetaInterface $meta)
     {

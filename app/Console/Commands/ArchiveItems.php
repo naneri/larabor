@@ -6,7 +6,7 @@ use DB;
 use File;
 use Illuminate\Console\Command;
 use App\Zabor\Mysql\Archive;
-use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
 use Carbon\Carbon;
 

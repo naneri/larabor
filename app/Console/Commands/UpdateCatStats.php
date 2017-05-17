@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Zabor\Repositories\CategoryEloquentRepository;
+use App\Zabor\Categories\CategoryEloquentRepository;
 use Illuminate\Console\Command;
-use App\Zabor\Mysql\Category;
 use App\Zabor\Mysql\CategoryStats;
 use App\Zabor\Mysql\Item;
 use Carbon\Carbon;

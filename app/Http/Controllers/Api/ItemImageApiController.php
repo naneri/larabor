@@ -9,7 +9,6 @@ use Validator;
 use Session;
 use Exception;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Zabor\Images\ImageCreator;
 

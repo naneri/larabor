@@ -5,13 +5,17 @@ use Gate;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
-use App\Zabor\Repositories\Contracts\MetaInterface;
-use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
+use App\Zabor\Metas\Contracts\MetaInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
 use App\Zabor\Items\ItemManipulator;
 
 class ItemApiController extends Controller
 {
+
+    protected $item;
+    protected $item_manipulator;
+    protected $category;
 
     public function __construct(
         ItemInterface $item,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Zabor\Validators;
+namespace App\Zabor\Items;
 
 use Validator;
 
@@ -25,7 +25,7 @@ class ItemValidator
      * @param  array $item_data [description]
      * @param bool $authorized
      *
-     * @return Validator
+     * @return mixed
      *
      */
     public function validate($item_data, $authorized = false)
