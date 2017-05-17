@@ -1,4 +1,4 @@
-<?php namespace App\Zabor\Repositories;
+<?php namespace App\Zabor\Services;
 
 class AbstractRepository
 {

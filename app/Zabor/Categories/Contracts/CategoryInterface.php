@@ -1,4 +1,4 @@
-<?php namespace App\Zabor\Repositories\Contracts;
+<?php namespace App\Zabor\Categories\Contracts;
 
 interface CategoryInterface
 {

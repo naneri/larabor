@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Auth;
 use Image;
 use File;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Zabor\Mysql\Article;
 

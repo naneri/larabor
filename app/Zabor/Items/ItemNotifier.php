@@ -8,21 +8,20 @@ namespace App\Zabor\Items;
 
 
 use App\Zabor\Mysql\Item;
-use App\Zabor\Notifier;
-use Telegram\Bot\Api;
+use App\Zabor\Services\TelegramNotifier;
 
 class ItemNotifier
 {
     /**
-     * @var Notifier
+     * @var TelegramNotifier
      */
     private $notifier;
 
     /**
      * ItemNotifier constructor.
-     * @param Notifier $notifier
+     * @param TelegramNotifier $notifier
      */
-    public function __construct(Notifier $notifier)
+    public function __construct(TelegramNotifier $notifier)
     {
         $this->notifier = $notifier;
     }

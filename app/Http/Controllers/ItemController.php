@@ -11,14 +11,13 @@ use Mail;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 use URL;
-use Gate;
 
 use App\Zabor\Mysql\Currency;
-use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
-use App\Zabor\Repositories\Contracts\MetaInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
+use App\Zabor\Metas\Contracts\MetaInterface;
 use App\Zabor\User\UserEloquentRepository;
-use App\Zabor\Validators\ItemValidator;
+use App\Zabor\Items\ItemValidator;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Images\ImageViewSharer;
 use App\Zabor\Items\ItemManipulator;

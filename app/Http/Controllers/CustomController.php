@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
-use App\Zabor\Notifier;
-use Illuminate\Http\Request;
-
-use Validator;
+use App\Zabor\Services\TelegramNotifier;
 use Mail;
-use App\Http\Requests;
 
 class CustomController extends Controller
 {
     /**
-     * @var Notifier
+     * @var TelegramNotifier
      */
     private $notifier;
 
     /**
      * CustomController constructor.
-     * @param Notifier $notifier
+     * @param TelegramNotifier $notifier
      */
-    public function __construct(Notifier $notifier)
+    public function __construct(TelegramNotifier $notifier)
     {
         $this->notifier = $notifier;
     }

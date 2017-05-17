@@ -1,8 +1,8 @@
-<?php namespace App\Zabor\Repositories;
+<?php namespace App\Zabor\Categories;
 
 use Cache;
 use App\Zabor\Mysql\Category;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
+use App\Zabor\Categories\Contracts\CategoryInterface;
 
 class CategoryEloquentRepository implements CategoryInterface
 {
@@ -91,7 +91,6 @@ class CategoryEloquentRepository implements CategoryInterface
      */
     public function getAncestors($category_id)
     {
-
         $categories = $this->allWithDescription();
 
         $array[] = $categories->where('pk_i_id', $category_id)
@@ -120,14 +119,12 @@ class CategoryEloquentRepository implements CategoryInterface
     }
 
     /**
-     * [getWithAncestorsArray description]
+     * @param $cat_id
      *
-     * @param  [type] $cat_id [description]
-     * @return [type]         [description]
+     * @return array
      */
     public function getWithAncestorsArray($cat_id)
     {
-
         $array = collect($this->getAncestors($cat_id));
 
         return $array->map(function ($value, $key) {

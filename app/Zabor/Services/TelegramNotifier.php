@@ -4,13 +4,12 @@
  * Time: 15:21
  */
 
-namespace App\Zabor;
-
+namespace App\Zabor\Services;
 
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Telegram\Bot\Api;
 
-class Notifier
+class TelegramNotifier
 {
     /**
      * @var Api

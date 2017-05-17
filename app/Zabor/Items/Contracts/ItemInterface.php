@@ -1,4 +1,4 @@
-<?php namespace App\Zabor\Repositories\Contracts;
+<?php namespace App\Zabor\Items\Contracts;
 
 interface ItemInterface
 {

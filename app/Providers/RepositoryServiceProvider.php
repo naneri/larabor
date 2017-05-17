@@ -1,11 +1,11 @@
 <?php namespace App\Providers;
 
-use App\Zabor\Repositories\CategoryEloquentRepository;
-use App\Zabor\Repositories\Contracts\CategoryInterface;
-use App\Zabor\Repositories\Contracts\ItemInterface;
-use App\Zabor\Repositories\Contracts\MetaInterface;
-use App\Zabor\Repositories\ItemEloquentRepository;
-use App\Zabor\Repositories\MetaEloquentRepository;
+use App\Zabor\Categories\CategoryEloquentRepository;
+use App\Zabor\Categories\Contracts\CategoryInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
+use App\Zabor\Metas\Contracts\MetaInterface;
+use App\Zabor\Items\ItemEloquentRepository;
+use App\Zabor\Metas\MetaEloquentRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

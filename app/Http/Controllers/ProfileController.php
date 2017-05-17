@@ -8,15 +8,11 @@ use Auth;
 use Excel;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-use App\Zabor\Repositories\Contracts\ItemInterface;
+use App\Zabor\Items\Contracts\ItemInterface;
 use App\Zabor\User\UserEloquentRepository;
 use App\Zabor\User\UserValidator;
 use App\Zabor\User\UserManipulator;
-use App\Zabor\Mysql\Item;
-use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -26,6 +22,13 @@ class ProfileController extends Controller
     protected $validator;
     protected $user_manipulator;
 
+    /**
+     * ProfileController constructor.
+     * @param ItemInterface $item
+     * @param UserEloquentRepository $user
+     * @param UserValidator $validator
+     * @param UserManipulator $manipulator
+     */
     public function __construct(
         ItemInterface $item,
         UserEloquentRepository $user,
@@ -51,7 +54,9 @@ class ProfileController extends Controller
         return view('profile.main', compact('user'));
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getAds()
     {
         $items = $this->item->getUserAds(Auth::id());
@@ -113,8 +118,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * [getAdsExport description]
-     * @return [type] [description]
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getAdsExport()
     {

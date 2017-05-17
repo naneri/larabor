@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\CommentRequest;
 use App\Zabor\Items\CommentService;
 use App\Zabor\Mysql\ItemComment;
-use App\Zabor\Repositories\ItemEloquentRepository;
+use App\Zabor\Items\ItemEloquentRepository;
 use Auth;
 use Illuminate\Http\Request;
 
