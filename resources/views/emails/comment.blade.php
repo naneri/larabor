@@ -2,13 +2,17 @@
 
 
 @section('title')
-  К вашему обьявлению оставлен комментарий
+  К вашему обьявлению <i>"{{str_limit($item->description->s_title, 30)}}"</i> оставлен комментарий
 @stop
 
 
 @section('content')
+  <b>Текст комментария:</b>
+  <p>
+    <i>"{{$comment->text}}"</i>
+  </p>
 
-  Перейдите на страницу обьявления чтобы прочитать.
+  <b>Перейдите на страницу обьявления чтобы ответить.</b>
   <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
     <tr>
       <td>

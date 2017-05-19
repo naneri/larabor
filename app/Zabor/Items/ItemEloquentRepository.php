@@ -1,7 +1,6 @@
 <?php namespace App\Zabor\Items;
 
 use App\Zabor\Services\AbstractRepository;
-use App\Zabor\Items\ExpirationException;
 use App\Zabor\Mysql\Archive;
 use Carbon\Carbon;
 use Config;
@@ -9,7 +8,6 @@ use Config;
 use App\Zabor\Mysql\Item;
 use App\Zabor\Items\Contracts\ItemInterface;
 use Cache;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItemEloquentRepository extends AbstractRepository implements ItemInterface
 {

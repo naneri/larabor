@@ -20,13 +20,10 @@ class ItemValidator
     ];
 
     /**
-     * [validate description]
-     *
-     * @param  array $item_data [description]
+     * @param $item_data
      * @param bool $authorized
      *
-     * @return mixed
-     *
+     * @return \Illuminate\Validation\Validator
      */
     public function validate($item_data, $authorized = false)
     {

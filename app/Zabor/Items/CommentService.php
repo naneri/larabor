@@ -7,9 +7,7 @@
 namespace App\Zabor\Items;
 
 
-use App\Zabor\Mysql\Item;
 use App\Zabor\Mysql\UserData;
-use App\Zabor\Items\ItemEloquentRepository;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Mail;
 
@@ -42,11 +40,12 @@ class CommentService
 
             $userData =  UserData::firstOrCreate(['fk_i_user_id'  => $user->pk_i_id]);
 
+            $itemTitle = str_limit($item->description->s_title, 30);
             if($userData->comment_notification){
                 try{
-                    Mail::send('emails.comment', compact('comment', 'user'), function ($m) use ($comment, $user, $item) {
+                    Mail::send('emails.comment', compact('comment', 'user', 'item'), function ($m) use ($comment, $user, $item, $itemTitle) {
                         $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
-                        $m->to($item->user->s_email, $user->s_name)->subject("К вашему обьявлению оставлен комментарий ");
+                        $m->to($item->user->s_email, $user->s_name)->subject("К вашему обьявлению {$itemTitle} оставлен комментарий ");
                     });
                 }catch (\Exception $e){
                     Bugsnag::notifyException($e);

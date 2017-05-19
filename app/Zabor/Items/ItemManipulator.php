@@ -12,7 +12,6 @@ use App\Zabor\Mysql\ItemStats       as Stats;
 use App\Zabor\Mysql\ItemMeta        as Meta;
 use App\Zabor\Images\ImageCreator;
 use App\Zabor\Categories\CategoryStatsManager;
-use Telegram\Bot\Api;
 
 class ItemManipulator
 {
@@ -26,7 +25,6 @@ class ItemManipulator
      * @param ImageCreator $imageCreator
      * @param CategoryStatsManager $catManager
      * @param ItemNotifier $itemNotifier
-     * @internal param Api $api
      */
     public function __construct(
         ImageCreator $imageCreator,
