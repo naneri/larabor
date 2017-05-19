@@ -10,6 +10,7 @@ use App\Zabor\Items\ItemEloquentRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Zabor\Mysql\ItemDescription;
 
 class ItemApiTest extends TestCase
 {
@@ -38,6 +39,7 @@ class ItemApiTest extends TestCase
         $user = User::first();
         $user2 = User::skip(1)->first();
         $item = factory(Item::class)->create(['fk_i_user_id' => $user->pk_i_id]);
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
         $comment = factory(ItemComment::class)->create(['item_id' => $item->pk_i_id, 'user_id' => $user2->pk_i_id]);
         $comment2 = factory(ItemComment::class)->create(['item_id' => $item->pk_i_id, 'user_id' => $user->pk_i_id]);
 
