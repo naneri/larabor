@@ -21,7 +21,8 @@
         "maatwebsite/excel": "~2.1.0",
         "dompdf/dompdf": "~0.6.1",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "irazasyed/telegram-bot-sdk": "^2.0"
+        "irazasyed/telegram-bot-sdk": "^2.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
