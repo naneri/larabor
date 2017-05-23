@@ -25,9 +25,6 @@ var app = new Vue({
                         toastr.error(error.data.text[0]);
                     }
                 })
-        },
-        logRefs: function(){
-            console.log(this.$refs.vpaginator);
         }
     }
 });

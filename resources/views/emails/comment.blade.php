@@ -16,7 +16,11 @@
   <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
     <tr>
       <td>
-        <a href='{{route('item.show', ['item_id' => $comment->item_id])}}'>Перейти</a>
+        @if($item->fk_i_user_id)
+          <a href='{{route('item.show', ['item_id' => $comment->item_id])}}'>Перейти</a>
+        @else
+          <a href='{{route('item.show', ['item_id' => $comment->item_id, 'code' => $item->s_secret])}}'>Перейти</a>
+        @endif
       </td>
     </tr>
   </table>

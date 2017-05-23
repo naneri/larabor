@@ -10,6 +10,7 @@ use App\Zabor\Items\ItemEloquentRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Zabor\Mysql\ItemDescription;
 
 class ItemApiTest extends TestCase
 {
@@ -33,25 +34,65 @@ class ItemApiTest extends TestCase
     /**
      * @test
      */
-    public function itemCommentTest()
+    public function it_notifies_if_other_user_replies()
     {
         $user = User::first();
         $user2 = User::skip(1)->first();
         $item = factory(Item::class)->create(['fk_i_user_id' => $user->pk_i_id]);
-        $comment = factory(ItemComment::class)->create(['item_id' => $item->pk_i_id, 'user_id' => $user2->pk_i_id]);
-        $comment2 = factory(ItemComment::class)->create(['item_id' => $item->pk_i_id, 'user_id' => $user->pk_i_id]);
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
 
-        $commentService = app(CommentService::class);
+        $this->expectsEvents(App\Events\CommentNotify::class);
 
-        $this->assertTrue($commentService->checkAndNotify($comment, $user2));
-        $this->assertFalse($commentService->checkAndNotify($comment2, $user));
+        $this->actingAs($user2)->post(route('api.item.comments.post', ['item_id' => $item->pk_i_id]), [
+            'text' => $this->faker->text()
+        ]);
+    }
 
-        $userData =  UserData::firstOrCreate(['fk_i_user_id'  => $user->pk_i_id]);
+    /**
+     * @test
+     */
+    function it_does_not_notify_if_you_comment_your_own_item()
+    {
+        $user = User::first();
+        $item = factory(Item::class)->create(['fk_i_user_id' => $user->pk_i_id]);
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
 
-        $userData->comment_notification = false;
-        $userData->save();
+        $this->doesntExpectEvents(App\Events\CommentNotify::class);
 
-        $this->assertFalse($commentService->checkAndNotify($comment, $user));
+        $this->actingAs($user)->post(route('api.item.comments.post', ['item_id' => $item->pk_i_id]), [
+            'text' => $this->faker->text()
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    function it_notifies_for_anonymous_users()
+    {
+        $user = User::first();
+        $item = factory(Item::class)->create();
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
+
+        $this->expectsEvents(App\Events\CommentNotify::class);
+
+        $this->actingAs($user)->post(route('api.item.comments.post', ['item_id' => $item->pk_i_id]), [
+            'text' => $this->faker->text()
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    function it_does_not_notify_if_anonymous_user_replies_to_himself()
+    {
+        $item = factory(Item::class)->create();
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
+
+        $this->doesntExpectEvents(App\Events\CommentNotify::class);
+
+        $this->post(route('api.item.comments.post', ['item_id' => $item->pk_i_id]), [
+            'text' => $this->faker->text()
+        ]);
     }
 
 }

@@ -7,6 +7,7 @@
 namespace App\Zabor\Items;
 
 
+use App\Events\CommentNotify;
 use App\Zabor\Mysql\UserData;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Mail;
@@ -38,14 +39,16 @@ class CommentService
 
         if($item->fk_i_user_id != $user->pk_i_id){
 
+            event(new CommentNotify());
             $userData =  UserData::firstOrCreate(['fk_i_user_id'  => $user->pk_i_id]);
 
             $itemTitle = str_limit($item->description->s_title, 30);
             if($userData->comment_notification){
                 try{
-                    Mail::send('emails.comment', compact('comment', 'user', 'item'), function ($m) use ($comment, $user, $item, $itemTitle) {
+                    $email = !empty($item->user) ? $item->user->s_email: $item->s_contact_email;
+                    Mail::send('emails.comment', compact('comment', 'user', 'item'), function ($m) use ($comment, $user, $item, $itemTitle, $email) {
                         $m->from('noreply@zabor.kg', 'Служба поддержки Zabor.kg');
-                        $m->to($item->user->s_email, $user->s_name)->subject("К вашему обьявлению {$itemTitle} оставлен комментарий ");
+                        $m->to($email, $user->s_name)->subject("К вашему обьявлению {$itemTitle} оставлен комментарий ");
                     });
                 }catch (\Exception $e){
                     Bugsnag::notifyException($e);
