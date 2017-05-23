@@ -80,4 +80,19 @@ class ItemApiTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
+    function it_does_not_notify_if_anonymous_user_replies_to_himself()
+    {
+        $item = factory(Item::class)->create();
+        factory(ItemDescription::class)->create(['fk_i_item_id' => $item->pk_i_id]);
+
+        $this->doesntExpectEvents(App\Events\CommentNotify::class);
+
+        $this->post(route('api.item.comments.post', ['item_id' => $item->pk_i_id]), [
+            'text' => $this->faker->text()
+        ]);
+    }
+
 }
